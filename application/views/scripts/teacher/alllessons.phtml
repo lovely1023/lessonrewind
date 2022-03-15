@@ -32,9 +32,22 @@ body
             <div class="row">
 				<div class="pull-left col-md-6">
 					<div class="pull-left">
-						<b>Sort By: </b> &nbsp;
+						<label style="font-weight: bold; margin-right:1rem;">Sort By: </label> 
+						
+						<button class="btn btn-primary"  onclick="sortLessonType(0)">Date</button>
+						<button class="btn btn-primary"  onclick="sortLessonType(1)">Teacher</button>
+						<?php 
+							if($this->param==0)
+							{
+								echo "<button class='btn btn-primary'  style='margin-right:0.5rem;' onclick='sortLessonType(2)'>student</button>";	
+							}
+							else
+							{
+								echo "<button class='btn btn-primary'  style='margin-right:0.5rem;' onclick='sortLessonType(2)'>Class</button>";
+							}
+						?>
 					</div>
-					<select name="lesson_sort_by" id="lesson_sort_by" class="form-control widthauto" >
+					<!-- <select name="lesson_sort_by" id="lesson_sort_by" class="form-control widthauto" >
 						<option value="0" <?php if(isset($this->status) && $this->status=='0') { ?> selected="selected" <?php } ?> >Date</option>
 						<option value="1" <?php if(isset($this->status) && $this->status=='1') { ?> selected="selected" <?php } ?>>Teacher</option>
 						<option value="1" <?php if(isset($this->status) && $this->status=='2') { ?> selected="selected" <?php } ?>>
@@ -49,11 +62,8 @@ body
 									}
 								?>
 						</option>
-					</select> 
+					</select>  -->
 					
-					<button class="btn btn-primary">Date</button>
-					<button class="btn btn-primary">Teacher</button>
-					<button class="btn btn-primary">student</button>
             	</div>
 
             </div>
@@ -163,6 +173,10 @@ $('#lesson_sort_by').change(function(e) {
 	 var lesson_sort_by=$(this).val();
 	window.location.href="<?php echo SITE_HTTP_URL ?>/teacher/alllessons/param/<?php echo $this->param ?>/status/"+lesson_sort_by;
 });
+
+function sortLessonType(lesson_sort_by){	// 0, 1, 2
+	window.location.href="<?php echo SITE_HTTP_URL ?>/teacher/alllessons/param/<?php echo $this->param ?>/status/"+lesson_sort_by;
+}
 </script>
 
 
