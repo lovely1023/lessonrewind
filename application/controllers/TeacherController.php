@@ -439,6 +439,11 @@ fclose ($fd);
 						}
 						
 						$data_insert['lesson_status']=$savesend;
+						
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
+						// ================================
 						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');
 						$insert->inserted_id=$lesson_id;
 							
@@ -603,6 +608,11 @@ fclose ($fd);
 						if(isset($lesson_id) && !empty($lesson_id))
 						{
 							//prd("if");
+							
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							$data_insert['lesson_date']=date('Y-m-d H:i:s');
+							// ================================
 							$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');	
 						}
 						else
@@ -619,7 +629,10 @@ fclose ($fd);
 						}
 						$data_insert['lesson_user_type']=$user_type;
 						$data_insert['lesson_school_id']=$school_id;
-						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+//						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
 						$data_insert['lesson_template']=$save_template;
 						$data_insert['lesson_status']=$savesend;
 						$data_insert['lesson_template']=1;
@@ -1110,7 +1123,12 @@ fclose ($fd);
 					}
 						}
 						
-						$data_insert['lesson_status']=$savesend;
+						$data_insert['lesson_status']=$savesend;						
+						
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
+						// ================================
 						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');
 						$insert->inserted_id=$lesson_id;
 							
@@ -1222,6 +1240,11 @@ fclose ($fd);
 						if(isset($lesson_id) && !empty($lesson_id))
 						{
 							//prd("if");
+							
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							$data_insert['lesson_date']=date('Y-m-d H:i:s');
+							// ================================
 							$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');	
 						}
 						else
@@ -1238,7 +1261,10 @@ fclose ($fd);
 						}
 						$data_insert['lesson_user_type']=$user_type;
 						$data_insert['lesson_school_id']=$school_id;
-						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+//						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
 						$data_insert['lesson_template']=$save_template;
 						$data_insert['lesson_status']=$savesend;
 						$data_insert['lesson_template']=1;
@@ -1810,6 +1836,11 @@ fclose ($fd);
 					}
 						}
 						$data_insert['lesson_status']=$savesend;
+						
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
+						// ================================
 						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');
 						$insert->inserted_id=$lesson_id;
 						if(isset($posted_data['existing_fold']) && (!empty($posted_data['existing_fold'])))
@@ -1950,6 +1981,11 @@ fclose ($fd);
 						if(isset($lesson_id) && !empty($lesson_id))
 						{
 							//prd("if");
+							
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							$data_insert['lesson_date']=date('Y-m-d H:i:s');
+							// ================================
 							$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');	
 						}
 						else
@@ -1966,7 +2002,10 @@ fclose ($fd);
 						}
 						$data_insert['lesson_user_type']=$user_type;
 						$data_insert['lesson_school_id']=$school_id;
-						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+//						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
 						$data_insert['lesson_template']=$save_template;
 						$data_insert['lesson_status']=$savesend;
 						if(isset($class_id))
@@ -2562,6 +2601,12 @@ fclose ($fd);
 						}
 						
 						$data_insert['lesson_status']=$savesend;
+						
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
+						// ================================
+						// =================	Modify	======
 						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');
 						$insert->inserted_id=$lesson_id;
 							
@@ -2729,6 +2774,12 @@ fclose ($fd);
 						if(isset($lesson_id) && !empty($lesson_id))
 						{
 							//prd("if");
+							
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							$data_insert['lesson_date']=date('Y-m-d H:i:s');
+							// ================================
+						
 							$bb=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');	
 						
 						}
@@ -2746,7 +2797,10 @@ fclose ($fd);
 						}
 						$data_insert['lesson_user_type']=$user_type;
 						$data_insert['lesson_school_id']=$school_id;
-						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+//						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
 						$data_insert['lesson_template']=$save_template;
 						$data_insert['lesson_status']=$savesend;
 						
@@ -5001,9 +5055,12 @@ fclose ($fd);
 							if($v!='None')
 							{
 								$data=array();
+								
+								date_default_timezone_set('America/Los_Angeles');	// PDT time
 								$data=array('teacher_insrument_userid'=>$user_id,
 										'teacher_insrument_instid'=>$v,
-										'teacher_insrument_date'=>gmdate('Y-m-d H:i:s')
+//										'teacher_insrument_date'=>gmdate('Y-m-d H:i:s')
+										'teacher_insrument_date'=>date('Y-m-d H:i:s')
 						
 								);	
 								$kk=$this->modelStatic->Super_Insert("teacher_insruments",$data);
@@ -5026,9 +5083,11 @@ fclose ($fd);
 							/*if($v!='None')
 							{*/
 								$data=array();
+								date_default_timezone_set('America/Los_Angeles');	// PDT time
 								$data=array('private_teacher_teacherid'=>$user_id,
 										'private_teacher_studentid'=>$v['user_id'],
-										'private_teacher_date'=>gmdate('Y-m-d H:i:s')
+//										'private_teacher_date'=>gmdate('Y-m-d H:i:s')
+										'private_teacher_date'=>date('Y-m-d H:i:s')
 						
 								);	
 								$kk=$this->modelStatic->Super_Insert("private_teacher",$data);
@@ -5143,10 +5202,11 @@ fclose ($fd);
 					{
 						$type=3;
 					}
-					
+					date_default_timezone_set('America/Los_Angeles');	// PDT time
 					$data=array('teacher_attach_userid'=>$user_param_id,
 								'teacher_attach_name' => $v,
-								'teacher_attach_date'=> gmdate('Y-m-d H:i:s'),
+//								'teacher_attach_date'=> gmdate('Y-m-d H:i:s'),
+								'teacher_attach_date'=> date('Y-m-d H:i:s'),
 								'teacher_attach_type' => $type,
 								'teacher_attach_filename'=>$array_oiginal[$k],
 					);	
