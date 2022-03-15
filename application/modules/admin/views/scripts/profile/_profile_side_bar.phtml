@@ -1,0 +1,10 @@
+<ul class="ver-inline-menu tabbable margin-bottom-10">
+	<li><img class="img-responsive" src="<?php echo getUserImage($this->user->user_image,'thumb')?>" alt="<?php echo $this->user->user_first_name?>" title="" /></li>
+ 	<li><a data-title="update_profile_admin" href="<?php echo $this->url(array(),'update_profile_admin')?>"><i class="fa fa-cog"></i> Personal info </a><span class="after"></span></li>
+	<li><a data-title="update_image_admin" href="<?php echo $this->url(array(),'update_image_admin')?>"><i class="fa fa-picture-o"></i> Change Avatar </a></li>
+	<li><a data-title="update_password_admin" href="<?php echo $this->url(array(),'update_password_admin')?>"><i class="fa fa-lock"></i> Change Password </a></li>
+</ul>
+
+<script  type="text/javascript">
+	$(document).ready(function(e){$('a[data-title="<?php echo $this->show?>"]').parent().addClass("active");});
+</script>

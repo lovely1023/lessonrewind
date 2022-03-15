@@ -1,0 +1,17 @@
+<?php echo $this->getHelper('Messages')->getMessages();?>
+<div class="row-fluid page-500">
+    <div class="span5 number">500</div>
+    <div class="span7 details">
+        <h3>Opps, Access Denied !</h3>
+        <p>
+           <h1><?php echo $this->message ?></h1>
+			<?php echo @$this->hiddenmessage ?>
+            <?php if (isset($this->exception)): ?>
+            <p>
+            <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+            </p>
+            <?php endif ?>
+        </p>
+        
+    </div>
+</div>

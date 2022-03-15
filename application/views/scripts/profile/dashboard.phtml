@@ -1,0 +1,313 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+        <?php 
+		if($this->user->user_type=="school")
+		{
+			?>
+            <div class="custom-form-wrapper">
+        	<h5 class="text-center">Welcome "<?php echo  $this->user->user_school_name; ?>"  <?php
+            if($this->user->user_last_login!='0000-00-00')
+			{
+				?>
+               , Your last visit was "<?php echo date("F d, Y",strtotime($this->user->user_last_login)); ?>"
+                <?php
+					
+			}
+			
+			
+			?>
+          
+            </h5>
+			<h3 class="text-center"><b>Administrative Dashboard</b></h3>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/school.png"  /></h5>
+           <?php /*?> <?php 
+			if(empty($this->plan_detail))
+			{
+			?>
+            <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/subscription">Subscribed for a Plan</a>
+            <?php } ?><?php */?>
+            <br />
+            <br />
+            <div class="row">
+           		<div class="col-md-6 text-center">
+                <div class="row">
+                	<a class="dashboard_a_head">Actions</a>
+                 </div>
+                  	  <div class="row">
+                    <!--  <a class="dashboard_a" href="">Add Student</a>-->
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'student','action'=>'newstudent'),'default',true) ?>">Add Student</a>
+                    </div>
+                    <div class="row">
+                   <?php /*?>  <a class="dashboard_a" href="">Register Family</a><?php */?>
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'family','action'=>'newfamily'),'default',true) ?>">Add Family Contacts</a>
+                    </div>
+                   
+                     <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'newteacher'),'default',true) ?>">Add Teacher</a>
+                    </div>
+                        <div class="row">
+                      <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'class','action'=>'newinstrument'),'default',true) ?>">Add Instrument</a>
+                      </div>
+                     <div class="row">
+                     <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'class','action'=>'newclass'),'default',true) ?>">Add Group Class  </a>
+                     </div>
+                  
+                       <div class="row">
+                      <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'profile','action'=>'newannouncement'),'default',true) ?>">New Announcement</a>
+                      </div>
+                      <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'profile','action'=>'newsubadmin'),'default',true) ?>">Add Admin</a>
+                   </div>
+                   
+                    <div class="row">
+                    <a class="dashboard_a" href="<?php echo $this->url(array('controller'=>'bulkimport','action'=>'index'),'default',true)  ?>" >Bulk Importing</a>
+                   </div>
+                   
+                     <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'profile','action'=>'lessondahboard'),'default',true) ?>" >Add Lesson</a>
+                   </div>
+                   
+                      <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'profile','action'=>'templatedashboard'),'default',true) ?>" >Add Template</a>
+                   </div>
+                </div>
+                <div class="col-md-6 text-center">
+                 <div class="row">
+                <a class="dashboard_a_head">Lists</a>
+                </div>
+               <div class="row">
+              <!--     <a class="dashboard_a" href="">Students</a>-->
+                 <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'student','action'=>'index'),'default',true) ?>">Students</a>
+                 </div>
+                <div class="row">
+               <!--   <a class="dashboard_a" href="">Families</a>-->
+                 <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'family','action'=>'index'),'default',true) ?>">Family Contacts</a>
+                 </div>
+                	
+                 <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'index'),'default',true) ?>">Teachers</a>
+                   </div>
+                    <div class="row">
+                   	<a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'class','action'=>'instruments'),'default',true) ?>">Instruments</a>
+                    </div>
+                   <div class="row">
+                   <a class="dashboard_a"  href="<?php  echo $this->url(array('controller'=>'class','action'=>'index'),'default',true) ?>">Group Classes</a>
+                   </div>
+                  
+                     <div class="row">
+                   	<a class="dashboard_a"  href="<?php  echo $this->url(array('controller'=>'profile','action'=>'viewannouncement'),'default',true) ?>">Announcements</a>
+                    </div>
+                      <div class="row">
+                <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'profile','action'=>'viewsubadmin'),'default',true) ?>">Admin</a>
+                </div>
+                  <div class="row">
+                    <a class="dashboard_a" >Reporting</a>
+                   </div>
+                   
+                     <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'alllessons'),'default',true) ?>" >All Lessons</a>
+                   </div>
+                   
+                   <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'alltemplates'),'default',true) ?>" >All Templates</a>
+                   </div>
+                </div>
+            
+               
+            </div>
+		</div>
+            <?php	
+		}
+		else
+		{
+			?>
+            <div class="custom-form-wrapper">
+        	<h5 class="text-center">Welcome "<?php echo  $this->user->user_school_name; ?>"</h5>
+			<h3 class="text-center"><b>Sub Administrative Dashboard</b></h3>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/school.png"  /></h5>
+         	
+            <br />
+           <?php /*?> <?php
+			if($this->user->user_type!='school' && isset($this->announcement_arr) && !empty($this->announcement_arr))
+			{
+				?><?php */?>
+                <div class="row">
+                	<div class="col-md-12">
+                        <div class="alert alert-info row" role="alert">
+                      <!--  <button type="button" class="close" data-dismiss="alert">×</button>-->
+                      <div class="pull-left"> 
+                       You have (<?php echo count($this->announcement_arr) ?>) unread Announcement(s)
+                         </div>
+                         <div class="pull-right">
+                       <a href="<?php  echo $this->url(array('controller'=>'profile','action'=>'announcements'),'default',true) ?>" class="pull-right"> <h5><strong>View All Announcements </strong></h5></a>
+                        </div>
+                        </div>
+                     </div>
+                </div>
+                <?php /*?><?php	
+			}
+			 ?><?php */?>
+            <br />
+            <div class="row">
+           		<div class="col-md-6 text-center">
+                <div class="row">
+                	<a class="dashboard_a_head">Actions</a>
+                 </div>
+                  <?php
+				// echo $this->permission_data['permissions'];
+				  $a_array = explode(",",trim($this->permission_data['permissions']));
+				   if(in_array('1',$a_array))
+				   {
+					   ?>
+                  <div class="row">
+                   
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'profile','action'=>'newsubadmin'),'default',true) ?>">Add Admin</a>
+               
+                   </div>
+                   <?php
+                 }
+				  if(in_array('2',$a_array))
+				   {
+					   ?>
+                    <div class="row">
+                   <?php /*?>  <a class="dashboard_a" href="">Register Family</a><?php */?>
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'family','action'=>'newfamily'),'default',true) ?>">Register Family</a>
+                    </div>
+                    <?php } 
+					 if(in_array('3',$a_array))
+				   {
+					?>
+                     <div class="row">
+                    <!--  <a class="dashboard_a" href="">Add Student</a>-->
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'student','action'=>'newstudent'),'default',true) ?>">Add Student</a>
+                    </div>
+                    <?php }
+					 if(in_array('4',$a_array))
+				 	  {
+					 ?>
+                     <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'newteacher'),'default',true) ?>">Add Teacher</a>
+                    </div>
+                    <?php } 
+					if(in_array('5',$a_array))
+				 	  {
+					?>
+                     <div class="row">
+                     <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'class','action'=>'newclass'),'default',true) ?>">Add Class  </a>
+                     </div>
+                     <?php } 
+					 if(in_array('6',$a_array))
+				 	  {
+					 ?>
+                      <div class="row">
+                      <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'class','action'=>'newinstrument'),'default',true) ?>">Add Instrument</a>
+                      </div>
+                      <?php } 
+					   if(in_array('7',$a_array))
+				 	  {
+					  ?>
+                       <div class="row">
+                      <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'profile','action'=>'newannouncement'),'default',true) ?>">New Announcement</a>
+                      </div>
+                      <?php } ?>
+                </div>
+                <div class="col-md-6 text-center">
+                 <div class="row">
+                <a class="dashboard_a_head">Lists</a>
+                </div>
+                <?php
+				  if(in_array('1',$a_array))
+				   {
+					   ?>
+                <div class="row">
+                <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'profile','action'=>'viewsubadmin'),'default',true) ?>">Admin</a>
+                </div>
+                <?php }
+				
+				  if(in_array('2',$a_array))
+				   {
+					   ?>
+				 
+                <div class="row">
+               <!--   <a class="dashboard_a" href="">Families</a>-->
+                 <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'family','action'=>'index'),'default',true) ?>">Families</a>
+                 </div>
+                 <?php }
+				   if(in_array('3',$a_array))
+				   {
+					   ?>
+				 
+                 <div class="row">
+              <!--     <a class="dashboard_a" href="">Students</a>-->
+                 <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'student','action'=>'index'),'default',true) ?>">Students</a>
+                 </div>
+                 <?php }
+				   if(in_array('4',$a_array))
+				   {
+					   ?>
+				   <div class="row">
+                    <a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'index'),'default',true) ?>">Teachers</a>
+                   </div>
+                  <?php }
+				    if(in_array('5',$a_array))
+				   {
+					   ?>
+				  
+                   <div class="row">
+                   <a class="dashboard_a"  href="<?php  echo $this->url(array('controller'=>'class','action'=>'index'),'default',true) ?>">Classes</a>
+                   </div>
+                   <?php } 
+				     if(in_array('6',$a_array))
+				   {
+					   ?>
+				     <div class="row">
+                   	<a class="dashboard_a" href="<?php  echo $this->url(array('controller'=>'class','action'=>'instruments'),'default',true) ?>">Instruments</a>
+                    </div>
+                    <?php }
+					  if(in_array('7',$a_array))
+				   {
+					   ?>
+					 
+                     <div class="row">
+                   	<a class="dashboard_a"  href="<?php  echo $this->url(array('controller'=>'profile','action'=>'viewannouncement'),'default',true) ?>">Announcements</a>
+                    </div>
+                    <?php } ?>
+                </div>
+            
+               
+            </div>
+		</div>
+            <?php	
+		}
+		?>
+		
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+</script>
+
+
+ 

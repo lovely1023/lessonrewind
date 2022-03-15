@@ -1,0 +1,81 @@
+<style>
+.dt_footer li a{
+	cursor:pointer !important;
+}
+</style>
+<?php
+    $page_vars = $this->getVars();
+	
+	//prd();
+
+	
+    if($this->pageCount)
+    {
+        ?>
+
+        <div  class="dt_footer-edit">
+            <div class="row-fluid">
+
+                <div class="span6">
+                    <div class="dataTables_info" id="demo-dtable-01_info">
+                        Showing 
+                        <?php echo $this->firstItemNumber; ?> - <?php echo $this->lastItemNumber; ?> of  <?php echo $this->totalItemCount; ?> entries
+                    </div>
+                </div>
+
+                <div class="span6">
+                    <div class="dataTables_paginate paging_bootstrap pagination">
+                        <ul>
+                            <li class="prev disabled">
+                                <!-- Previous link -->
+                                <?php if (isset($this->previous)): ?>
+                                    <a href="<?php echo $this->url(array ('page' => $this->first)); ?>">
+                                        First
+                                    </a>  
+                                <?php else: ?>
+                                    <a href="javascript:;" class="prev disabled">First</a> 
+                                <?php endif; ?>
+                                <!-- Previous link -->
+                            </li>
+
+                            <?php
+                            if (isset($this->pagesInRange)):
+								$i=1;
+                                foreach ($this->pagesInRange as $page => $pageno)
+                                {	
+									if($page_vars['current']==$i){ ?>
+                                        <li class="active">
+                                            <a href="#"><?=$i++?></a>
+                                        </li>
+                                        
+                                  	 <?php      
+									 
+									 continue ;
+									}  
+										
+                                    ?>                       
+                                    <li>
+                                        <a href="<?php echo $this->url(array ('page' => $i)); ?>"><?=$i++?></a>
+                                    </li>
+
+                                    <?
+                                }
+
+                            endif;
+                            ?>
+                            <li class="next">
+                                <!-- Next page link -->
+								<?php if (isset($this->next)): ?>
+                                    <a class="next disabled" href="<?php echo $this->url(array ('page' => $this->next)); ?>">Next</a>  
+                                <?php else: ?>
+                                    <a href="javascript:;">Next</a>
+                                <?php endif; ?>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?
+    }
+?>

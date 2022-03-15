@@ -1,0 +1,400 @@
+<?php
+
+$model = new Application_Model_SuperModel();
+$student_id='';
+if(isset($this->student_id) && $this->student_id!='')
+{
+	$student_id=$this->student_id;	
+}
+else if($this->user->user_type=='student')
+{
+	$student_id=$this->user->user_id;	
+}
+?>
+
+<style>
+body
+{
+	  background: #eee !important;
+}
+.lesson_desc
+{
+	font-size:16px;
+}
+</style>
+
+
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<?php /*?><h5 class="text-center">Welcome "<?php echo  $this->user->user_first_name." ".$this->user->user_last_name; ?>"</h5>
+			<h3 class="text-center"><b>Teacher Dashboard</b></h3>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/teacher1.png"  /></h5><?php */?>
+              <br />
+          
+            <div class="row">
+            <?php 
+			if(isset($this->teacher_id))
+			{
+				?>
+                 <a class="pull-left subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/addtemplate/teacher_id/<?php echo $this->teacher_id ?>"> <i class="fa fa-list"></i> Add Template </a> 
+                <?php
+			}
+			else
+			{
+				?>
+                 <a class="pull-left subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/addtemplate"> <i class="fa fa-list"></i> Add Template </a> 
+                <?php
+			}
+			?>
+                
+          <?php /*?>  <?php 
+			if($this->user->user_type=='teacher')
+			{
+				?>
+             <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/teacherdashboard">Go to Dashboard <i class="fa fa-arrow-right"></i></a>   
+                <?php	
+			}
+			else if($this->user->user_type=='student')
+			{
+				?>
+                  <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/studentdashboard">Go to Dashboard <i class="fa fa-arrow-right"></i></a> 
+                <?php	
+			}
+			else if($this->user->user_type=='school' || $this->user->user_type=='schoolsubadmin')
+			{
+				?>
+                  <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/dashboard">Go to Dashboard <i class="fa fa-arrow-right"></i></a> 
+                <?php
+			}
+			else if($this->user->user_type=='family' )
+			{
+				?>
+             <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/studentdashboard/student_id/<?php echo $this->student_id ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>        
+                <?php	
+			}
+			else
+			{
+				?>
+                 <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/teacherdashboard">Go to Dashboard <i class="fa fa-arrow-right"></i></a>        
+                <?php	
+			}
+			?>
+            <?php */?>
+            </div>
+           
+          
+            <br />
+            <div class="row">
+            		<div class="allstudents row"><i class="fa fa-book"></i> All Templates <?php
+				
+					 if(isset($this->student_name) && !empty($this->student_name)){ echo 'For "'.$this->student_name.'"'; } ?></div>
+                     
+                    <div class="viewall row">
+                    <br />
+                    
+                    	<div class="row">
+                        <br />
+                       
+                        	<?php
+							if(count($this->paginator)>0)
+							{
+								foreach($this->paginator as $k=>$v)
+								{
+									
+									$attachments=$model->Super_Get("lession_attach","la_lesson_id='".$v['lesson_id']."'","fetch",array("fields"=>array("COUNT('la_lesson_id') as lessoncount")));
+								
+								
+									?>
+                                   <div class="col-md-12 ">
+                                   <div class="row lesson">
+                                   	<div class="row lesson_div">
+                                    <span>
+                                    	<?php echo $v['lesson_title'] ?>
+                                     </span>
+                                     <span class="tag bck theme"><?php 
+									 
+									   global $timezone;
+									  echo date("F, Y h:i A",strtotime(datechange($v['lesson_date'],$timezone))) ;
+									 ?></span>
+                                     <span class="pull-right lesson_icon">
+                                     <?php
+									 if($this->user->user_type=='school' || $this->user->user_type=='teacher' || $this->user->user_type=='schoolsubadmin')
+									 {
+										 if(isset($this->teacher_id) && $this->user->user_type=='school')
+										 {
+											?>
+                                             <a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'addtemplate','lesson_id'=>$v['lesson_id'],'teacher_id'=>$this->teacher_id),'default',true) ?>"><i class="fa fa-edit"></i></a>
+                                            <?php	 
+										 }
+										 else
+										 {
+											?>
+                                             <a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'addtemplate','lesson_id'=>$v['lesson_id']),'default',true) ?>"><i class="fa fa-edit"></i></a>
+                                            <?php	 
+										 }
+										 ?>
+                                       
+                                         <?php
+										}
+										if(isset($this->student_id) && !empty($this->student_id) && isset($this->teacher_id) && !empty($this->teacher_id))
+										{
+											?>
+                                            <a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'viewdetail','lesson_id'=>$v['lesson_id'],'student_id'=>$this->student_id,'teacher_id'=>$this->teacher_id),'default',true) ?>"><i class="fa fa-search"></i></a>
+                                            <?php	
+										}
+										else if(isset($this->student_id) && !empty($this->student_id))
+										{
+											?>
+                                            	<a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'viewdetail','lesson_id'=>$v['lesson_id'],'student_id'=>$this->student_id),'default',true) ?>"><i class="fa fa-search"></i></a>
+                                            <?php	
+										}
+										else if(isset($this->teacher_id) && !empty($this->teacher_id))
+										{
+											?>
+                                            	<a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'viewdetail','lesson_id'=>$v['lesson_id'],'teacher_id'=>$this->teacher_id),'default',true) ?>"><i class="fa fa-search"></i></a>
+                                            <?php	
+										}
+										else
+										{
+											?>
+                                            	<a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'viewdetail','lesson_id'=>$v['lesson_id']),'default',true) ?>"><i class="fa fa-search"></i></a>
+                                            <?php
+										}
+									  ?>
+	                                   
+                                     
+                                         <?php
+									 if($this->user->user_type=='school' || $this->user->user_type=='teacher' || $this->user->user_type=='schoolsubadmin')
+									 {
+										 ?>
+                                        <a  onclick="removelesson('<?php echo $v['lesson_id'] ?>')"><i class="fa fa-trash-o"></i></a>
+                                        <?php } ?>
+                                     </span>
+                                    
+                                    <div class="row lesson_desc">
+                                    	<?php echo $v['lesson_desc'] ?>
+                                         <?php if(isset($attachments) && !empty($attachments) && !empty($attachments['lessoncount']) && $attachments['lessoncount']>0)
+									 { ?>
+                                     <a class="pull-right" href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'viewdetail','lesson_id'=>$v['lesson_id']),'default',true) ?>" />
+                                     <span class="tag bck theme">View all attachement </span>
+                                     
+                                     </a>
+                                     <?php } ?>
+                                    </div>
+                                    
+                                    <?php
+									
+									if($this->user->user_type=='teacher')
+									{
+										?>
+                                        <div class="row">
+                                      	<?php 
+										$saved='';
+										if($v['lesson_status']==0)
+										{
+											$saved='Saved Without Sending';	
+											?>
+                                            <span class="tag bck theme"><?php echo $saved; ?></span>
+                                            <?php
+										}
+										else
+										{
+											$saved='Sent to Student';	
+											?>
+                                            <span class="tag bck theme"><?php echo $saved; ?></span>
+                                            <?php
+										}
+										$template='';
+										if($v['lesson_template']==1)
+										{
+												?>
+                                              <span class="tag bck theme">Saved As Template</span>
+                                                <?
+										}
+										?>
+                                        
+                                        </div>
+                                        <?php	
+									}
+									
+									if($this->user->user_type=='student')
+									{
+									
+									
+										?>
+                                        
+                                <div class="btn-group row pull-right" id="toggle_event_editing">
+                             	
+                                <button type="button" class="btn_swicth btn  locked_active <?php if($v['l_s_viewstatus']==0){echo "btn-default"; } else { echo "btn-info";} ?>" id="yes_<?php echo $v['lesson_id'] ?>">Yes</button>
+                                <button type="button" class=" btn_swicth btn <?php if($v['l_s_viewstatus']==1){echo "btn-default"; } else { echo "btn-info"; } ?> unlocked_inactive" id="no_<?php echo $v['lesson_id'] ?>">No</button>
+                                </div>
+                                <div class="row pull-right">
+                                          <div class="lesson_viewed"> Lesson Viewed: &nbsp;</div>
+                                        </div>
+                                        <?php	
+									}
+									else if($this->user->user_type=='teacher')
+									{
+										
+									
+										$lesson_student_arr=array();
+										$lesson_student_arr=$model->Super_Get("lesson_student","l_s_lessid='".$v['lesson_id']."' and l_s_viewstatus='1'","fetchAll");
+										$lesson_student_all=array();
+										$lesson_student_all=$model->Super_Get("lesson_student","l_s_lessid='".$v['lesson_id']."'","fetchAll");
+										$viewcount_text='';
+										if(count($lesson_student_arr)>0)
+										{
+											$viewcount_text='viewcount';	
+										}					
+				?>
+                                    
+                             <div class="btn-group row pull-right" id="toggle_event_editing">
+			                 <a title="" class="cursor <?php echo $viewcount_text ?>" rel='popover_<?php echo $v['lesson_id'] ?>' id="popover_<?php echo $v['lesson_id'] ?>"> <?php echo count($lesson_student_arr) ?> views</a>
+                              
+                               
+                               
+                                </div>
+                              
+                                
+                                <div class="row pull-right">
+                                          <div class="lesson_viewed"> Lesson Viewed: &nbsp;</div>
+                                        </div>
+                                        <br />
+                                        <div  id="popOverBox_<?php echo $v['lesson_id'] ?>" class="widthdiv popoverdiv">
+                              
+                          
+                              	<?php
+									foreach($lesson_student_all as $ks=>$vs)
+									{
+										$student_name_arr=array();
+										$student_name_arr=$model->Super_Get("users","user_id='".$vs['l_s_stuid']."'","fetch",array("fields"=>array("user_first_name","user_last_name")));
+										?>
+                                        <div class="row">
+										<?php 
+											if($vs['l_s_viewstatus']==0)
+											{
+												?>
+                                           <i class="fa fa-times"></i>
+                                                <?php	
+											}
+											else
+											{
+												?>
+                                               <i class="fa fa-check"></i>
+                                                <?php	
+											}
+										?>
+										<?php echo $student_name_arr['user_first_name'].' '.$student_name_arr['user_last_name'] ?></div>
+                                        <?php	
+									}
+								 ?>
+                              </div>
+                                        <?php	
+									
+									}
+									 ?>
+                                    </div>
+                                   </div>
+                                   </div>
+                                    <?php
+								}	
+								echo $this->paginationControl($this->paginator,'Sliding','pagination-control.phtml');  
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Lesson added
+                                </div>
+                                <?php
+							}
+							 ?>
+                        </div>
+                    </div>
+                    
+                   
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+	function removelesson(idval)
+	{
+		var testconfirm=confirm("Are you sure you want to remove this lesson");
+		if(testconfirm)
+		{
+			window.location.href="<?php echo $this->baseUrl() ?>/teacher/removelesson/lesson_id/"+idval;	
+		}
+		
+	}
+</script>
+
+<script>
+$('.btn_swicth').click(function(){
+	var lesson_id=($(this).attr('id')).split("_");
+	if($(this).hasClass('locked_active') || $(this).hasClass('unlocked_inactive')){
+		/* code to do when unlocking */
+        $('#switch_status').html('Switched on.');
+		
+	}else{
+		
+		/* code to do when locking */
+        $('#switch_status').html('Switched off.');
+			
+	}
+	if(lesson_id[0]=='yes')
+		{
+				changestatus(1,lesson_id[1]);	
+		}	
+		else
+		{
+				changestatus(0,lesson_id[1]);	
+		}
+	/* reverse locking status */
+	$('#yes_'+lesson_id[1]).toggleClass('locked_inactive locked_active btn-default btn-info');
+	$('#no_'+lesson_id[1]).toggleClass('unlocked_inactive unlocked_active btn-info btn-default');
+});
+
+function changestatus(status,lesson_id)
+{
+	$('#wrap').show();
+	$.ajax({ //Process the form using $.ajax()
+            type      : 'POST', //Method type
+            url       : '<?php echo SITE_HTTP_URL ?>/teacher/changestatus/status/'+status+'/lesson_id/'+lesson_id+'/student_id/<?php echo $student_id ?>', //Your form processing file URL
+            data      : "", //Forms name
+            success   : function(data)
+			 {
+				$('#wrap').hide();	
+			
+			 }
+        });
+}
+$('.viewcount').click(function(e) {
+	
+    var idval=$(this).attr('id');
+	var idval_text=idval.split('_');
+	//alert(idval_text[1]);
+	if($('#popOverBox_'+idval_text[1]).is(':visible'))
+	{
+		$('#popOverBox_'+idval_text[1]).slideUp('slow');	
+	}
+	else
+	{
+		$('#popOverBox_'+idval_text[1]).slideDown('slow');		
+	}
+});
+</script>
+ 

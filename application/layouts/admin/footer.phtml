@@ -1,0 +1,27 @@
+
+
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+	<div class="page-footer-inner">
+		 <?php echo date('Y');?> &copy; <?php echo $this->site_configs['site_title']; ?>.
+	</div>
+	<div class="page-footer-tools">
+		<span class="go-top">
+		<i class="fa fa-angle-up"></i>
+		</span>
+	</div>
+</div>
+<!-- END FOOTER -->
+
+
+<?php if(false){?><!-- BEGIN FOOTER -->
+<div class="footer text-center">
+    <big><?php echo date('Y');?> &copy; </big>
+    <a class="brand" href="<?php echo $this->baseUrl('admin')?>">
+        <img src="<?PHP echo ADMIN_ASSETS_PATH?>/img/logo.png" alt="<?php echo $this->site_configs['site_title']?>" style="height:12px;" />
+    </a>
+	<div class="span pull-right"><span class="go-top"><i class="icon-angle-up"></i></span></div>
+</div>
+<!-- END FOOTER -->
+
+<?php  } ?>

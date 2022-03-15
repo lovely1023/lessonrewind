@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+	
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+	<?php  
+        echo $this->headMeta();
+        echo $this->headTitle();
+        echo $this->headLink(); ?>
+		
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="<?php echo $this->baseUrl()?>/public/front_js/html5shiv.js"></script>
+		<script src="<?php echo $this->baseUrl()?>/public/front_js/respond.min.js"></script>
+	<![endif]-->
+
+	
+	<script src="<?php echo $this->baseUrl('public/plugins/jquery-1.11.0.min.js')?>"></script>
+
+    <!-- END FOOTER -->
+	<!-- BEGIN JAVASCRIPTS -->
+	<!-- Load javascripts at bottom, this will reduce page load time -->
+    
+		
+    <link rel="shortcut icon" href="<?=$this->baseUrl()?>/images/favicon.png">
+    		
+	
+	<!-- END JAVASCRIPTS -->       
+	        
+	<script>
+		var baseUrl='<?=$this->baseUrl()?>' ;
+		var SITEURL='<?=$this->baseUrl()?>' ;
+		var SiteHttpUrl='<?php echo SITE_HTTP_URL;?>'; 
+    </script>
+
+<style>.admin-image-nav{width:29px;height:29px;}</style>
+
+
+</head>
+
+<body class="page-header-fixed page-quick-sidebar-over-content">
+
+	<?php echo $this->render('header.phtml');?>  
+	
+  	<div class="clearfix"></div>
+  
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+	
+		<?php echo $this->render('navigation.phtml')?>
+ 
+  		
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+			<div class="page-content">
+ 			
+				<!-- BEGIN PAGE HEADER-->
+				<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<h3 class="page-title"><?php echo $this->pageHeading?> <small><?php echo $this->pageDescription?></small></h3>
+						<?php 
+					
+						echo $this->getHelper('BreadCrumb')->getBreadcrumb($this->breadcrumb)?>
+						<?php /*?><ul class="page-breadcrumb breadcrumb">
+							<li>
+								<i class="fa fa-home"></i>
+								<a href="index-2.html">Home</a>
+								<i class="fa fa-angle-right"></i>
+							</li>
+							<li>
+								<a href="#">Dashboard</a>
+							</li>
+							<!--<li class="pull-right">
+								<div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
+									<i class="icon-calendar"></i>
+									<span></span>
+									<i class="fa fa-angle-down"></i>
+								</div>
+							</li>-->
+						</ul><?php */?>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->			
+				
+				
+				<div id="flash-message" class="alert alert-dismissable" style="display:none;"></div>
+				
+				
+				<div class="">
+					<?php echo $this->getHelper("Messages")->getMessages();?>
+				</div>
+ 			
+			
+			
+				<?php echo $this->layout()->content ;?>
+			</div>
+		</div>
+		<!-- END CONTENT -->	
+		
+ 			
+		
+    </div>
+    <!-- END CONTAINER -->
+    
+     
+	<?php 
+		 
+		echo $this->render("footer.phtml");
+		
+		echo $this->headScript(); // Javascript
+		
+	?>
+	
+	<script type="text/javascript">
+	
+	<?
+ 		
+		if(isset($this->showEditorUpload) and $this->showEditorUpload!="") {
+			switch($this->showEditorUpload){
+				case 'page': $editor_id = "page_content";  break;
+				case 'contentBlock':  $editor_id = "content_block_content"; break;	
+				case 'email':  $editor_id = "emailtemp_content"; break;
+				default : $editor_id = "page_content";				
+			}
+			if(count($this->all_content_blocks)>0){	?>
+				CKEDITOR.replace('<?php echo $editor_id?>',{
+				strinsert_strings: [{'name': 'Content Blocks'},
+				<?php foreach($this->all_content_blocks as $key=>$value){?>
+					 {'name': '<?php echo $value['content_block_title']?>', 'value': '((<?php echo $value['content_block_title']?>))', 'label': '<?php echo $value['content_block_title']?>'},
+				<?php  } ?>
+			
+			]});    
+				
+				
+				<?php
+			}
+		}
+		?>	
+		
+    
+	
+
+
+	jQuery(document).ready(function() {    
+	   Metronic.init(); // init metronic core componets
+	   Layout.init(); // init layout
+	   QuickSidebar.init() // init quick sidebar
+	   Index.init();   
+	});
+	
+	
+</script>
+
+    
+	    </body>  
+</html>

@@ -1,0 +1,43 @@
+<?
+	$current_controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+	$current_action  = Zend_Controller_Front::getInstance()->getRequest()->getActionName();	
+	$display_block_1="";  $display_block_2=""; $display_block_3=""; $active_1="";  $active_2=""; $active_3="";
+	if($current_controller=="message" and $current_action=="compose") { $active_1 = "active_nav"; $display_block_1="show_nav";}
+	if($current_controller=="message" and $current_action=="index" or $current_action=="readmessage") { $active_2 = "active_nav"; $display_block_2="show_nav";}
+	if($current_controller=="message" and $current_action=="outbox") { $active_3 = "active_nav"; $display_block_3="show_nav";}
+?>
+<style>
+
+.compose_form > form > .form-group > input , .compose_form > form > .form-group >  textarea , .select2-search-field > input { border: 4px double #277283;}
+.select2-search-field > input {   height:41px !important; padding-bottom:10px !important;}
+ .select2-choices{border:0px !important; border: 4px double #277283 !important;}
+ .select2-container {margin-bottom:10px; padding:0px;}
+ul.wysihtml5-toolbar > li { margin: 0 5px 0px 0; background:#e5e5e5;}
+.select2-container-multi .select2-choices .select2-search-field input { background:#FFFFFF !important;}
+ 
+</style>
+ 
+<div class="leftlayout_bg">
+	<ul class="message_box">
+    	
+        <? if($this->user->user_member_type!=1) {  ?>
+        <li class="<?=$active_1?>"><a href="<?=$this->url(array(),'compose_msg')?>"><i class="glyphicon glyphicon-edit glyhiicon_compose"></i>Compose 
+        	<img src="<?=HTTP_IMG_PATH?>/inbox-nav-arrow-blue.png" class="nav_right <?=$display_block_1?>"></a>
+        </li>
+        
+        <? }else { if($this->replyId) { ?>
+        		
+                
+             <li class="<?=$active_1?>"><a href="javascript:void(0)" style="cursor:default;"><i class="glyphicon glyphicon-edit glyhiicon_compose"></i>REPLY 
+                <img src="<?=HTTP_IMG_PATH?>/inbox-nav-arrow-blue.png" class="nav_right <?=$display_block_1?>"></a>
+            </li>
+        
+		<?  } } ?>
+        
+        <li class="<?=$active_2?>"><a href="<?=$this->url(array(),'inbox_msg')?>">Inbox<img src="<?=HTTP_IMG_PATH?>/inbox-nav-arrow-blue.png" class="nav_right <?=$display_block_2?>"></a></li>
+        <li class="<?=$active_3?>"><a href="<?=$this->url(array(),'outbox_msg')?>">Outbox<img src="<?=HTTP_IMG_PATH?>/inbox-nav-arrow-blue.png" class="nav_right <?=$display_block_3?>"></a></li>
+   		
+    </ul>
+</div>
+
+ 	 <div class="spacer-40 hidden-xs"></div>

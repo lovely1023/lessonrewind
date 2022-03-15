@@ -1,0 +1,153 @@
+ <?php
+           
+	 $html = array ();
+	 $acl = $this->navigation()->getAcl();
+	 $navigation = $this->navigation();
+	 $role_name = $navigation->getRole();
+	 
+	 $check = "allowed";
+	 
+  	 foreach ($this->container as $page){
+		 
+ 	    
+ 		$active_flag =false;
+ 		
+ 		if ($page->isActive()){ // Main Menu Active
+			$active_flag = 'active';
+ 		}
+ 		else{
+ 			foreach ($page as $sub_subpage){ // Checking for Sub Page Active
+				if($sub_subpage->hasPages()){
+					foreach ($sub_subpage as $sub_subpage1){ 
+						if ($sub_subpage1->isActive()){
+							$active_flag = 'active';
+							break;
+						}	
+					}
+					if ($sub_subpage->isActive()){
+						$active_flag = 'active';
+						break;
+					}	
+					
+				}else{
+					if ($sub_subpage->isActive()){
+						$active_flag = 'active';
+						break;
+					}	
+				}
+			}
+		}
+		
+		
+		if(!empty($page->pages)){
+			$active_flag.= ' has-sub ';
+		}
+		
+		
+		if(!$page->hasPages()){
+			$_acl_action =  $page->getAction();
+			$_acl_controller =  $page->getController();
+		}
+		
+ 
+		
+		
+		if(!$page->hasPages()){
+			
+		//	$check = $acl->isAllowed($role_name, $page->getController(), $page->getAction()) ? "allowed" : "denied";
+				
+			if($check == "allowed"){
+	
+				$html[] = "<li class='".$active_flag."'  >";
+				$html[]='<a href="'.$page->getHref().'">';
+				$html[]='<i class="'.$page->icon.'"></i>';
+				$html[]='<span class="title">'.$page->label.'</span>';
+				if($active_flag){
+					$html[]='<span class="selected"></span>';
+				}
+				if(!empty($page->pages)){
+					$html[]='<span class="arrow"></span>';
+				}
+				
+				$html[]='</a>';
+			}
+		
+		}else{
+			
+			
+			
+			$isAny = false ;
+			if (!empty($page->pages)){
+						
+ 				foreach ($page->pages as $subpage){
+   						//$check = $acl->isAllowed($role_name, $subpage->getController(), $subpage->getAction()) ? "allowed" : "denied";
+						if($check == "allowed"){
+							 $isAny=true;
+						}
+			 
+				
+			} 
+		} 
+			
+			
+			if($isAny){
+			
+			
+			
+			$html[] = "<li class='".$active_flag."'  >";
+			$html[]='<a href="'.$page->getHref().'">';
+			$html[]='<i class="'.$page->icon.'"></i>';
+			$html[]='<span class="title">'.$page->label.'</span>';
+			if($active_flag){
+				$html[]='<span class="selected"></span>';
+			}
+			if(!empty($page->pages)){
+				$html[]='<span class="arrow"></span>';
+			}
+			
+			$html[]='</a>';
+			}
+		}
+		
+  		if (!empty($page->pages)){
+						
+ 				$html[] = "<ul class='sub-menu'>";
+				foreach ($page->pages as $subpage){
+					
+ 					if ($subpage->isActive())
+						$is_subpage_active = 'active';
+					else{
+						$is_subpage_active ='';
+						if($subpage->hasPages()){
+							foreach($subpage as $sub_menupages){
+  								if ($sub_menupages->isActive())
+									$is_subpage_active = 'active';
+							}
+ 						}
+						 
+						
+					}
+						
+						//$check = $acl->isAllowed($role_name, $subpage->getController(), $subpage->getAction()) ? "allowed" : "denied";
+						if($check == "allowed"){
+					 
+							
+							$html[]='<li class="'.$is_subpage_active.'">';
+							$html[]='<a href="'.$subpage->getHref().'">';
+							$html[]='<i class="'.$subpage->icon.'"></i>';
+							$html[]=$subpage->getLabel().'</a>';
+							$html[] = "</li>";
+						}
+			 
+				
+			}$html[] = "</ul>";
+		} 
+		
+		
+ 		$html[] = "</li>";
+	}
+ 	echo join(PHP_EOL, $html);
+
+
+
+ 

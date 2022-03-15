@@ -1,0 +1,31 @@
+<div class="row footer_main">
+	<div class="container">
+    <div class="row footer">
+    	<a href="<?php echo $this->baseUrl('contact-us')?>" data-title="contact_us">Contact Us</a>
+        <a href="<?php echo $this->baseUrl('terms')?>" data-title="terms">Terms and Conditions</a>
+        <a href="<?php echo $this->baseUrl('privacy-policy')?>" data-title="privacy_policy">Privacy Policy</a>
+      
+     </div>
+     <div class="row text-center social_footer">
+     	<a class="fb_icon" href="<?php echo $this->site_configs['social_link_facebook'] ?>" target="_blank">&nbsp;</a>
+        <a class="twitter_icon" href="<?php echo $this->site_configs['social_link_twitter'] ?>" target="_blank">&nbsp;</a>
+        <a class="google_icon" href="<?php echo $this->site_configs['social_link_google'] ?>" target="_blank">&nbsp;</a>
+     <?php /*?>	<img src="<?php echo HTTP_SITEIMG_PATH ?>/facebook.png"  />
+        <img src="<?php echo HTTP_SITEIMG_PATH ?>/googleplus.png"  />
+        <img src="<?php echo HTTP_SITEIMG_PATH ?>/twitter.png"  /><?php */?>
+     </div>
+     <div class="row text-center footer_bootom" >
+     	 &copy; Copyright <a> Lesson Rewind.com </a> <?=date('Y')?>
+     </div>
+     <br />
+    </div>
+</div>
+ <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+ <script type="text/javascript">
+ 		$(document).ready(function(e) 
+		{
+				$('.footer_main a[data-title="<?php echo $this->page_slug?>"]').addClass("active_footer");
+		}
+		);
+ </script>
+ 

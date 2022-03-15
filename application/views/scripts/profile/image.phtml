@@ -1,0 +1,46 @@
+
+<!--BEGIN TABS-->
+<div class="row profile-account">
+<br />
+<br />
+	<div class="col-md-3">
+		<?php echo $this->render("profile/_profile_side_bar.phtml");?>
+	</div>
+
+	<div class="col-md-9">
+		 <div class="custom-form-wrapper">
+			<form role="form" enctype="multipart/form-data" method="post">
+				<div class="form-group text-center">
+					<div class="fileinput fileinput-new    " data-provides="fileinput">
+						<div class="fileinput-new thumbnail" style="max-width: 350px; max-height: 350px; ">
+							
+							<?php if($this->user->user_image!=''){?>
+								<p class="abs-img-crop"><a href="<?php echo $this->url(array(),'front_image_crop')?>">Crop Image</a></p>
+							<?php  }?>
+							
+							<img src="<?php echo getUserImage($this->user->user_image,"thumb")?>" alt=""/>
+						</div>
+						<p></p>
+						<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 350px; max-height: 350px;">
+						</div>
+						<div>
+							<span class="btn btn-xs btn-info btn-file">
+								<span class="fileinput-new"> Select image </span>
+								<span class="fileinput-exists"> Change </span>
+								<?php echo $this->form->user_image?>
+							</span>
+							<a href="#" class="btn btn-xs btn-danger default fileinput-exists" data-dismiss="fileinput">Remove </a>
+						</div>
+						<p></p>
+						
+					</div>
+					
+					
+				</div>
+				<div class="margin-top-10 text-right "><button class="btn btn-sm btn-success   block_ui" type="submit"> Save </button></div>
+			</form>
+		 </div>
+	</div>
+	<!--end col-md-9-->
+</div>
+

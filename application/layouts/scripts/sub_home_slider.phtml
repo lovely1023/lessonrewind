@@ -1,0 +1,43 @@
+<?php if($this->current_controller=="index" and $this->current_action=="index" ){?>
+ <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" align="center">
+      <!-- Indicators -->
+      <?php /*?><ol class="carousel-indicators">
+	  	<?php 
+			$active = "active";
+			foreach($this->slider_images as $values){?>
+ 			 <li data-target="#myCarousel" data-slide-to="<?php echo $values['slider_image_id']?>" class="<?php echo $active;$active="";?>"></li>
+ 		<?php  }?>
+      </ol><?php */?>
+	  
+      <div class="carousel-inner">
+ 	  	<?php 
+			$active = "active";
+			foreach($this->slider_images as $values){
+				?>
+ 			 <div class="item <?php echo $active;$active="";?> text-center">
+			  	<img style="display:inline-block;" src="<?php echo HTTP_SLIDER_IMAGES_PATH."/".$values['slider_image_path']?>" alt="<?php echo $values['slider_image_alt']?>">
+                <div class="carousel-caption visible-md visible-lg ">
+              <h1><?php echo $values['slider_image_title'] ?></h1>
+              <p><?php echo $values['slider_image_alt'] ?></p>
+            </div>
+ 			</div>
+ 		<?php  }?>
+       </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div><!-- /.carousel -->
+	
+<script type="application/x-javascript">
+	
+$(document).ready(function(e) {
+	$('.carousel').carousel({
+	  interval: 5000
+	})
+});
+
+</script>
+
+
+<?php  } ?>

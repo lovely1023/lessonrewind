@@ -1,0 +1,104 @@
+<style>
+.btn-share-fb{border:solid 2px #38a9cf;text-align:center;font-family:Arvo-bold;padding:12px 0;cursor:pointer;}
+.btn-share-fb p.title{font-size:20px;margin:8px 0 20px 0;}
+.share-button{border:none !important;width: 100%;max-width: 176px;height: 37px;background-image: url(../images/facebook-button.png);}
+.contact-form{margin:auto;max-width:450px;}
+.contact-form select.mySelect{width:80% !important;}
+.btn-p{margin-top:12px;}
+#select_page,#select_groups{display:none;}
+</style>
+<h2 class="pageTitle" style="text-align:center;">Share Project On Facebook</h2>
+
+
+<form class="contact-form" method="post">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="btn-share-fb">
+				<p class="title">Customize Your Share</p>
+					<select id="select_type" class="mySelect" name="type">
+						<option value="fb_wall">My Facebook Wall</option>
+						<option value="fb_group">My Facebook Group</option>
+						<option value="fb_page">My Facebook Page</option>
+					</select>
+	
+					<select id="select_page" class="mySelect place required" name="name_page">
+						<option value="">-- Select Page --</option>
+						
+						<?php 
+							foreach($this->obj_fb_pages as $value){
+								?>
+									<option value="<?php echo $value['page_id']?>"><?php echo $value['name']?></option>		
+								<?
+								
+							}
+						?>
+ 					</select>
+					
+					<select id="select_groups" class="mySelect place required" name="name_group" >
+						<option value="">-- Select Group --</option>
+						<?php 
+							foreach($this->obj_fb_groups as $value){
+								?>
+									<option value="<?php echo $value['id']?>"><?php echo $value['name']?></option>		
+								<?
+ 							}
+						?>
+					</select>
+				<p class="btn-p"><button type="submit" class="share-button"></button></p>
+			</div>
+		</div>
+	 </div>
+</form>
+<script type="text/javascript">
+$(document).ready(function(e) {
+
+	$('.contact-form').validate();
+		
+	$("#select_type").change(function(e) {
+		
+		
+		$('.place').hide();
+		
+		if(this.value=="fb_group"){
+			$('#select_groups').show();
+		}
+		
+		if(this.value=="fb_page"){
+			$('#select_page').show();
+		}
+		
+ 	});
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

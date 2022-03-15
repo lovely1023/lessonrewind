@@ -1,0 +1,559 @@
+<link href="//assets.ziggeo.com/v1-latest/ziggeo.css?v=<?php echo time() ?>" rel="stylesheet" />
+ <script src="//assets.ziggeo.com/v1-latest/ziggeo.js?v=<?php echo time() ?>"></script>
+<script type="text/javascript">
+var embedding = "";
+$(document).ready(function(e) {
+ZiggeoApi.token =Ziggeotoken; 
+});
+
+
+function printElement(e) {
+  var ifr = document.createElement('iframe');
+  ifr.style='height: 0px; width: 0px; position: absolute'
+  document.body.appendChild(ifr);
+
+  $(e).clone().appendTo(ifr.contentDocument.body);
+  ifr.contentWindow.print();
+
+  ifr.parentElement.removeChild(ifr);
+}
+
+jQuery(document).ready(function() {
+	jQuery('.print_btn').on("click", function() {
+		printElement(jQuery('.print'));
+	});
+});
+
+</script>
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<?php /*?><h5 class="text-center">Welcome "<?php echo  $this->user->user_first_name." ".$this->user->user_last_name; ?>"</h5>
+			<h3 class="text-center"><b>Teacher Dashboard</b></h3>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/teacher1.png"  /></h5><?php */?>
+              <br />
+          
+            <div class="row">
+            <?php
+			if(isset($this->student_id) && !empty($this->student_id) && isset($this->teacher_id) && !empty($this->teacher_id) )
+			{
+				?>
+                 <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/viewlessons/student_id/<?php echo $this->student_id ?>/teacher_id/<?php echo $this->teacher_id ?>">Go to Lessons listing</a> 
+                <?php	
+			}
+			else if(isset($this->student_id) && !empty($this->student_id))
+			{
+				if($this->user->user_type=='teacher')
+				{
+					if($this->user->user_id==$this->lesson_data['lesson_teacherid'])
+					{
+						?>
+                        <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/viewlessons/student_id/<?php echo $this->student_id ?>">Go to Lessons listing</a> 
+                        <?php	
+					}
+					else
+					{
+						?>
+                        <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/newlesson/student_id/<?php echo $this->student_id ?>">Go Back</a> 
+                        <?php	
+					}
+					?>
+                    
+                    <?php		
+				}
+				else
+				{
+				?>
+                 <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/viewlessons/student_id/<?php echo $this->student_id ?>">Go to Lessons listing</a> 
+                <?php	
+				}
+			}
+			else if(isset($this->teacher_id) && !empty($this->teacher_id))
+			{
+				?>
+                 <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/viewlessons/teacher_id/<?php echo $this->teacher_id ?>">Go to Lessons listing</a> 
+                <?php	
+			}
+			else if(isset($this->class_id) && !empty($this->class_id))
+			{
+				?>
+                  <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/newlesson/class_id/<?php echo $this->class_id ?>">Go to Add Lesson Page</a> 
+                <?php	
+			}
+			else
+			{
+				?>
+                 <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/teacher/viewlessons">Go to Lessons listing</a> 
+                <?php
+			}
+			 ?>
+             
+            </div>
+           
+         
+            <br />
+            <div class="row">
+            		<div class="allstudents row"><i class="fa fa-book"></i> View Lesson <a style="float: right; color: white;" class="print_btn"><i style="color: white;" class="fa fa-print"></i> Print</a></div>
+                    
+                   
+                     
+                    <div class="viewall row">
+                    <br />
+                    
+                   
+                    <br />
+                    	<div class="row">
+                        <br />
+                       
+                        	<?php
+							
+							
+							
+							if(!empty($this->lesson_data))
+							{
+								
+								
+								?>
+                                 
+                                   <div class="col-md-12 ">
+                                   <div class="row lesson">
+								   	<div class="print">
+                                   	<div class="row lesson_div">
+                                    <span>
+                                    	<?php echo $this->lesson_data['lesson_title'] ?>
+                                       
+                                     </span>                                     
+                                     <span class="tag bck theme"><?php 
+									  global $timezone;
+									  echo date("F d, Y h:i A",strtotime(datechange($this->lesson_data['lesson_date'],$timezone))) ;
+									  ?></span>
+                                      <?php
+									 
+					if($this->user->user_type=='student')
+					{
+						?>
+     <div class="btn-group pull-right" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle msg_teacher " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Send Message
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="<?php echo SITE_HTTP_URL ?>/message/compose/teacher_id/<?php echo $this->lesson_data['lesson_teacherid']  ?>/lesson_id/<?php echo $this->lesson_data['lesson_id'] ?>/student_id/<?php echo $this->student_id ?>">Message Teacher</a></li>
+      <li><a href="<?php echo SITE_HTTP_URL ?>/message/compose/teacher_id/<?php echo $this->user->user_school_id  ?>/lesson_id/<?php echo $this->lesson_data['lesson_id'] ?>/student_id/<?php echo $this->student_id ?>">Message Admin</a></li>
+    </ul>
+  </div>
+                        <?php /*?><a href="<?php echo SITE_HTTP_URL ?>/message/compose/teacher_id/<?php echo $this->lesson_data['lesson_teacherid']  ?>/lesson_id/<?php echo $this->lesson_data['lesson_id'] ?>" class="msg_teacher">Message Teacher</a><?php */?>
+                        <?php	
+					}
+					 ?>
+                     
+                                     <span class="pull-right lesson_icon">
+                                     <?php 
+									 if($this->user->user_type=='teacher' || $this->user->user_type=='school' || $this->user->user_type=='schoolsubadmin')
+									{
+										
+										if($this->user->user_type=='teacher')
+										{
+											if($this->user->user_id==$this->lesson_data['lesson_teacherid'])
+											{
+												?>
+                                                    <a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'newlesson','lesson_id'=>$this->lesson_data['lesson_id']),'default',true) ?>"><i class="fa fa-edit"></i></a>
+                                     	<a  onclick="removelesson('<?php echo $this->lesson_data['lesson_id'] ?>')"><i class="fa fa-trash-o"></i></a>
+                                                <?php	
+											}
+												
+										}
+										else
+										{
+										?>
+                                          <a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'newlesson','lesson_id'=>$this->lesson_data['lesson_id']),'default',true) ?>"><i class="fa fa-edit"></i></a>
+                                     	<a  onclick="removelesson('<?php echo $this->lesson_data['lesson_id'] ?>')"><i class="fa fa-trash-o"></i></a>
+                                        <?php	
+										}
+									}
+									
+									 ?>
+	                                 
+                                     </span>
+                                    </div>
+                                    <div class="row lesson_desc">
+                                    	<?php 
+										
+										echo $this->lesson_data['lesson_desc'] ?>
+                                    </div>
+									</div>
+                                    <?php 
+									
+									if(count($this->lesson_attach)>0)
+									{
+										
+										 ?>
+                                        <div class="col-md-12 table-responsive">
+                                        <table width="100%" border="1" class="table_doc ">
+                                        <thead>
+                                        
+                                        <th>File Name <?php 
+						if($this->user->user_type=='teacher' && $this->user->user_id==$this->lesson_data['lesson_teacherid'])
+						{
+							?>
+                            
+                            	<b>(click on edit icon to rename the file)</b>
+                                                       <?php	
+						}
+						
+					?></th>
+                                        <th class="text-center">Download</th>
+                                         <th class="text-center">Open Now</th>
+                                        </thead>
+                                        <?php 
+                                        foreach($this->lesson_attach as $k=>$v)
+                                        {
+											if($v['la_type']==1)
+											{
+                                        ?>
+                                        <tr id="tr_<?php echo $v['la_id'];  ?>">
+                                        <td class="documents">
+                                         <div>
+                                        <?php 
+                                        $ext = pathinfo($v['la_name'], PATHINFO_EXTENSION);
+										$filename = pathinfo($v['la_name']);
+                                      
+                                        if($ext=='mp4' || $ext=='mp3' || $ext=='MP3' || $ext=='mov' || $ext=='MOV')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/video.jpg"  />
+                                        <?php	
+                                        }
+                                        else if($ext=='doc' || $ext=='DOC' || $ext=='DOCX' || $ext=='docx')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/word-icon.png"  />
+                                        <?php
+                                        }
+                                        else if($ext=='pdf' || $ext=='PDF')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/pdf.png"  /> 
+                                        <?php	
+                                        }
+                                        else 
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_TEMP_PATH ?>/<?php echo $v['la_name'] ?>"  />  
+                                        <?php	
+                                        }
+                                        ?>
+                                        &nbsp; &nbsp;
+                                       
+                                       <span id="la_name_<?php echo $v['la_id'] ?>" style="word-break:break-all"> <?php echo $v['la_name'] ?>	</span>
+											<?php 
+                                            if($this->user->user_type=='teacher')
+                                            {
+                                            if($this->user->user_id==$this->lesson_data['lesson_teacherid'])
+                                            {
+                                            ?>
+                                            &nbsp;<a onclick="renamefile('<?php echo $v['la_id'] ?>')" class="cursor"><i class="fa fa-edit"></i></a>
+                                            <?php
+                                            }
+                                            
+                                            }
+                                            else
+                                            {
+												 if($this->user->user_type=='admin')
+                                            {
+                                            ?>
+                                            &nbsp;<a onclick="renamefile('<?php echo $v['la_id'] ?>')" class="cursor"><i class="fa fa-edit"></i></a>
+                                            <?php }
+											
+											} ?>
+                                        </div>
+                                        <br />
+                                        <div class="hide" id="attach_<?php echo $v['la_id'] ?>">
+                                        <form method="post" action="" class="profile_form" id="renamefrom_<?php echo $v['la_id'] ?>">
+                                        	<div class="form-group">
+                                            <div class="col-md-6">
+                                            	<input type="text" name="video_name" class="form-control required" value="<?php echo $filename['filename'] ?>" id="video_name_<?php echo $v['la_id'] ?>"  />
+                                            </div>
+                                            <div class="col-md-6">
+                                            	<button name="submit" id="submit" type="button" onclick="checksubmit('<?php echo $v['la_id'] ?>')" value="Submit" class="btn btn-primary   btn btn-default">
+Submit</button>
+                                            </div>
+                                            	 
+                                            </div>
+                                            <div class="form-group"></div>
+                                        </form>
+                                        </div>
+                                        </td>
+                                        
+                                        <td class="lesson_icon text-center" >
+                                        
+                                        <a href="<?php echo APPLICATION_URL ?>/download.php?download_file=public/resources/lession_attach/<?php echo $v['la_name']  ?>"><i class="fa fa-download"></i></a>
+                                     
+                                      
+                                        
+                                        </td>
+                                        <td class="text-center">
+                                        	   <?php if($ext=='mp4' || $ext=='mp3'  || $ext=='MP3'  || $ext=='MP4')
+										{
+										?>
+                                          <a onclick="openbox('<?php echo $v['la_name'] ?>','<?php echo $ext?>')" ><i class="fa fa-search"></i></a>
+                                        <? }
+										else if($ext=='pdf' || $ext=='PDF' || $ext=='doc' || $ext=='DOC' || $ext=='docx' || $ext=='DOCX')
+										{
+											?>
+                                            <a target="_blank" href="<?=$this->baseUrl()?>/teacher/contentattach/doc/<?=$v['la_name']?>" ><i class="fa fa-search"></i></a>
+                                            <?php	
+										}
+										else
+										{
+											?>
+                                            <a onclick="openbox('<?php echo $v['la_name'] ?>','<?php echo $ext?>')" ><i class="fa fa-search"></i></a>
+                                            <?php	
+										}
+										 ?>
+                                        </td>
+                                        </tr>
+                                        
+                                        <?php	
+                                        }
+										else
+										{
+											?>
+                                            <tr id="tr_<?php echo $v['la_id'];  ?>">
+											<td class="documents">
+											<img src="<?php echo HTTP_SITEIMG_PATH ?>/video.jpg"  />
+											&nbsp; &nbsp;
+											<span id="la_name_<?php echo $v['la_id'] ?>" style="word-break:break-all">
+											<?php echo $v['la_name'] ?>	
+											</span>
+											
+										  <?php 
+										   $ext = pathinfo($v['la_name'], PATHINFO_EXTENSION);
+										   $filename = pathinfo($v['la_name']);
+										   if($this->user->user_type=='teacher')
+										   {
+												if($this->user->user_id==$this->lesson_data['lesson_teacherid'])
+												{
+												?>
+												&nbsp;<a onclick="renamefile('<?php echo $v['la_id'] ?>')" class="cursor"><i class="fa fa-edit"></i></a>
+												<?php
+												}
+											}
+												else
+												{
+													 if($this->user->user_type=='admin')
+										  		 {
+												?>
+												&nbsp;<a onclick="renamefile('<?php echo $v['la_id'] ?>')" class="cursor"><i class="fa fa-edit"></i></a>
+												<?php
+										  			 }
+												 } ?>
+											
+											   <br />
+											
+											<div class="hide" id="attach_<?php echo $v['la_id'] ?>">
+                                        <form method="post" action="" class="profile_form" id="renamefrom_<?php echo $v['la_id'] ?>">
+                                        	<div class="form-group">
+                                            <div class="col-md-6">
+                                            	<input type="text" name="video_name" class="form-control required" value="<?php echo $filename['filename'] ?>" id="video_name_<?php echo $v['la_id'] ?>"  />
+                                            </div>
+                                            <div class="col-md-6">
+                                            	<button name="submit" id="submit" type="button" onclick="checksubmit('<?php echo $v['la_id'] ?>')" value="Submit" class="btn btn-primary   btn btn-default">
+Submit</button>
+                                            </div>
+                                            	 
+                                            </div>
+                                            <div class="form-group"></div>
+                                        </form>
+                                        </div>
+											</td>
+											<td class="lesson_icon text-center">
+                                            
+                                            
+                                             <a  href="<?php echo APPLICATION_URL ?>/downloadtoken.php?token=<?php echo $v['la_token']  ?>"><i class="fa fa-download"></i></a>
+												<!--<a target="_blank" href="<?php echo SITE_HTTP_URL  ?>/teacher/download/token/<?php echo $v['la_token'] ?>"><i class="fa fa-download"></i></a>-->
+											</td>
+											<td class="lesson_icon text-center">
+											<a onclick="openboxvideo('<?php echo $v['la_token'] ?>')" ><i class="fa fa-search"></i></a>
+											</td>
+											
+                                            <input type="hidden" name="video_token[]" id="uploaded_token_<?=$v['la_id']?>" value="<?php echo $v['la_token'] ?>" />
+											</tr>
+                                            <?php	
+										}
+										}
+                                        ?>
+                                        </table>
+                                    	
+                                    </div>
+                                    <?php } ?>
+                                   </div>
+                                   </div>
+                          <?         
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Lesson Found
+                                    
+                                                                    </div>
+                                <?php
+							}
+							 ?>
+                        </div>
+                    </div>
+                    
+                   
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<!-- Modal -->
+<div  id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">View File</h4>
+      </div>
+      <div class="modal-body text-center">
+        	<div id="mediaplayer"></div>
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="closthis">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+function openboxvideo(filename)
+	{
+		$('#myModal').modal('show');
+		$('#mediaplayer').html("<ziggeo ziggeo-video='"+filename+"'   ziggeo-width=320 ziggeo-id='ziggeo-video'     ziggeo-height=240></ziggeo>");
+			setTimeout(function(){ embedding = ZiggeoApi.Embed.get("ziggeo-video");
+		  //alert(embedding);
+		  }, 100);
+			
+	}
+
+	function removelesson(idval)
+	{
+		var testconfirm=confirm("Are you sure you want to remove this lesson");
+		if(testconfirm)
+		{
+			window.location.href="<?php echo $this->baseUrl() ?>/teacher/removelesson/lesson_id/"+idval;	
+		}
+		
+	}
+	$('#myModal').on('hidden.bs.modal', function () {
+    // do something…
+	if(embedding!='' && typeof(embedding)!='undefined'){
+	  	embedding.stop(); 
+	}
+   else{
+	 jwplayer("mediaplayer").stop();
+   }
+	});
+	function openbox(filename,fileExt)
+	{
+		if(fileExt=='mp4' || fileExt=='mp3' || fileExt=='MP3' || fileExt=='MP4' || fileExt=='MOV')
+		{
+			$('#myModal').modal('show');
+			$('#mediaplayer').html("");
+			jwplayer("mediaplayer").setup
+			({
+				
+						flashplayer: "<?=$this->baseUrl()?>/public/plugins/mediaplayer/player.swf",
+						file: "<?php echo HTTP_TEMP_PATH ?>/"+filename,
+						image: "<?php echo HTTP_SITEIMG_PATH ?>/video.jpg",
+						
+						/*autostart: false,*/
+						
+						//stretching: "none",
+					/*	"controlbar.position": "bottom",
+						"controlbar.idlehide": "false",
+						plugins: 'http://plugins.gitraffic.com/plugins/GirafficJW50Plugin.swf',*/
+				 });	
+		}
+		else
+		{
+			$('#myModal').modal('show');
+			$('.modal-body').html(" ");
+			$('.modal-body').html("<div id='mediaplayer'></div>");
+			$('#mediaplayer').html("<img src='<?php echo HTTP_TEMP_PATH ?>/"+filename+"' class='img-responsive' />");
+				
+		}
+	}
+	$('#closthis').click(function(e) {
+		if(embedding!='' && typeof(embedding)!='undefined'){
+	  	embedding.stop(); 
+	}
+   else{
+    jwplayer("mediaplayer").stop();
+   }
+	});
+	
+	function renamefile(attach_id)
+	{
+		$('#attach_'+attach_id).removeClass('hide');
+		
+	}
+	
+	function checksubmit(idval)
+	{
+		if($('#renamefrom_'+idval).valid())
+		{
+			$('#wrap').show();
+			var filename=$('#video_name_'+idval).val();
+			$.ajax({
+			url: baseUrl+"/teacher/checkfile/lesson_id/<?php echo $this->lesson_id ?>/la_id/"+idval+"/filename/"+filename,
+			data:"",
+			success: function(data){
+				if(data==1)
+				{
+						$.ajax({
+						url: baseUrl+"/teacher/reamefile/lesson_id/<?php echo $this->lesson_id ?>/la_id/"+idval+"/filename/"+filename,
+						data:"",
+						success: function(data){
+							
+							$('#wrap').hide();
+							$('#attach_'+idval).addClass('hide');
+							$('#la_name_'+idval).html(data);
+							
+							}
+						});
+				}
+				else
+				{
+					$('#wrap').hide();
+					alert("Please use unique name");	
+				}
+			}
+			});
+			
+		}
+	}
+</script>
+
+
+ 

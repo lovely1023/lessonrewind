@@ -1,0 +1,90 @@
+
+<div class="row">
+ 	<div class="col-md-12 ">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet box purple">
+			<div class="portlet-title">
+				<div class="caption"><i class="<?php echo $this->pageIcon?>"></i> <?php echo $this->pageHeading?> </div>
+			</div>
+			
+			<div class="portlet-body">
+			
+				
+				<form method="post" action="<?php  echo $this->url(array('controller'=>'subadmin','action'=>'removesubadmin', 'module'=>'admin'),'default',true) ?>"  onsubmit="return checkSelects();" >
+			
+				<div class="table-toolbar">
+                	<?
+					global $_blocked_resources;
+                    if((!isset($_blocked_resources['subadmin']['static'])) ||((isset($_blocked_resources['subadmin']['static']))&&(!in_array('addsubadmin',$_blocked_resources['subadmin']['static'])))){
+					?>
+					<div class="btn-group">
+						<a href="<?php  echo $this->url(array('controller'=>'subadmin','action'=>'addsubadmin','module'=>'admin'),'default',true) ?>" class="btn green"> <i class="fa fa-plus"></i> Add Sub Admin </a>
+					</div>
+                    <? }?>
+					<?
+                    if((!isset($_blocked_resources['subadmin']['static'])) ||((isset($_blocked_resources['subadmin']['static']))&&(!in_array('removesubadmin',$_blocked_resources['subadmin']['static'])))){
+					?>
+					<div class="btn-group">
+						<button id="sample_editable_1_new" class="btn red"> <i class="fa fa-trash-o"></i> Delete Selected </button>
+ 					</div>
+                    <? }?>
+ 			</div>
+ 					<table id="sample_1" class="table table-striped table-bordered table-hover dataTable list-container">
+					<thead>
+						<tr>
+							<th width="5%">Id</th>
+							<th width="5%"><input type="checkbox" class="group-checkable"  data-set="#sample_1 .checkboxes"  name="deletebcchk" id="deletebcchk" /></th>
+							<th>Full Name</th>
+                            <th>Email Address</th>
+                             <th>Status</th>
+							<th width="14%">Last Modified</th>
+							<th width="8%">Edit</th>
+							<th width="8%">View</th>
+						</tr>
+					</thead>
+					
+				</table>
+			
+			</form>
+			
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+
+
+</div>
+
+
+ 
+
+
+
+ <script type="text/javascript" charset="utf-8">
+
+$(document)	 .ready(function(e) {
+	$('#sample_1').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+		"bAutoWidth": false,
+		"responsive": true,
+		
+ 		"sAjaxSource": "<?php echo $this->baseUrl()?>/admin/subadmin/getsubadmins/type/<?php echo $this->request_type?>" ,
+		//"aaSorting": [[ 0, "desc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [1,2,3,4,5,6,7] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {re_init();	}
+	} );
+});
+
+
+</script>               
+				
+          

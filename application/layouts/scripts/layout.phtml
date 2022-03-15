@@ -1,0 +1,127 @@
+<?php echo $this->docType("HTML5");?>
+<html lang="en">
+<head>
+<?php 
+	echo $this->headMeta()."\n"; 
+	echo $this->headTitle()."\n";
+	echo $this->headLink()."\n";
+	global $myActionName,$myControllerName,$myModuleName;
+	$myControllerName=Zend_Controller_Front::getInstance()->getRequest()->getControllerName();	
+	$myActionName=Zend_Controller_Front::getInstance()->getRequest()->getActionName();
+	$myModuleName=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
+	
+?>
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="<?php echo $this->baseUrl()?>/public/front_js/html5shiv.js"></script>
+  <script src="<?php echo $this->baseUrl()?>/public/front_js/respond.min.js"></script>
+<![endif]-->
+	
+<script src="<?php echo $this->baseUrl('public/plugins/jquery-1.11.0.min.js')?>"></script>
+<script>var baseUrl = SITEURL = SITE_URL = '<?php echo $this->baseUrl()?>';</script>	
+<link rel="stylesheet" href="https://assets-cdn.ziggeo.com/v1-latest/ziggeo.css" />
+<script  src="https://assets-cdn.ziggeo.com/v1-latest/ziggeo.js"></script>
+
+<script>
+
+var controller='<?=$myControllerName?>';
+var action='<?=$myActionName?>';
+var module1='<?=$myModuleName?>';
+var Ziggeotoken="<?php echo $this->site_configs['ziggeo_token'] ?>";
+ ZiggeoApi.Config.webrtc = true;
+	//ZiggeoApi.Config.disable_first_screen = true;
+	ZiggeoApi.token =Ziggeotoken; 
+</script>		
+<style>
+@-ms-viewport{width:auto!important}
+</style>
+</head>
+<body>
+<style>
+ #wrap {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  min-width: 960px;
+  min-height: 610px;
+ /* background-image:url(../img/overlay.png);
+  background-repeat:repeat;*/
+  background-color:#fff;
+  z-index:9999;
+  top:0px;
+  opacity:0.8;
+}
+ #logo-preloader {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  margin-left: -35px;
+  margin-top: -35px;
+}
+</style>
+ <div id="wrap" align="center">
+
+ <img src="<?=HTTP_SITEIMG_PATH?>/loading1.gif" width="100" id="logo-preloader" />
+</div>
+ <script>
+$(window).load(function(e) {
+ $('#wrap').hide();
+ 
+});
+
+</script>
+
+	<?php
+	if($myControllerName=='user' && $myActionName=='signin'){
+	}
+	else{
+	 echo $this->render('header.phtml'); } ?>
+	<!--========================================== //End PROJECT-NAME Menu Section-->
+	
+	<?php echo $this->render("sub_home_slider.phtml");?>
+	<?php 
+	$container='container';
+	  if((($myControllerName=='index') && ($myActionName=='index')) || (($myControllerName=='user') && ($myActionName=='register')) || (($myControllerName=='user') && ($myActionName=='login')) || (($myControllerName=='user') && ($myActionName=='forgotpassword') ) || (($myControllerName=='user') && ($myActionName=='resetpassword') ))
+			{
+			$container="";
+			}
+			
+			?>
+  	<div class="main-container-outer <?php echo $container; ?>">
+		<div class="main-layout-container">
+			
+       
+                        <?php echo $this->getHelper('Messages')->getMessages();?> 
+                        <?php echo $this->render("sub_show_messages.phtml");?>
+                   
+                
+			<div class="row">
+				<div id="flash-message" class="alert alert-dismissable" style="display:none;"></div>
+					<?php echo $this->layout()->content?>
+			
+			</div>
+		</div>
+	</div>
+	
+	
+ 	
+	<!--========================================== //End PROJECT-NAME Layout Section-->
+	
+	<?php echo $this->render("sub_full_map.phtml");?>
+	
+
+ 	
+	<?php 
+	if($myControllerName=='user' && $myActionName=='signin'){
+	}
+	else{
+	echo $this->render('footer.phtml'); } ?>
+	<!--========================================== //End PROJECT-NAME Footer Section-->
+	
+    
+	<?php echo $this->headScript();?>
+	
+     
+  </body>
+</html>

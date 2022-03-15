@@ -1,0 +1,28 @@
+<div class="row profile">
+	<div class="col-md-12">
+		<!--BEGIN TABS-->
+		<div class="tabbable tabbable-custom tabbable-full-width">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tab_1_3" data-toggle="tab">Account </a></li>
+			</ul>
+			<div class="tab-content">
+				<!--tab_1_2-->
+				<div class="tab-pane active" id="tab_1_3">
+					<div class="row profile-account">
+						<div class="col-md-3">
+							<?php echo $this->render("profile/_profile_side_bar.phtml");?>
+						</div>
+						<div class="col-md-9">
+							 <div class="custom-form-wrapper">
+								<?php echo $this->form?>
+							 </div>
+ 						</div>
+						<!--end col-md-9-->
+					</div>
+				</div>
+				<!--end tab-pane-->
+			</div>
+		</div>
+		<!--END TABS-->
+	</div>
+</div>

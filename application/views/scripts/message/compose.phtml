@@ -1,0 +1,145 @@
+
+<style type="text/css"> .btn { border:none !important; box-shadow:none !important; padding: 8px 6px; }
+.form-horizontal .control-label {
+    text-align: right;
+}
+ul.tagit input[type="text"] { font-size:13px; }
+.btn span {
+    color: #000;
+}
+body
+{
+	  background: #eee !important;
+}
+</style>
+<br />
+<br /> 
+ <div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<h5 class="text-center">Welcome "<?php echo  $this->user->user_first_name." ".$this->user->user_last_name; ?>"</h5>
+			<?php 
+			if(isset($this->receiver_data))
+			{
+				?>
+                <h4 class="text-center"><b>Write a message  <?php
+				if(isset($this->receiver_data['user_first_name']) && $this->receiver_data['user_first_name']!='' )
+				{
+				  echo " for ".$this->receiver_data['user_first_name'].' '.$this->receiver_data['user_last_name'];
+				 
+				 }
+				  ?></b></h4>
+                <?php		
+			} 
+			?>
+			
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/teacher1.png"  /></h5>
+            <br />
+            
+            <br />
+            <div class="row">
+            
+           	<div class="ad_block_page  padding0">
+    <?php /*?><div class="text-left hidden-xs">
+        <? include("upperbar.phtml"); ?>
+    </div><?php */?>
+    <div class="formborder tab-content container9" >
+        <div class="form-body">
+       	 <div class="row">
+	<div class="col-md-12">
+       <div class="portlet box ">
+		
+        <div class="ad_block_page">
+            <div>
+                <ul  class="nav nav-tabs" role="tablist">
+                   <li role="presentation" class="active">
+                       <a href="<?=APPLICATION_URL?>/message/compose" > Compose </a>
+                   </li>
+                   <li role="presentation" >
+                       <a href="<?=APPLICATION_URL?>/message"> Inbox </a>
+                   </li>
+                   <li role="presentation"  >
+                       <a href="<?=APPLICATION_URL?>/message/outbox"> Outbox </a>
+                   </li>
+                </ul>
+             </div>
+   
+             
+            <div class="tab-content" style="  padding:10px; overflow:hidden">
+            	<?=$this->form ?>
+            </div> 
+		
+        </div>
+	</div>
+ 
+  </div>
+</div>
+        </div>
+    </div>
+</div>
+                   
+                    
+             <br />
+             <br />
+                    
+             
+            </div>
+		</div>
+	<!--/span-->
+</div>
+<br />
+<br />
+</div>
+ 
+
+
+<script>
+
+   
+
+
+$('#compose_form').submit(function(e) {
+    var err=0;  
+	if($("#send_to_field").val()==null)
+   {
+	   var err=1; 
+	    $("#attr_span").css("display","block");
+   }
+   else
+   {
+	   $("#attr_span").css("display","none");
+   }
+   var vl=CKEDITOR.instances['message_content'].getData(); 
+   vl=vl.trim();
+   if(vl==null || vl=='')
+   { 
+	   var err=1; 
+	    $("#attr_span1").css("display","block");
+   }
+   else
+   {
+	   $("#attr_span1").css("display","none");
+   }
+   if(err==0)
+   {
+	    return true;
+   }
+   else
+   {
+	   return false;
+   }
+	
+});
+
+function cancelmsg()
+{
+	<?php 
+	if(isset($this->student_id))
+	{
+	?>
+	window.location.href="<?php echo SITE_HTTP_URL ?>/teacher/viewdetail/lesson_id/<?php echo $this->lesson_id ?>/student_id/<?php echo $this->student_id ?>";	
+	<?php } ?>
+}
+
+</script>

@@ -1,0 +1,470 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper addnew">
+        <div class="col-sm-10 col-md-offset-1">
+        	<!--<div class="row">
+           <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>
+           </div>-->
+        	<h1><?php echo $this->pageHeadingshow ?></h1>
+            <hr />
+            <div class="row">
+            	<div class="row">
+                <form method="post" action="" class="profile_form">
+                		<div class="row">
+                        	<label>Teacher's First Name</label>
+                        	<?php echo $this->form->user_first_name ?>
+                        </div>
+                        <div class="row">
+                        	<label>Teacher's Last Name</label>
+                        	<?php echo $this->form->user_last_name ?>
+                        </div>
+                        <div class="row">
+                        	<label>User Name (Email Address)</label>
+                        	<?php echo $this->form->user_email ?>
+                        </div>
+                        <div class="row"  id="instrument_text">
+                        	<label class="widthdiv">Instrument (current)  <span class="instrument_add"><a><b>+/- Instruments</b></a></span>
+                             <input type="text" name="ins_name" value="" id="ins_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Instrument Name" class="form-control pull-right search_sudents hide_clss1"   onkeyup="searchFamily1('main_ins','ins_name');" />
+                            </label>
+                            <div class="hide_clss main_div" id="main_ins">
+                            <?php echo $this->form->teacher_instruments ?>
+                            </div>
+                            <div class="row textarea_div">
+                            	(NONE)
+                            </div>
+                        </div>
+                        <div class="row" id="student_text">
+                        	<label class="widthdiv">Private Students (current)  <span class="instrument_add"><a><b>+/- Students</b></a></span>
+                                <input type="text" name="student_name" value="" id="student_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Student Name" class="form-control pull-right search_sudents hide_clss1"   onkeyup="searchFamily1('main_student','student_name');" />
+                            </label>
+                               <div class="hide_clss main_div" id="main_student">
+                        	<?php echo $this->form->teacher_students ?>
+                            	</div>
+                                 <div class="row textarea_div">
+                            	(NONE)
+                               
+                               </div>
+                        </div>
+                        
+                        <div class="row" id="class_text">
+                        	<label class="widthdiv">Group Classes (current)   <span class="instrument_add"><a><b>+/- Group Classes</b></a></span>
+                            <input type="text" name="class_name" value="" id="class_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Class Name" class="form-control pull-right search_sudents hide_clss1"   onkeyup="searchFamily1('main_teacher','class_name');" />
+                            </label>
+                             <div class="hide_clss main_div" id="main_teacher">
+                        	<?php echo $this->form->teacher_class ?>
+                            </div>
+                             <div class="row textarea_div">
+                            	(NONE)
+                               
+                               </div>
+                        </div>
+                        <div class="row">
+                        <a class="btn blue btn-primary  btn btn-default pull-right " href="<?php echo SITE_HTTP_URL ?>/teacher">Cancel</a>
+                        	<?php echo $this->form->bttnsubmit ?>
+                        </div>
+                </form>
+                
+              <?php /*?>  <?php echo $this->form ?><?php */?>
+                </div>
+            </div>
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<?php
+if(isset($this->teacher_data) && !empty($this->teacher_data))
+{
+	?>
+    <script>
+    	$('#instrument_text .textarea_div').html('');
+		$('#student_text .textarea_div').html('');
+		$('#class_text .textarea_div').html('');
+    </script>
+    <?
+	foreach($this->teacher_data['teacher_instruments'] as $k=>$v)
+	{
+			?>
+            <script>
+					var instru_id='<?php echo $v ?>';
+					var id_val='#teacher_instruments-'+instru_id;
+					var text_name=$(id_val).parent().children('span').html();
+					if(instru_id!='None')
+						{
+								$('#instrument_text .textarea_div').append('<div class="tag_div" id="ins_'+instru_id+'">'+text_name+'</div>');	
+						}
+						else
+						{
+							
+								$('#instrument_text .textarea_div').html('(None)');
+						}
+            </script>
+            <?php
+	}
+	foreach($this->teacher_data['teacher_students'] as $k=>$v)
+	{
+			?>
+            <script>
+            		var instru_id='<?php echo $v ?>';
+					var id_val='#teacher_students-'+instru_id;
+					var text_name=$(id_val).parent().children('span').html();
+					if(instru_id!='None')
+						{
+								$('#student_text .textarea_div').append('<div class="tag_div" id="stu_'+instru_id+'">'+text_name+'</div>');	
+						}
+						else
+						{
+							
+								$('#student_text .textarea_div').html('(None)');
+						}
+            </script>
+            <?php	
+	}
+	foreach($this->teacher_data['teacher_class'] as $k=>$v)
+	{
+		?>
+        <script>
+        			var instru_id='<?php echo $v ?>';
+					var id_val='#teacher_class-'+instru_id;
+					var text_name=$(id_val).parent().children('span').html();
+					if(instru_id!='None')
+						{
+								$('#class_text .textarea_div').append('<div class="tag_div" id="class_'+instru_id+'">'+text_name+'</div>');	
+						}
+						else
+						{
+							
+								$('#class_text .textarea_div').html('(None)');
+						}
+        </script>
+        <?php	
+	}
+?>
+<script>
+		var user_id='<?php echo $this->teacher_data['user_id']?>';
+</script>
+<?php	
+}
+ ?>
+ 
+ <script>
+
+ 
+ 	function addInstrument(idval)
+	{
+		var instrument_id=$(idval).val();
+		if($('#instrument_text .textarea_div .tag_div').length>0)
+		{
+				
+		}
+		else
+		{
+			$('#instrument_text .textarea_div').html('');	
+		}
+		if($(idval).is(':checked'))
+		{
+			if(instrument_id=='None' )
+			{
+				$('#instrument_text .textarea_div').html('(NONE)');		
+				$("input[type='checkbox'][name='teacher_instruments[]']").each(function(){
+						
+						var instru_id=$(this).val();
+						if(instru_id!='None')
+						{
+						
+							$(this).removeAttr('checked');
+						}
+				});
+				}
+			else
+			{
+				$('#teacher_instruments-None').val('None');
+				$('#teacher_instruments-None').removeAttr('checked');
+				var text_name=$(idval).parent().children('span').html();
+				var insid="#ins_"+instrument_id;
+				if($(insid).length==0)
+				{				
+				$('#instrument_text .textarea_div').append('<div class="tag_div" id="ins_'+instrument_id+'">'+text_name+'</div>');
+				
+						var temp = [];
+						$('#instrument_text').find('.tag_div').each(function(index, element) {
+							var idval=$(element).attr('id');
+							idval=idval.split('ins_');
+							var valattr=$(element).html();
+                            temp.push({v:valattr,k: idval[1]});
+                        });
+						temp.sort(function(a,b){
+						var	 c = a.v.toLowerCase(); 
+						var	 d = b.v.toLowerCase(); 
+						if(c > d){ return 1}
+						if(c < d){ return -1}
+						return 0;
+						});
+						$('#instrument_text').find('.tag_div').remove();
+						$.each(temp, function(key, obj) {
+							$('#instrument_text .textarea_div').append($('<div class="tag_div" id="ins_'+obj.k+'">'+obj.v+'</div>'));
+						});
+				}
+			}
+		}
+		else
+		{
+			if(instrument_id=='None' )
+			{
+				$('#instrument_text .textarea_div').html('(NONE)');		
+				
+			}
+			else
+			{
+				var insid="#ins_"+instrument_id;
+				if($(insid).length!=0)
+				{				
+				$(insid).remove();
+				}
+			}
+		}
+	}
+	
+	function addStudent(idval)
+	{
+		var instrument_id=$(idval).val();
+		if($('#student_text .textarea_div .tag_div').length>0)
+		{
+		}
+		else
+		{
+			$('#student_text .textarea_div').html('');	
+		}
+		if($(idval).is(':checked'))
+		{
+			if(instrument_id=='None' )
+			{
+				$('#student_text .textarea_div').html('(NONE)');		
+				$("input[type='checkbox'][name='teacher_students[]']").each(function(){
+						
+						var instru_id=$(this).val();
+						if(instru_id!='None')
+						{
+						
+							$(this).removeAttr('checked');
+						}
+				});
+				}
+			else
+			{
+				$('#teacher_students-None').val('None');
+				$('#teacher_students-None').removeAttr('checked');
+				var text_name=$(idval).parent().children('span').html();
+				var insid="#ins_"+instrument_id;
+				if($(insid).length==0)
+				{				
+				$('#student_text .textarea_div').append('<div class="tag_div" id="stu_'+instrument_id+'">'+text_name+'</div>');
+				
+						var temp = [];
+						$('#student_text').find('.tag_div').each(function(index, element) {
+							var idval=$(element).attr('id');
+							idval=idval.split('stu_');
+							var valattr=$(element).html();
+                            temp.push({v:valattr,k: idval[1]});
+                        });
+					
+						temp.sort(function(a,b){
+						var	 c = a.v.toLowerCase(); 
+						var	 d = b.v.toLowerCase(); 
+							
+						if(c > d){ return 1}
+						if(c < d){ return -1}
+						return 0;
+						});
+						$('#student_text').find('.tag_div').remove();
+						$.each(temp, function(key, obj) {
+							console.log(key+'----------------------'+obj);
+							console.log(obj);
+								$('#student_text .textarea_div').append($('<div class="tag_div" id="stu_'+obj.k+'">'+obj.v+'</div>'));
+						});
+				
+				}
+			}
+		}
+		else
+		{
+			
+			if(instrument_id=='None' )
+			{
+				$('#student_text .textarea_div').html('(NONE)');		
+				
+			}
+			else
+			{
+				
+				var insid="#stu_"+instrument_id;
+				if($(insid).length!=0)
+				{				
+				$(insid).remove();
+				}
+			}
+		
+		}
+		
+	}
+	
+	function addClassVal(idval)
+	{
+		var instrument_id=$(idval).val();
+		if($('#class_text .textarea_div .tag_div').length>0)
+		{
+				
+		}
+		else
+		{
+			$('#class_text .textarea_div').html('');	
+		}
+		if($(idval).is(':checked'))
+		{
+			
+			if(instrument_id=='None' )
+			{
+				$('#class_text .textarea_div').html('(NONE)');		
+				$("input[type='checkbox'][name='teacher_class[]']").each(function(){
+						
+						var instru_id=$(this).val();
+						if(instru_id!='None')
+						{
+						
+							$(this).removeAttr('checked');
+						}
+				});
+				}
+			else
+			{
+				$('#teacher_class-None').val('None');
+				$('#teacher_class-None').removeAttr('checked');
+				var text_name=$(idval).parent().children('span').html();
+				var insid="#class_"+instrument_id;
+				if($(insid).length==0)
+				{				
+						
+						$('#class_text .textarea_div').append('<div class="tag_div" id="class_'+instrument_id+'">'+text_name+'</div>');
+						var temp = [];
+						$('#class_text').find('.tag_div').each(function(index, element) {
+							var idval=$(element).attr('id');
+							idval=idval.split('class_');
+							var valattr=$(element).html();
+                            temp.push({v:valattr,k: idval[1]});
+                        });
+					
+						temp.sort(function(a,b){
+						var	 c = a.v.toLowerCase(); 
+						var	 d = b.v.toLowerCase(); 
+							
+						if(c > d){ return 1}
+						if(c < d){ return -1}
+						return 0;
+						});
+						$('#class_text').find('.tag_div').remove();
+						$.each(temp, function(key, obj) {
+							console.log(key+'----------------------'+obj);
+							console.log(obj);
+								$('#class_text .textarea_div').append($('<div class="tag_div" id="class_'+obj.k+'">'+obj.v+'</div>'));
+						});
+						
+				}
+			}
+		}
+		else
+		{
+			
+			if(instrument_id=='None' )
+			{
+				$('#class_text .textarea_div').html('(NONE)');		
+				
+			}
+			else
+			{
+				
+				var insid="#class_"+instrument_id;
+				if($(insid).length!=0)
+				{				
+				$(insid).remove();
+				}
+			}
+		
+		}
+		
+	}
+	
+	$('.instrument_add').click(function(e) {
+       
+	   
+	   var newrest_hide_div=$(this).parent().parent().children('.main_div').attr('id');
+	  var hide_id='#'+newrest_hide_div;
+	   if($(hide_id).hasClass('hide_clss'))
+	   {
+		  
+			  $(hide_id).removeClass('hide_clss');
+			    $(hide_id).niceScroll({  cursorcolor: "#ff8400",
+        cursoropacitymin: 0.3,
+        background: "#bbb",
+        cursorborder: "0",
+        autohidemode: false,
+        cursorminheight: 30});
+		  $(this).parent().children('.search_sudents').removeClass('hide_clss1');
+		 	 
+		 	
+	   }
+	   else
+	   {
+		  $(hide_id).addClass('hide_clss');
+		 $(hide_id).getNiceScroll().remove();
+		 	$(this).parent().children('.search_sudents').addClass('hide_clss1');  
+		  }
+    });
+	
+	$('.profile_form').submit(function(e) {
+		
+		if($('.profile_form').valid())
+		{ 
+		
+						
+
+		}
+		else
+		{
+			$('.textarea_div').css('border-color','#8bd4e8');
+			
+			if($('span[for="teacher_students[]"]').is(':visible'))
+			{
+				$('#student_text .textarea_div').css('border-color','#b94a48');
+			}	
+			if($('span[for="teacher_instruments[]"]').is(':visible'))
+			{
+				$('#instrument_text .textarea_div').css('border-color','#b94a48');
+			}
+			if($('span[for="teacher_class[]"]').is(':visible'))
+			{
+				$('#class_text .textarea_div').css('border-color','#b94a48');
+			}	
+		}
+        
+		
+    });
+ </script>
+
+
+
+ 

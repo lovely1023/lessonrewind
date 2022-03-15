@@ -1,0 +1,93 @@
+<div class="row">
+ 	<div class="col-md-12 ">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet box purple">
+			<div class="portlet-title">
+				<div class="caption"><i class="<?php echo $this->pageIcon?>"></i> <?php echo $this->pageHeading?> </div>
+			</div>
+			
+			<div class="portlet-body">
+			
+				<form action="<?php echo $this->baseUrl() ?>/admin/user/remove" method="post" onsubmit="return checkSelects();" >
+                <div class="btn-group">
+                <a href="<?php echo $this->baseUrl()?>/admin/user/addschooluser" class="btn green"> <i class="fa fa-plus"></i> Add New School </a>
+                </div>
+			<div class="btn-group"><button id="sample_editable_1_new" class="btn red"> <i class="fa fa-trash-o"></i> Delete Selected </button></div>
+            <div class="btn-group">
+            <?php 
+			if($this->status==0)
+			{
+				?>
+                <a id="sample_editable_1_new" class="btn default" href="<?php echo SITE_HTTP_URL ?>/admin/user/schooluser/param/1"> <i class="fa fa-search"></i> Active Schools </a>
+                <?php	
+			}
+			else
+			{
+					?>
+                  <a id="sample_editable_1_new" class="btn default" href="<?php echo SITE_HTTP_URL ?>/admin/user/schooluser"> <i class="fa fa-search"></i> All Schools </a>
+                    <?php		
+			}
+			?>
+            </div>
+            <br />
+            <div class="row"></div>
+            <br />
+ 					<table class="table table-striped table-bordered table-hover dataTable" id="sample_1">
+						<thead>
+							<tr>
+								<th width="5%" >S.NO</th>
+								<th width="5%"><input type="checkbox" class="group-checkable"  data-set="#sample_1 .checkboxes"  name="deletebcchk" id="deletebcchk" /></th>
+                                <th>Name Of School <span style="font-size:12px; color:#99767f">(Click on School's Name to go to School Dashboard) </span> </th>
+                                 <th>User Type</th>
+								<th>Photo</th>
+								<th>Last Name</th>
+                                <th>First Name</th>
+								<th>Email Address</th>
+                               
+                              <!--  <th>Account Type</th>-->
+ 								<th>User Status</th>
+								<th>Edit</th>
+                             
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+			
+			</form>
+			
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+
+
+</div>
+
+
+
+<!-- END EXAMPLE TABLE PORTLET-->
+<script type="text/javascript" charset="utf-8">
+$(document)	 .ready(function(e) {
+	$('#sample_1').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+ 		"sAjaxSource": "<?php echo $this->baseUrl()?>/admin/user/getschoolusers/type/<?php echo $this->request_type?>/user_type/<?php echo $this->user_type?>/status/<?php echo $this->status ?>" ,
+		"aaSorting": [[ 0, "desc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [1,2,3,4,5,6,7] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+			re_init();
+		}
+	} );
+});
+</script>
+
+ 

@@ -1,0 +1,19 @@
+<div class="row-fluid">
+	<div class="span8 our-team-left ">
+        <h1 class="team-heading"><?php echo $this->heading;?></h1>
+        <div class="page-content"><?php echo $this->content['content_value']?></div>
+     </div>
+    
+    <!-- begin : team Members -->
+    <div class="span4 member-list-main">
+        <h1 class="team-heading">&nbsp;</h1>
+        <div class="row-fluid">
+        	<?php echo $this->getHelper('Messages')->getMessages();?>
+            <div class="span12 bg-2 contact-form-main" >
+                <h2>New Listing Alerts</h2>
+                <?php echo $this->form?>
+            </div>
+        </div>
+     </div>
+    <!-- end : team Members -->
+</div>

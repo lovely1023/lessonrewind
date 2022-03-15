@@ -1,0 +1,95 @@
+<?php 
+		
+	$params = array();	
+	$params=Zend_Controller_Front::getInstance()->getRequest()->getParams();
+?>
+<?php 
+
+ 
+$queryString = "";
+
+
+if(@count($this->getHelper('baseUrl')->view->queryString) > 0 && @is_array($this->getHelper('baseUrl')->view->queryString))
+$queryString = http_build_query($this->getHelper('baseUrl')->view->queryString); 
+
+ $page_vars=$this->getVars(); 
+  
+
+?>
+
+
+<div>
+	<div class="col-md-12 padding0">        
+        <?php if($this->pageCount){?>
+         <div class="text-center" >
+         
+         	<ul class="pagination fontsize12 textupper" style="margin:0;">
+            	<?
+                	if($this->current==$this->first)
+					{
+						$display_class_pre='hide';
+					}
+					else
+					{
+						$display_class_pre='';
+					}
+				?>
+                 <?php if (isset($this->first)){ ?>
+                    <li><a href="<?php echo $this->url(array_merge($params,array('page' => $this->first))); ?>"><span class="page_first"><</span></a> </li>
+                <?php }else{ ?>
+                    <li class="disabled"><a href="#"><span class="page_first"><</span></a> </li>
+                <?php } ?>
+                <?php if (isset($this->previous)){ ?>
+                    <li><a style="padding-top: 3px; margin-top:11px;" href="<?php echo $this->url(array_merge($params,array('page' => $this->previous))); ?>"><div id="paginationleft"></div></a> </li>
+                <?php }else{ ?>
+                    <li class="disabled"><a href="#" style="padding-top: 3px; margin-top:11px;"><div id="paginationleft"></div></a> </li>
+                <?php } ?>
+            	<?php 
+                    foreach($this->pagesInRange as $page=>$pageno){
+                        if($this->current!=$pageno){ ?>		
+                        <li class="fontsize14"> <a href="<?php echo $this->url(array_merge($params,array('page' => $page))); ?>"><?=$pageno?></a></li>
+                        <?php }else{ ?>
+                        <li class="disabled fontsize14"><a href="#"><?=$pageno?></a></li>
+                        <?php }
+                    }
+                ?>
+                 <?php if(isset($this->next)){?>
+                    <li><a style="padding-top: 3px; margin-top:11px;" href="<?php echo $this->url(array('page' => $this->next)).(($queryString!="")?"?".$queryString:""); ?>"><div id="paginationright"></div> </a></li>  
+                 <?php }else{ ?>
+                    <li class="disabled"><a href="#" style="padding-top: 3px; margin-top:11px;"><div id="paginationright"></div> </a></li>  
+                <?php } ?>
+                <?php if(isset($this->last)){?>
+                    <li><a href="<?php echo $this->url(array('page' => $this->last)).(($queryString!="")?"?".$queryString:""); ?>"><span class="page_first">></span></a></li>  
+                 <?php }else{ ?>
+                    <li class="disabled"><a href="#"><span class="page_first">></span></a></li>  
+                <?php } ?>
+            </ul>
+         </div>
+        
+        <div class="clearfix"></div>
+        <!--<div class="row">
+            <div class="col-md-12 col-xs-12 col-sm-12 text-right">
+            	<h5 style="font-weight:600"><?php echo $this->firstItemNumber; ?> - <?php echo $this->lastItemNumber; ?> of  <?php echo $this->totalItemCount; ?></h5>
+            </div>
+        </div>-->
+
+        
+        <?php }?>
+     </div>
+</div>
+
+ 
+<script type="text/javascript">
+function changeItemCount(sel){
+	var currUrl='<?php echo $this->url();?>';	
+	var currUrl='<?php echo $this->url(array('itemcountpage' => 'setitemcount')) ?>';	
+	if(currUrl.indexOf("?")>=0){
+		currUrl="<?php $this->url() ?>?itemcountpage="+sel.value ;
+	}else{
+		var currUrl='<?php echo $this->url(array('itemcountpage' => 'setitemcount')).(($queryString!="")?"?".$queryString:""); ?>';	
+		currUrl=currUrl.replace("setitemcount",sel.value);	
+	}
+
+	window.location=currUrl ;
+}
+</script>

@@ -1,0 +1,949 @@
+<link href="//assets.ziggeo.com/v1-latest/ziggeo.css?v=1476536579" rel="stylesheet" />
+ <script src="//assets.ziggeo.com/v1-latest/ziggeo.js?v=1476536579"></script>
+
+<script>
+$(document).ready(function(e) {
+   var tid=0;
+$('#videostart').click(function(e) {
+      $('.video_inner').css('display','none');
+	  tid=tid+1;
+	 
+	  $('#webcam').html('<ziggeo id="zigg_'+tid+'"  ziggeo-width=320 ziggeo-height=240 ziggeo-limit=35 ziggeo-minlimit=10></ziggeo>');
+	 // $('#less_form').append('<input type="hidden" id="video_token_'+tid+'" name="video_token[]" value="" />');
+	
+	  	
+    }); 
+	ZiggeoApi.token =Ziggeotoken; 
+	ZiggeoApi.Events.on("submitted", function (data) {
+	var idval='#video_token_'+tid;
+	//$(idval).val(data.video.token);
+	var idvalnew='dele_record_'+tid;
+	 $('.video_inner').css('display','block');
+	
+	 $('#less_form').append('<input type="hidden" name="video_token[]" id="video_token_'+tid+'" value="'+data.video.token+'" />');
+	 $('.show_recoding_div').append('<div class="pull-left playerdiv"><div  class="dele_record" id="dele_record_'+tid+'"><ziggeo id="video_ziggeo_'+tid+'" ziggeo-video="'+data.video.token+'" ziggeo-width=150 ziggeo-height=150></ziggeo></div><div  class="close_icon" onclick="delete_attach('+idvalnew+')">&times;</div></div>');
+	// $('.show_recoding_div').append('<ziggeo ziggeo-video="9c31f1413357104578ec0b15ad6274ba" ziggeo-width=120 ziggeo-height=120></ziggeo>');
+	$('#webcam').html(''); 
+});
+});
+</script>
+<ziggeo ziggeo-video="073616d7bfc26881199856b6c6d0a462"></ziggeo>
+<?php
+$model = new Application_Model_SuperModel();
+?>
+<style>
+	.dele_record
+	{
+			display:inline-block;
+	}
+	.close_icon
+	{
+		position: absolute;
+		top: -13px;
+		font-size: 42px;
+		right: -10px;
+		cursor: pointer;
+		background: #ccc;
+		width: 19px;
+		height: 21px;
+		padding: 0px;
+		margin: 0;
+		font-size: 19px;
+		text-align: center;
+		vertical-align: top;
+		border-radius: 50% !important;
+		color: #fff;
+		line-height: 17px;
+	}
+	.videodiv
+	{
+		position:relative;	
+		min-height: 268px;
+	}
+	.video_inner
+	{
+		position:absolute;
+		top:0px;
+		left:0px;
+		background:#000000;
+		color:#ffffff;
+		z-index: 1040;
+		height:100%;
+		width:100%;	
+	}
+	#webcam 
+	{
+		float:left;
+	}
+			
+
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper addnew">
+        	<div class="row">
+          <?php /*?>  <?php 
+				if($this->user->user_type=='teacher')
+				{
+					?>
+                    <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/teacherdashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>
+                    <?php			
+				}
+				else
+				{
+					?>
+                   <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>
+                    <?php
+						
+				}
+			?><?php */?>
+           </div>
+        	<h1><?php echo $this->pageHeadingshow; ?>
+           <?php if(isset($this->student_arr) && !empty($this->student_arr))
+						{
+							?>
+                             "<?php echo $this->student_arr['user_first_name'].' '.$this->student_arr['user_last_name']; ?>"
+                            <?php	
+						}
+						else
+						{
+							if(isset($this->class_data['teacher_class_classid']))
+							{
+								$class_data=$model->Super_Get("Classes","class_id='".$this->class_data['teacher_class_classid']."'","fetch");	
+							}
+							else
+							{
+								$class_data=$this->class_data;	
+							}
+							
+							if(!empty($class_data))
+							{
+								?>
+                               for "<?php echo $class_data['class_name']?>"  Class
+                                <?php	
+							}
+							?>
+                              
+                            <?php	
+						}
+						?>
+			
+			</h1>
+            <hr />
+            <div class="row">
+            	<div class="widthdiv overflow newlesson">
+                <form id="less_form" name="less_form"  class="profile_form" action="" method="POST" enctype="multipart/form-data">
+                <?php 
+				if(!isset($this->lesson_id))
+				{
+					?>
+                        <div class="row">
+                        <?php echo $this->form->lesson_type   ?>
+                        <br />
+                        </div>
+                        <div class="row" id="template">
+                        <?php echo $this->form->lesson_template_name   ?>
+                        <br />
+                        </div>
+                        <div class="row" id="notsentlesson">
+                        <?php echo $this->form->lesson_notsaved_name   ?>
+                        <br />
+                        </div>
+                        <div class="row" id="oldlesson">
+                        <?php echo $this->form->lesson_old_name   ?>
+                        <br />
+                        </div>
+                        
+                    <?php	
+				}
+				?>
+              
+               <?php echo $this->form->lesson_title; ?>
+               <?php echo $this->form->param; ?>
+               <?php echo $this->form->lesson_desc; ?>
+               <?php echo $this->form->existing_fold ?>
+              
+               <?
+               if(!empty($this->lession_arr)){
+					?>
+                    
+                    <div class="form-group">
+               		<label>Uploaded Files</label>
+                    <table width="100%" border="1" class="table_doc">
+                        <thead>
+                            <th>File Name</th>
+                            <th>Download</th>
+                            <th>View</th>
+                            <th>Delete</th>
+                        </thead>
+                    	<?
+                        	foreach($this->lession_arr as $k=>$v)
+							{
+								 $ext = pathinfo($v['la_name'], PATHINFO_EXTENSION);
+								 if($v['la_type']==1)
+								 {
+										if(file_exists(TEMP_PATH."/".$v['la_name'] ))
+										{
+								?>
+                                    <tr id="tr_<?php echo $v['la_id'];  ?>">
+                                        <td class="documents">
+                                        <?php 
+                                        $ext = pathinfo($v['la_name'], PATHINFO_EXTENSION);
+                                        
+                                        if($ext=='mp4' || $ext=='mp3' || $ext=='MP3' || $ext=='MP4')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/video.jpg"  />
+                                        <?php	
+                                        }
+                                        else if($ext=='doc' || $ext=='DOC' || $ext=='DOCX' || $ext=='docx')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/word-icon.png"  />
+                                        <?php
+                                        }
+                                        else if($ext=='pdf' || $ext=='PDF')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/pdf.png"  /> 
+                                        <?php	
+                                        }
+                                        else 
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_TEMP_PATH ?>/<?php echo $v['la_name'] ?>"  />  
+                                        <?php	
+                                        }
+                                        ?>
+                                        &nbsp; &nbsp;
+                                        <span id="la_name_<?php echo $v['la_id'] ?>" style="word-break:break-all">
+                                        <?php echo $v['la_name'] ?>	
+                                        </span>
+                                        
+                                      <?php 
+									   $ext = pathinfo($v['la_name'], PATHINFO_EXTENSION);
+									   $filename = pathinfo($v['la_name']);
+                                       if($this->user->user_type=='teacher')
+                                       {
+                                            if($this->user->user_id==$this->lesson_data['lesson_teacherid'])
+                                            {
+                                            ?>
+                                            &nbsp;<a onclick="renamefile('<?php echo $v['la_id'] ?>')" class="cursor"><i class="fa fa-edit"></i></a>
+                                            <?php
+                                            }
+                                        }
+                                            else
+                                            {
+                                            ?>
+                                            &nbsp;<a onclick="renamefile('<?php echo $v['la_id'] ?>')" class="cursor"><i class="fa fa-edit"></i></a>
+                                            <?php } ?>
+                                        
+                                           <br />
+                                        
+                                        <div class="hide" id="attach_<?php echo $v['la_id'] ?>">
+                                       
+                                        	<div class="form-group">
+                                            <div class="col-md-6">
+                                            	<input type="text" name="video_name" class="form-control required" value="<?php echo $filename['filename'] ?>" id="video_name_<?php echo $v['la_id'] ?>"  />
+                                            </div>
+                                            <div class="col-md-6">
+                                            	<button name="btnsubmit" id="btnsubmit" type="button" onclick="checksubmit('<?php echo $v['la_id'] ?>')" value="Submit" class="btn btn-primary   btn btn-default">
+Submit</button>
+                                            </div>
+                                            	 
+                                            </div>
+                                            <div class="form-group"></div>
+                                      
+                                        </div>
+                                        </td>
+                                        <td>
+                                           <a href="<?php echo APPLICATION_URL ?>/download.php?download_file=public/resources/lession_attach/<?php echo $v['la_name']  ?>"><i class="fa fa-download"></i></a>
+                                        </td>
+                                        <td>
+                                        	   <?php if($ext=='mp4' || $ext=='mp3' || $ext=='MP3' || $ext=='MP4')
+										{
+										?>
+                                          <a onclick="openbox('<?php echo $v['la_name'] ?>','<?php echo $ext?>')" ><i class="fa fa-search"></i></a>
+                                        <? }
+										else if($ext=='pdf' || $ext=='PDF' || $ext=='doc' || $ext=='DOC' || $ext=='docx' || $ext=='DOCX')
+										{
+											?>
+                                            <a target="_blank" href="<?=$this->baseUrl()?>/teacher/contentattach/doc/<?=$v['la_name']?>" ><i class="fa fa-search"></i></a>
+                                            <?php	
+										}
+										else
+										{
+											?>
+                                            <a onclick="openbox('<?php echo $v['la_name'] ?>','<?php echo $ext?>')" ><i class="fa fa-search"></i></a>
+                                            <?php	
+										}
+										 ?>
+                                        </td>
+                                        <td class="lesson_icon" >
+                                        <a onclick="delete_attach_edit('delte_<?=$v['la_id']?>','<?=$v['la_id']?>')"><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                        </tr>
+                  			           
+                                    
+                                    <input type="hidden" name="delete_attach[]"  id="delte_<?=$v['la_id']?>"  />
+                                
+                                <? } 
+								  }
+								 else
+								 {
+									
+									?>
+                                     <input type="hidden" name="delete_attach[]"  id="delte_<?=$v['la_id']?>"  />
+										<tr id="tr_<?php echo $v['la_id'];  ?>">
+											<td class="documents">
+											<img src="<?php echo HTTP_SITEIMG_PATH ?>/video.jpg"  />
+											&nbsp; &nbsp;
+											<span id="la_name_<?php echo $v['la_id'] ?>" style="word-break:break-all">
+											<?php echo $v['la_name'] ?>	
+											</span>
+											
+										  <?php 
+										   $ext = pathinfo($v['la_name'], PATHINFO_EXTENSION);
+										   $filename = pathinfo($v['la_name']);
+										   if($this->user->user_type=='teacher')
+										   {
+												if($this->user->user_id==$this->lesson_data['lesson_teacherid'])
+												{
+												?>
+												&nbsp;<a onclick="renamefile('<?php echo $v['la_id'] ?>')" class="cursor"><i class="fa fa-edit"></i></a>
+												<?php
+												}
+											}
+												else
+												{
+												?>
+												&nbsp;<a onclick="renamefile('<?php echo $v['la_id'] ?>')" class="cursor"><i class="fa fa-edit"></i></a>
+												<?php } ?>
+											
+											   <br />
+											
+											<div class="hide" id="attach_<?php echo $v['la_id'] ?>">
+										   
+												<div class="form-group">
+												<div class="col-md-6">
+													<input type="text" name="video_name" class="form-control required" value="<?php echo $v['la_name'] ?>" id="video_name_<?php echo $v['la_id'] ?>"  />
+												</div>
+												<div class="col-md-6">
+													<button name="btnsubmit" id="btnsubmit" type="button" onclick="checksubmit('<?php echo $v['la_id'] ?>')" value="Submit" class="btn btn-primary   btn btn-default">
+	Submit</button>
+												</div>
+													 
+												</div>
+												<div class="form-group"></div>
+										  
+											</div>
+											</td>
+											<td>
+											N.A.
+											</td>
+											<td>
+											<a onclick="openboxvideo('<?php echo $v['la_token'] ?>')" ><i class="fa fa-search"></i></a>
+											</td>
+											<td class="lesson_icon" >
+											<a onclick="delete_attach_edit('delte_<?=$v['la_id']?>','<?=$v['la_id']?>')"><i class="fa fa-trash-o"></i></a>
+											</td>
+                                            <input type="hidden" name="video_token[]" id="uploaded_token_<?=$v['la_id']?>" value="<?php echo $v['la_token'] ?>" />
+											</tr>
+										
+									<?
+								  }
+							}
+						?>
+                        </table>
+                    </div>
+                    <?   
+				   
+			   }
+			   
+			   ?>
+               <div class="row" id="template_attach">
+               		
+               </div>
+             
+               </form>
+               <div class="row" id="file_upload_div">
+            	<form id="fileupload" action="" method="POST" enctype="multipart/form-data">
+            <!-- Redirect browsers with JavaScript disabled to the origin page -->
+            <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
+            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+            <div class="col-md-12 form-group">
+          
+               
+                
+                
+            <div id="errormsg" style="display:none;" class="error_div_cls">
+    		  </div>   
+              
+               <div id="errormsgnew" style="display:none; width:500px;" class="error_div_cls">
+              
+    		  </div>   
+           <div class="row">&nbsp;</div>
+            <label class="col-md-3 required text-left">
+            Upload files	
+            </label>
+            
+                <div class="col-md-9 no_padding" align="left">
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <span class="btn btn-success fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Add files...</span>
+                        
+                       
+                        <input type="file" name="files[]" id="uploadify_file" multiple style="font-size:22px;">
+                    </span>
+                
+                    <!-- The global file processing state -->
+                    <span class="fileupload-process"></span>
+                </div>
+            
+                <input type="hidden" name="test"  value="ll"/>
+                <!-- The global progress state -->
+                <div class="col-lg-5 fileupload-progress fade">
+                    <!-- The global progress bar -->
+                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height:10px;">
+                        <div class="progress-bar progress-bar-success" style="width:0%; display:none;"></div>
+                    </div>
+                    <!-- The extended global progress state -->
+                    <div class="progress-extended" style="height:5px; display:none;">&nbsp;</div>
+                </div>
+            </div>
+            <!-- The table listing the files available for upload/download -->
+           
+        		<div class="col-md-12 text-center">
+                	<img src="" class="presentation_img" id="files_0" style="max-width:1000px; display:none;"/>
+                </div>
+                
+                 <div class="col-md-12 overflow no_padding" style="overflow:hidden;" align="left">
+              <table role="presentation" class="table" style="border:solid #141311 1px;"><tbody class="files"></tbody></table>
+           		</div>
+           <input type="hidden"  value="" name="delete_doc" id="delete_doc" />
+          
+            
+        </form>
+        
+        
+       
+        <br />
+       
+        
+            </div>
+            <br />
+            <div class="widthdiv">
+            	 <div class="row">
+               
+                    <label class="col-md-12"><b class="labeddiv">Video and Audio recordings can be renamed from the "View Lesson" or “Update Lesson” page after saving or sending this lesson.</b></label>
+                   
+              
+                            </div>
+            </div>
+            <br />
+               <div class="row recoding_div">
+               <?php 
+			   if($this->is_mobile==0)
+			   {
+			   ?>
+               		<div class="col-md-6">
+                    	<div class="row radio_parent">
+                    	<div id="recorderDIV"></div>
+                        <div class="row voice_recording_audio">
+                        	<div id="voice_text">
+                            	Start Voice Recording
+                            </div>	
+                        </div>
+                        </div>
+                    </div>
+                 <?php } ?>
+                    <div class="col-md-6">
+                    	<div id="message"></div>
+      					  <div class="videodiv">
+        	<div class="video_inner">
+            	<div class="text-center" id="videostart">Start Video Recording</div>
+            </div>
+		<div id="recordermain">
+			<div id="webcam">
+           <ziggeo ziggeo-limit=15 ziggeo-width=320 ziggeo-height=240></ziggeo>
+			</div>
+			<!--<div id="volumePanel" style="float:left;position:relative;top:10px;">
+			</div>-->
+			</div>
+			<br clear="both"/>
+			
+			<br/>
+		
+		</div>
+         
+        </div>
+		<div id="mediaplayer" style="display:none;"></div>
+         </div>
+		</div>
+         <div class=" show_recoding_div">
+         </div>
+         <div class="widthdiv overflow"><br /><br /></div>
+             <div>&nbsp;</div>
+             <div class="widthdiv overflow text-center">
+				<?php echo $this->form->bttnsubmit; ?>
+                <?php 
+				if(!isset($this->lesson_id))
+				{
+					?>
+                    <?php echo $this->form->bttnsubmittemplate; ?>
+                     <?php echo $this->form->bttnsubmittemplatenotsave; ?>
+               
+                    <?php } ?>
+                 <?php echo $this->form->bttnsubmitsend; ?>
+                 </div>
+                 <div class="row">
+                 <br />
+                 <br />
+                 </div>
+                 <?php 
+				 if(isset($this->paginator))
+				 {
+				 ?>
+                <div class="row">
+                <?php include "viewstudentlessons.phtml"; ?>
+                </div>
+                <?php } 
+			
+				else if(isset($this->paginator1) && isset($this->class_data['class_id']))
+				{
+					
+					?>
+                    <div class="row">
+                    <?php include "viewclasslessons.phtml"; ?>
+                    </div>
+                    <?php	
+				}
+				?>
+                </div>
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+
+ <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">View File</h4>
+      </div>
+      <div class="modal-body text-center">
+        	<div id="mediaplayerfile"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php 
+if(isset($this->lession_arr) && !empty($this->lession_arr) && isset($this->lession_arr['lesson_teacherid']) && $this->lession_arr['lesson_teacherid']!='')
+{
+	?>
+    <script>
+    var user_id_val='<?php echo $this->lession_arr['lesson_teacherid'] ?>';
+    </script>
+    <?php	
+}
+else
+{
+	?>
+     <script>
+    var user_id_val='<?php echo $this->user->user_id ?>';
+	</script>
+    <?php	
+}
+?>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<script type="text/javascript">
+
+$('#bttnsubmit').click(function(e) {
+	if($('.profile_form').valid())
+	{
+		$('.profile_form').submit();
+	}
+});
+	
+
+var voicename='voice_<?php echo time()?>';
+var dynamic=1;
+	window.onload = function(){
+		var flashvars = {};
+
+		flashvars.myFilename=voicename;
+		flashvars.myServer="<?php echo SITE_HTTP_URL ?>";
+		flashvars.myHandler="/teacher/saverecording";
+		//flashvars.myHandler="/public/plugins/voicerocoder/demo/save.php";
+		flashvars.myDirectory="/public/plugins/voicerocoder/demo/uploads/";
+		flashvars.timeLimit="300";
+		flashvars.showLink="N";
+		flashvars.hideFlash ="N";
+		flashvars.bitRate="64";
+		
+		flashvars.licensekey="e4b4c6371d4eecc72654adb3a5bacf26";
+		flashvars.uploadMsg = "uploaded";
+	//	flashvars.uploadLink="download";
+		var parameters = {};
+		var attributes = {};
+		attributes.id="recorder";
+		attributes.name="recorder";
+		swfobject.embedSWF("<?php echo SITE_HTTP_URL ?>/public/plugins/voicerocoder/demo/barebonesRecorder7.swf?ID="+Math.random()*100,"recorderDIV","400","200","11.2", "expressInstall.swf", flashvars, parameters, attributes);
+	
+	
+	}
+
+ $('#voice_text').click(function(e) {
+	
+	$('.voice_recording_audio').css('display','none');
+		var flashvars = {};
+
+		flashvars.myFilename=voicename;
+		flashvars.myServer="<?php echo SITE_HTTP_URL ?>";
+		flashvars.myHandler="/public/plugins/voicerocoder/demo/save.php/user_id/"+user_id_val;
+		flashvars.myDirectory="/public/plugins/voicerocoder/demo/uploads/";
+		flashvars.timeLimit="300";
+		flashvars.showLink="N";
+		flashvars.hideFlash ="N";
+		flashvars.bitRate="64";
+		flashvars.licensekey="e4b4c6371d4eecc72654adb3a5bacf26";
+		flashvars.uploadMsg = "uploaded";
+		flashvars.uploadLink="download";
+		console.log(flashvars);
+		var parameters = {};
+		var attributes = {};
+		attributes.id="recorder";
+		attributes.name="recorder";
+		swfobject.embedSWF("<?php echo SITE_HTTP_URL ?>/public/plugins/voicerocoder/demo/barebonesRecorder7.swf?ID="+Math.random()*100,"recorderDIV","400","200","11.2", "expressInstall.swf", flashvars, parameters, attributes);
+		
+	});
+	$(document).ready(function(e) {
+		//$('.recoding_div').insertBefore('#bttnsubmit');
+		//$('#file_upload_div').insertBefore('#bttnsubmit');
+		
+		
+    });
+	
+	function recorderMessage(x)
+	{ 
+
+		if(x==15)
+		{
+		
+			$.ajax({
+			url: "<?php echo $this->baseUrl()?>/teacher/uploadrecording/fileval/"+voicename,
+			type: "post",
+			data: "",
+			success: function(data){
+				
+					var idval='voice_'+dynamic;
+					var idvalnew="'"+idval+"'";
+					dynamic=parseInt(dynamic)+1;
+				$('.show_recoding_div').append('<div class="pull-left playerdiv"><input type="hidden" id="voice_file_'+idval+'" value="'+data+'" /><div  class="dele_record" id='+idval+'></div><div  class="close_icon" onclick="delete_attach('+idvalnew+')">&times;</div></div>');
+				jwplayer(idval).setup({
+						flashplayer: "<?=$this->baseUrl()?>/public/plugins/mediaplayer/player.swf",
+						file: "<?php echo HTTP_TEMP_PATH?>/voice_"+user_id_val+"/"+data,
+						/*autostart: false,*/
+						width: "150px",
+						height: "150px",
+					/*	'plugins': { 'viral-2': {'oncomplete':'False','onpause':'False','functions':'All'} }*/
+			});
+				
+				
+				
+			},
+			
+				 });
+		
+	
+		}
+    }
+	
+	
+
+var APPLICATION_PATH_USER='<?=SITE_HTTP_URL?>/teacher/uploadpathlession';
+			
+	
+	function delete_attach(idval)
+	{ 
+		var stat=confirm("Are you sure to delete this?");
+		var filename=$('#voice_file_'+idval).val();
+		console.log(idval);
+		if(stat==true)
+		{
+			$.ajax
+			({
+			url: "<?php echo $this->baseUrl()?>/teacher/deletetecording/fileval/"+filename,
+			type: "post",
+			data: "",
+			success: function(data)
+			{
+				
+				$('#'+idval).parent().parent().remove();
+			
+				
+				
+				
+			},
+			
+				 });
+		}
+    }
+	
+	
+	function delete_attach_edit(id,value1)
+	{ 
+		var stat=confirm("Are you sure to delete this?");
+		console.log(id);
+		if(stat==true)
+		{
+			$('#tr_'+value1).remove();
+			$('#'+id).val(value1);
+		}
+    }
+			
+
+	
+	
+</script>
+
+
+             
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            <strong class="error text-danger"></strong>
+        </td>
+        <td>
+            <p class="size">Processing...</p>
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+        </td>
+        <td>
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start" disabled>
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start</span>
+                </button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+
+
+<script id="template-download" type="text/x-tmpl">
+
+{% for (var i=0, file; file=o.files[i]; i++) { 
+
+
+
+	if (file.error)
+	{
+		if(file.error=="Image requires a minimum width")
+		{
+			alert('Image should be of atleast 200 x 100 pixel.');
+		}
+		else
+		{
+	 		alert(file.error);
+		}
+	}
+	else
+	{
+	
+ %}
+
+    <tr class="template-download fade">
+        <td>
+            <span class="preview" style="cursor:pointer;">
+                {% if (file.thumbnailUrl) { %}
+                    <img draggable="false"  src="{%=file.thumbnailUrl%}">
+                {% } %}
+            </span>
+        </td>
+		<td>
+		
+		</td>
+        <td>
+            <p class="name">
+                {% if (file.url) { %}
+                    <a  title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                {% } else { %}
+                    <span>{%=file.name%}</span>
+                {% } %}
+            </p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td>
+            {% if (file.deleteUrl) { %}
+                <button  class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+	
+	
+{% 
+
+		}
+		
+		
+		
+} 
+	
+		
+		$('img').on('mousedown', function(e) {
+		e.preventDefault();
+		});
+		
+		$('img').bind("contextmenu", function(e) {
+		e.preventDefault();
+		});
+	
+
+%}
+
+
+</script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/plugins/mediaplayer/jwplayer.js"></script>
+
+ <script>
+ 	function openboxvideo(filename)
+	{
+			$('#myModal').modal('show');
+		$('#mediaplayerfile').html("<ziggeo ziggeo-video='"+filename+"'   ziggeo-width=320     ziggeo-height=240></ziggeo>");
+			
+	}
+ 	function openbox(filename,fileExt)
+	{
+		
+		if(fileExt=='mp4' || fileExt=='mp4')
+		{
+		
+			$('#myModal').modal('show');
+			$('#mediaplayer').html("");
+		
+			jwplayer("mediaplayerfile").setup({
+						flashplayer: "<?=$this->baseUrl()?>/public/plugins/mediaplayer/player.swf",
+						file: "<?php echo HTTP_TEMP_PATH ?>/"+filename,
+						image: "<?php echo HTTP_SITEIMG_PATH ?>/video.jpg",
+					/*	autostart: false,*/
+						/*'plugins': { 'viral-2': {'oncomplete':'False','onpause':'False','functions':'All'} }*/
+			});
+		$('#myModal').on('hidden.bs.modal', function () {
+    // do something…
+
+		 jwplayer("mediaplayerfile").stop();
+	});
+				
+		}
+		else
+		{
+			$('#myModal').modal('show');
+			$('.modal-body').html(" ");
+			$('.modal-body').html("<div id='mediaplayerfile'></div>");
+			$('#mediaplayerfile').html("<img src='<?php echo HTTP_TEMP_PATH ?>/"+filename+"' class='img-responsive' /> ");
+				
+		}
+	}
+	function lessontemplate()
+	{
+		  if ($('#less_form').valid()) {
+				$('#param').val('1');		  
+			  $('#less_form').submit();
+		  }
+	}
+	function lessonsend()
+	{
+			 if ($('#less_form').valid()) {
+				$('#param').val('2');
+					document.getElementById ('less_form').submit ();	  
+			  $('#less_form').submit();
+		  }
+	}
+	function lessontemplatenotsend()
+	{
+			 if ($('#less_form').valid()) {
+				$('#param').val('3');		  
+			  $('#less_form').submit();
+		  }
+	}
+	function renamefile(attach_id)
+	{
+		$('#attach_'+attach_id).removeClass('hide');
+		
+	}
+	
+	function checksubmit(idval)
+	{
+		if($('#video_name_'+idval).valid())
+		{
+			$('#wrap').show();
+			var filename=$('#video_name_'+idval).val();
+			$.ajax({
+			url: baseUrl+"/teacher/checkfile/lesson_id/<?php echo $this->lesson_id ?>/la_id/"+idval+"/filename/"+filename,
+			data:"",
+			success: function(data){
+				if(data==1)
+				{
+						$.ajax({
+						url: baseUrl+"/teacher/reamefile/lesson_id/<?php echo $this->lesson_id ?>/la_id/"+idval+"/filename/"+filename,
+						data:"",
+						success: function(data){
+							$('#wrap').hide();
+							$('#attach_'+idval).addClass('hide');
+							$('#la_name_'+idval).html(data);
+							}
+						});
+				}
+				else
+				{
+					$('#wrap').hide();
+					alert("Please use unique name");	
+				}
+			}
+			});
+		}
+	}
+ </script>

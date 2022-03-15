@@ -1,0 +1,310 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<?php
+$model = new Application_Model_Static();
+
+?>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<h5 class="text-center">Welcome "<?php echo  $this->user->user_first_name." ".$this->user->user_last_name; ?>"</h5>
+			<h4 class="text-center"><b>Add Lesson By Admin</b></h4>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/teacher1.png"  /></h5>
+            <br />
+            <br />
+            <div class="row">
+             <br />
+             <div class="row">
+             			<a href="<?php echo $this->baseUrl()?>/dashboard" class="dashboard_a text-center floatright viewlesson">Go to Dashboard</a>
+             </div>
+                    <div class="row">
+                    <b>Choose the Student or Class below:</b>
+                   			 <a href="<?php echo $this->baseUrl()?>/teacher/alllessons" class="dashboard_a text-center floatright viewlesson">View ALL Lessons</a>
+                    		<?php /*?><a href="<?php echo $this->baseUrl()?>/teacher/newlesson" class="dashboard_a text-center floatright">Create Lesson</a><?php */?>
+                    </div>
+                       
+           <?php /*?>  <br />
+             	<div class="allstudents row"><i class="fa fa-users"></i> Choose Teacher's Name
+                    <input type="text" name="teacher_name" value="" id="teacher_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Teacher Name" class="form-control pull-right search_sudents"   onkeyup="searchTeacher();" />
+                    </div>
+                     
+                   
+                    <div class="viewall row">
+                   
+                    	<div class="row">
+                        <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                        	  	<h4 class="lesson_text">To create a lesson for a teacher, choose the teacher's name below and then choose the students'name from the teacher's dashboard. </h4>
+                        </div>
+                      
+                        </div>
+                        <br />
+                       
+                        	<?php
+							
+							if(!empty($this->teachers))
+							{
+								foreach($this->teachers as $k=>$v)
+								{
+									
+									
+									?>
+                                   <div class="col-md-3 " id="teacher_name_<?php echo $k+1 ?>">
+                                     <a href="<?php echo SITE_HTTP_URL ?>/profile/teacherdashboard/teacher_id/<?php echo $v['user_id'] ?>" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['user_last_name'].", ".$v['user_first_name'] ?>
+                                    </div>
+                                    </a>
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Teacher added
+                                </div>
+                                <?php
+							}
+							 ?>
+                        </div>
+                    </div>
+             <br /><?php */?>
+             <br />
+            		<div class="allstudents row"><i class="fa fa-users"></i> Students  
+                    
+                    
+                    <input type="text" name="student_name" value="" id="student_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Student Name" class="form-control pull-right search_sudents"   onkeyup="searchallStudent(this.value);" />
+                    
+                    </div>
+                    <div class="viewall row">
+                   
+                    	<div class="row">
+                        <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                        	  	<h4 class="lesson_text">
+                                	Type the student's name in the search to begin a new lesson, or to view past lessons for this student.
+                                 </h4>
+                        </div>
+                      
+                        </div>
+                        <br />
+                        <div class="widthdiv overflow student_check">
+                        	<?php /*?><?php
+							
+							if(!empty($this->students))
+							{
+								foreach($this->students as $k=>$v)
+								{
+									
+									
+									?>
+                                   <div class="col-md-3 " id="stu_name_<?php echo $k+1 ?>">
+                                     <a href="<?php echo SITE_HTTP_URL ?>/teacher/newlesson/student_id/<?php echo $v['user_id'] ?>" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['user_last_name'].", ".$v['user_first_name']?>
+                                    </div>
+                                    </a>
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Student added
+                                </div>
+                                <?php
+							}
+							 ?><?php */?>
+                        </div>
+                      	
+                        </div>
+                    </div>
+                    
+                    <br />
+                    <br />
+                    <div class="row">
+                    	<div class="allstudents row"><i class="fa fa-users"></i> Classes
+                        
+                        <input type="text" name="class_name" value="" id="class_name" onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Class Name" class="form-control pull-right search_sudents" onkeyup="searchallClass(this.value);">
+                        
+                        </div>
+                     
+                   		 <div class="viewall row">
+                    <br />
+                   
+                    	<div class="row">
+                        <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                        	  	<h4 class="lesson_text">Type the name of the class in the search box to begin a new lesson, or to see past lessons for this class. </h4>
+                        </div>
+                      
+                        </div>
+                        <br />
+                       
+                       <div class="widthdiv overflow" id="allclasses">
+                       <?php /*?>	<?php
+							
+							if(!empty($this->all_classes))
+							{
+								foreach($this->all_classes as $k=>$v)
+								{
+									
+									
+									?>
+                                   <div class="col-md-3 " id="class_name_<?php echo $k+1 ?>">
+                                     <a href="<?php echo SITE_HTTP_URL ?>/teacher/newlesson/class_id/<?php echo $v['class_id'] ?>" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['class_name']?>
+                                    </div>
+                                    </a>
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Student added
+                                </div>
+                                <?php
+							}
+							 ?><?php */?>
+                       </div>
+                        	
+                        </div>
+                    </div>
+                    </div>
+                    
+                    <br />
+                    <br />
+                    <div class="allstudents row"><i class="fa fa-folder-open"></i> Manage Folder</div>
+                    <div class="viewall row">
+                    <br />
+                    <div class="row">
+                    
+                    		<a class="dashboard_a text-center floatright" href="<?php   echo $this->url(array('controller'=>'teacher','action'=>'uploadfiles'),'default',true) ?>">Add files</a>
+                    </div>
+                    	<div class="row">
+                        <br />
+                       
+                       <div class="row">
+                       
+                       <?php
+					   if(count($this->all_attachments)>0)
+					   {
+						   ?>
+                           <div class="row attach_back">
+                           		<?php
+									foreach($this->all_attachments as $k=>$v)
+									{
+										?>
+                                        <div class="row">
+                                        <?php 
+											if($this->user->user_type=='school')
+											{
+												?>
+               <a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'viewfolderadmin'),'default',true) ?>"><b><?php echo $v['teacher_attach_name'] ?></b></a>
+                                                <?php	
+											}
+											else
+											{
+												?>
+              <a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'viewfolder'),'default',true) ?>"><b><?php echo $v['teacher_attach_name'] ?></b></a>
+                                                <?php
+												
+											}
+										?>
+                                        
+                                        
+                                        </div>
+                                        <?php	
+									}
+								 ?>
+                           </div>
+				
+						<?php 
+					   }
+					   else 
+					   {
+					    ?>
+                             <div class="row no_file">
+                             	No Record Found
+                             </div>       
+                             
+                            <?php } ?>
+                                    
+                        
+                                    
+                                    
+                                    
+                                	
+                    </div>
+                        </div>
+                    </div>
+                    
+                      <br />
+            </div>
+		</div>
+	<!--/span-->
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+	function searchallStudent(valname)
+	{
+		$('#wrap').show();
+			$.ajax({
+			type: "POST",
+			url: "<?php echo SITE_HTTP_URL ?>/profile/getstudentsnamebyadmin/valname/"+valname,
+			data: "",
+			async: false,
+			cache: false,
+			success: function(data)
+			{
+				$('#wrap').hide();
+				$('.student_check').html(data);
+			}
+			});
+	}
+	
+	function searchallClass(valname)
+	{
+		$('#wrap').show();
+			$.ajax({
+			type: "POST",
+			url: "<?php echo SITE_HTTP_URL ?>/profile/getclassesallbyadmin/valname/"+valname,
+			data: "",
+			async: false,
+			cache: false,
+			success: function(data)
+			{
+					$('#wrap').hide();
+				$('#allclasses').html(data);
+			}
+			});
+	}
+
+
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+</script>
+
+
+ 

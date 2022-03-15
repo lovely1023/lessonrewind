@@ -1,0 +1,159 @@
+<div class="row">
+
+<input type="hidden" name="lesson_name" id="lesson_name" value="<?php echo ($this->lesson_data['lesson_title']) ?>"  />
+<textarea name="lesson_descr"  style="opacity:0" id="lesson_descr"><?php echo ($this->lesson_data['lesson_desc']) ?></textarea>
+<?php /*?><input type="hidden" name="lesson_descr" id="lesson_descr" value="<?php echo ($this->lesson_data['lesson_desc']) ?>"  />
+<?php */?> <?php
+                if(!empty($this->lessont_attachement_array))
+			   {
+					?>
+                    <div class="form-group">
+               		<label>Uploaded Files From Template</label>
+                    <table width="100%" border="1" class="table_doc">
+                        <thead>
+                            
+                        <th>File Name</th>
+                            <th>Download</th>
+                            <th>View</th>
+                            <th>Delete</th>
+                        </thead>
+                    	<?
+                        	foreach($this->lessont_attachement_array as $k=>$v)
+							{
+							
+								?>
+                                    <tr id="tempalte_<?php echo $v['la_id'];  ?>">
+                                        <td class="documents">
+                                        <?php 
+                                        $ext = pathinfo($v['la_name'], PATHINFO_EXTENSION);
+                                        
+                                        if($ext=='mp4' || $ext=='mp3' || $ext=='MP3' || $ext=='MP4')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/video.jpg"  />
+                                        <?php	
+                                        }
+                                        else if($ext=='doc' || $ext=='DOC' || $ext=='DOCX' || $ext=='docx')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/word-icon.png"  />
+                                        <?php
+                                        }
+                                        else if($ext=='pdf' || $ext=='PDF')
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_SITEIMG_PATH ?>/pdf.png"  /> 
+                                        <?php	
+                                        }
+                                       else if($v['la_type']!=0) 
+                                        {
+                                        ?>
+                                        <img src="<?php echo HTTP_TEMP_PATH ?>/<?php echo $v['la_name'] ?>"  />  
+                                        <?php	
+                                        }
+                                        ?>
+                                        &nbsp; &nbsp;
+                                        <?php echo $v['la_name']; 	 ?>	
+                                        </td>
+                                        <td>
+                                        <?php
+                                        if($v['la_type']==1)
+											{
+										?>
+                                           <a href="<?php echo APPLICATION_URL ?>/download.php?download_file=public/resources/lession_attach/<?php echo $v['la_name']  ?>"><i class="fa fa-download"></i></a>
+                                           <?php }
+										   else{
+											   ?>
+                                       <a  href="<?php echo APPLICATION_URL ?>/downloadtoken.php?token=<?php echo $v['la_token']  ?>"><i class="fa fa-download"></i></a>
+                                               <?php
+											   
+											  }
+										    ?>
+                                        </td>
+                                        <td>
+                                        	   <?php
+											   
+											   if($v['la_type']==0){
+												  	?>
+                                                    <a onclick="openboxvideo('<?php echo $v['la_token'] ?>')" ><i class="fa fa-search"></i></a>
+                                                    <?php 
+												  }
+											   else{
+														if($ext=='mp4' || $ext=='mp3' || $ext=='MP3' || $ext=='MP4')
+														{
+														?>
+														<a onclick="openbox('<?php echo $v['la_name'] ?>','<?php echo $ext?>')" ><i class="fa fa-search"></i></a>
+														<? }
+														else if($ext=='pdf' || $ext=='PDF' || $ext=='doc' || $ext=='DOC' || $ext=='docx' || $ext=='DOCX')
+														{
+														?>
+														<a target="_blank" href="<?=$this->baseUrl()?>/teacher/contentattach/doc/<?=$v['la_name']?>" ><i class="fa fa-search"></i></a>
+														<?php	
+														}
+														else
+														{
+														?>
+														<a onclick="openbox('<?php echo $v['la_name'] ?>','<?php echo $ext?>')" ><i class="fa fa-search"></i></a>
+														<?php	
+														}
+												  }
+										
+										 ?>
+                                        </td>
+                                        <td class="lesson_icon" >
+                                        <a onclick="deletetemplate('<?=$v['la_id']?>')"><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                        </tr>
+                                    <input type="hidden" name="upload_attach[]"  id="attach_<?=$v['la_id']?>" value="<?=$v['la_id']?>"  />
+                                
+                                <?
+							}
+						
+						?>
+                        
+                        </table>
+                    </div>
+                    <?   
+				   
+			   }
+			   
+			   ?>
+</div>
+
+
+<script>
+function openboxvideo(filename)
+	{
+		$('#myModal').modal('show');
+		$('#mediaplayer').html("<ziggeo ziggeo-video='"+filename+"'   ziggeo-width=320     ziggeo-height=240></ziggeo>");
+	}
+
+	function openbox(filename,fileExt)
+	{
+		
+		if(fileExt=='mp4' || fileExt=='mp4')
+		{
+		
+			$('#myModal').modal('show');
+			$('#mediaplayer').html("");
+		
+			jwplayer("mediaplayer").setup({
+						flashplayer: "<?=$this->baseUrl()?>/public/plugins/mediaplayer/player.swf",
+						file: "<?php echo HTTP_TEMP_PATH ?>/"+filename,
+						image: "<?php echo HTTP_SITEIMG_PATH ?>/video.jpg",
+					/*	autostart: false,
+						
+						'plugins': { 'viral-2': {'oncomplete':'False','onpause':'False','functions':'All'} }*/
+			});
+				
+		}
+		else
+		{
+			$('#myModal').modal('show');
+			$('.modal-body').html(" ");
+			$('.modal-body').html("<div id='mediaplayer'></div>");
+			$('#mediaplayer').html("<img src='<?php echo HTTP_TEMP_PATH ?>/"+filename+"' class='img-responsive' />");
+				
+		}
+	}
+</script>

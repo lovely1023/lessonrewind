@@ -1,0 +1,28 @@
+<?php
+							
+							if(!empty($this->get_students))
+							{
+								foreach($this->get_students as $k=>$v)
+								{
+									
+									
+									?>
+                                   <div class="col-md-3 " id="stu_name_<?php echo $k+1 ?>">
+                                     <a href="<?php echo SITE_HTTP_URL ?>/teacher/newlesson/student_id/<?php echo $v['user_id'] ?>" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['user_last_name'].", ".$v['user_first_name']?>
+                                    </div>
+                                    </a>
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                               <!-- <div class="row no_file">
+                                	No Student added
+                                </div>-->
+                                <?php
+							}
+							 ?>

@@ -1,0 +1,754 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<?php 
+	$modelSchool = new Application_Model_SchoolModel();
+	$teacher_announce=array();
+	$student_announce=array();
+	$family_announce=array();
+	$subadmin_announce=array();
+
+	if(isset($this->announcement_data) && !empty($this->announcement_data))
+	{
+		$teacher_announce=$modelSchool->getallannouncement($this->announcement_data['announcement_id'],'0');	
+	}
+	if(isset($this->announcement_data) && !empty($this->announcement_data))
+	{
+		$student_announce=$modelSchool->getallannouncement($this->announcement_data['announcement_id'],'1');	
+	}
+	if(isset($this->announcement_data) && !empty($this->announcement_data))
+	{
+		$family_announce=$modelSchool->getallannouncement($this->announcement_data['announcement_id'],'2');	
+				
+	}
+	if(isset($this->announcement_data) && !empty($this->announcement_data))
+	{
+		$subadmin_announce=$modelSchool->getallannouncement($this->announcement_data['announcement_id'],'3');	
+	}
+	
+?>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+     
+		<div class="custom-form-wrapper addnew">
+        	<!--<div class="row">
+           <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>
+           </div>-->
+
+        	<h1><?php echo $this->pageHeadingshow ?></h1>
+            <hr />
+            <div class="row">
+            	<div class="row">
+                
+             	<form id="fileupload" class="profile_form" method="post" role="form" novalidate="novalidate" enctype="multipart/form-data">
+                	<?php echo $this->form->announcement_title; ?>
+                    <?php echo $this->form->announcement_desc; ?>
+                    <div class="row">
+                    		<label class="required" aria-required="true">Choose audience</label>
+                            <div class="row">
+                            		<div class="row">
+                                    		<div class="row">
+                                            	<div class="col-md-6">
+                                                <label class="checkbox" for="announcement_type-0">
+                                                	<input type="checkbox" name="announcement_type[]" class="required" id="announcement_type-0" value="0"  <?php if(!empty($teacher_announce)) { ?> checked="checked" <?php } ?> aria-required="true">
+                                                    <span>Teachers</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                	<a class="btn blue btn-primary  btn btn-default pull-right" id="edit_teacher">Edit</a>
+                                                </div>
+                                            </div>
+                                            <div class="row displaynone" id="teacher_listing" >
+                                            	<div class="col-md-6">
+                                                	
+                                                	<div class="row">
+                                                    	<table class="table table-striped table-bordered table-hover dataTable" id="sample_1">
+                                                    <thead>
+                                                    <tr>
+                                                  
+                                                    <th><input type="checkbox" name="check_all_teacher" id="check_all_teacher" /> </th>
+                                                    <th>Last Name</th>
+                                                    <th>First Name</th>
+                                                    
+                                                    
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                    </table>
+                                                    </div>
+                                                    
+                                                  </div>
+                                            </div>
+                                            <div class="row">
+                                            	<div class="col-md-6">
+                                               	 <label class="checkbox" for="announcement_type-1">
+                                                	<input type="checkbox" name="announcement_type[]" class="required" id="announcement_type-1" value="1"  <?php if(!empty($student_announce)) { ?> checked="checked" <?php } ?> aria-required="true">
+                                                    <span>Students</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                <a class="btn blue btn-primary  btn btn-default pull-right" id="edit_student">Edit</a>
+                                                	
+                                                </div>
+                                            </div>
+                                            <div class="row displaynone" id="student_listing">
+                                            <div class="col-md-6">
+                                                    	<table class="table table-striped table-bordered table-hover dataTable" id="sample_2">
+                                                    <thead>
+                                                    <tr>
+                                                  
+                                                    <th><input type="checkbox" name="check_all_student" id="check_all_student" /> </th>
+                                                    <th>Last Name</th>
+                                                    <th>First Name</th>
+                                                    
+                                                    
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                    </table>
+                                              </div>
+                                                    </div>
+                                            <div class="row">
+                                            	<div class="col-md-6">
+                                                 <label class="checkbox" for="announcement_type-2">
+                                                	<input type="checkbox" name="announcement_type[]" class="required" id="announcement_type-2" <?php if(!empty($family_announce)) { ?> checked="checked" <?php } ?> value="2"  aria-required="true">
+                                                    <span>Families</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                	<a class="btn blue btn-primary  btn btn-default pull-right" id="edit_family">Edit</a>
+                                                </div>
+                                            </div>
+                                            <div class="row displaynone" id="family_listing">
+                                            <div class="col-md-6">
+                                                    	<table class="table table-striped table-bordered table-hover dataTable" id="sample_3">
+                                                    <thead>
+                                                    <tr>
+                                                  
+                                                    <th><input type="checkbox" name="check_all_student" id="check_all_family" /> </th>
+                                                    <th>Last Name</th>
+                                                    <th>First Name</th>
+                                                    
+                                                    
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                    </table>
+                                              </div>
+                                                    </div>
+                                            <div class="row">
+                                            	<div class="col-md-6">
+                                                 <label class="checkbox" for="announcement_type-3">
+                                                	<input type="checkbox" name="announcement_type[]" class="required" id="announcement_type-3" value="3" <?php if(!empty($subadmin_announce)) { ?> checked="checked" <?php } ?>  aria-required="true">
+                                                    <span>Sub Admins</span>
+                                                 </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                	<a class="btn blue btn-primary  btn btn-default pull-right" id="edit_subadmin">Edit</a>
+                                                </div>
+                                            </div>
+                                            <div class="row displaynone" id="subadmin_listing">
+                                            <div class="col-md-6">
+                                                    	<table class="table table-striped table-bordered table-hover dataTable" id="sample_4">
+                                                    <thead>
+                                                    <tr>
+                                                  
+                                                    <th><input type="checkbox" name="check_all_subadmin" id="check_all_subadmin" /> </th>
+                                                    <th>Last Name</th>
+                                                    <th>First Name</th>
+                                                    
+                                                    
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                    </table>
+                                              </div>
+                                                    </div>
+                                    </div>
+                            </div>
+                    </div>
+				<?php /*?>	<?php echo $this->form->announcement_type; ?>
+                    <?php */?>
+                    
+                    
+                    <?php
+					if(count($this->ann_arr)>0)
+					{
+					?>
+					<table width="100%" border="1" class="table_doc">
+					<thead>
+							
+							<th>File Name</th>
+							<th>Action</th>
+					</thead>
+					<?php 
+						foreach($this->ann_arr as $k=>$v)
+						{
+							?>
+							<tr id="tr_<?php echo $v['an_id'];  ?>">
+								<td class="documents">
+									<?php 
+										$ext = pathinfo($v['an_name'], PATHINFO_EXTENSION);
+										
+										if($ext=='mp4')
+										{
+										?>
+										<img src="<?php echo HTTP_SITEIMG_PATH ?>/video.jpg"  />
+										<?php	
+										}
+										else if($ext=='doc' || $ext=='DOC' || $ext=='DOCX' || $ext=='docx')
+										{
+											?>
+										   <img src="<?php echo HTTP_SITEIMG_PATH ?>/word-icon.png"  />
+											<?php
+										}
+										else if($ext=='pdf' || $ext=='PDF')
+										{
+											?>
+											 <img src="<?php echo HTTP_SITEIMG_PATH ?>/pdf.png"  /> 
+											<?php	
+										}
+										else 
+										{
+											?>
+										   <img src="<?php echo HTTP_AN_PATH ?>/<?php echo $v['an_name'] ?>"  />  
+											<?php	
+										}
+									?>
+								   &nbsp; &nbsp;
+									<?php echo $v['an_name'] ?>	
+								</td>
+							   
+								<td class="lesson_icon" >
+								
+									<a href="<?php echo APPLICATION_URL ?>/download.php?download_file=public/resources/announce_attach/<?php echo $v['an_name']  ?>"><i class="fa fa-download"></i></a>
+									<a onclick="remove_doc('<?php echo $v['an_id'] ?>')"><i class="fa fa-trash-o"></i></a>
+									
+								</td>
+							</tr>
+							
+							<?php	
+						}
+					?>
+					</table>
+       				 <?php } ?>
+                    
+                    <div class="row">
+                        <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                        <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
+                        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                        <div class="form-group">
+                      
+                            
+                        <div id="errormsg" style="display:none;" class="error_div_cls">
+                          </div>   
+                          
+                           <div id="errormsgnew" style="display:none; width:500px;" class="error_div_cls">
+                          
+                          </div>   
+                       <div class="row">&nbsp;</div>
+                        <label class="col-md-2 required" style="padding-left:0;">
+                       Add Attachments
+                        </label>
+                        
+                            <div class="col-md-9 no_padding" align="left">
+                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                <span class="btn btn-success fileinput-button">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>Add files...</span>
+                                    
+                                   
+                                    <input type="file" name="files[]" id="uploadify_file" style="font-size:22px;" multiple="multiple"   >
+                                  
+                                </span>
+                            
+                                <!-- The global file processing state -->
+                                <span class="fileupload-process"></span>
+                            </div>
+                        
+                            <input type="hidden" name="test"  value="ll"/>
+                            <!-- The global progress state -->
+                            <div class="col-lg-5 fileupload-progress fade">
+                                <!-- The global progress bar -->
+                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height:10px;">
+                                    <div class="progress-bar progress-bar-success" style="width:0%; display:none;"></div>
+                                </div>
+                                <!-- The extended global progress state -->
+                                <div class="progress-extended" style="height:5px; display:none;">&nbsp;</div>
+                            </div>
+                        </div>
+                        <!-- The table listing the files available for upload/download -->
+                       
+                            <div class="col-md-12 text-center">
+                                <img src="" class="presentation_img" id="files_0" style="max-width:1000px; display:none;"/>
+                            </div>
+                            
+                             <div class="col-md-12 no_padding" align="left">
+                          <table role="presentation" class="table" style="border:solid #141311 1px; display:inline-block;"><tbody class="files"></tbody></table>
+                            </div>
+                       <input type="hidden"  value="" name="delete_doc" id="delete_doc" />
+                      
+                        
+                    </div>
+                    <div class="row">
+                       <a class="btn blue btn-primary  btn btn-default pull-right " href="<?php echo SITE_HTTP_URL ?>/profile/viewannouncement">Cancel</a>
+                     <?php echo $this->form->bttnsubmit; ?>
+                     </div>
+                    
+                </form>
+               
+                
+             
+                </div>
+                
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+<script>
+	$(document)	 .ready(function(e) {
+	$('#sample_1').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+		"responsive": true,
+  		"bAutoWidth": false,
+		<?php 
+		if(isset($this->announcement_data['announcement_id']))
+		{
+			?>
+		"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getteachers/type/teacher/an_anid/<?php echo $this->announcement_data['announcement_id'] ?>" ,
+			<?php	
+		}
+		else
+		{
+			?>
+		"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getteachers/type/teacher" ,
+			<?php	
+		}
+		?>
+ 		
+		"aaSorting": [[ 0, "desc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [0,1] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+		re_init();
+	
+		
+		}
+	} );
+});
+
+$('#check_all_teacher,#announcement_type-0').click(function(e) {
+    var check_val=$(this).val();
+	  if($(this).prop("checked") == true)
+	  {
+               $("input[name='select_teacher[]']").prop('checked', $(this).prop("checked"));
+			    $("input[name='check_all_teacher']").prop('checked', $(this).prop("checked"));
+			   
+      }
+      else if($(this).prop("checked") == false)
+	  {
+		   $("input[name='select_teacher[]']").removeAttr('checked');
+		    $("input[name='check_all_teacher']").removeAttr('checked');
+               
+      }
+	
+});
+
+$('#edit_teacher').click(function(e) {
+    if($('#teacher_listing').is(':visible'))
+	{
+		$('#teacher_listing').slideUp('slow');
+		$('#edit_teacher')	.html('Edit');
+	}
+	else
+	{
+		$('#teacher_listing').slideDown('slow');	
+		$('#edit_teacher')	.html('Done Editing');
+	}
+});
+
+
+
+	$(document)	 .ready(function(e) {
+	$('#sample_2').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+		"responsive": true,
+  		"bAutoWidth": false,
+		<?php 
+		if(isset($this->announcement_data['announcement_id']))
+		{
+			?>
+		"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getteachers/type/student/an_anid/<?php echo $this->announcement_data['announcement_id'] ?>" ,
+			<?php	
+		}
+		else
+		{
+			?>
+		"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getteachers/type/student" ,
+			<?php	
+		}
+		?>
+ 		
+		"aaSorting": [[ 0, "desc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [0,1] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+		re_init();
+	
+		
+		}
+	} );
+});
+
+$('#check_all_student,#announcement_type-1').click(function(e) {
+    var check_val=$(this).val();
+	  if($(this).prop("checked") == true)
+	  {
+               $("input[name='select_student[]']").prop('checked', $(this).prop("checked"));
+			     $("input[name='check_all_student']").prop('checked', $(this).prop("checked"));
+      }
+      else if($(this).prop("checked") == false)
+	  {
+		   $("input[name='select_student[]']").removeAttr('checked');
+             $("input[name='check_all_student']").removeAttr('checked');   
+      }
+	
+});
+
+$('#edit_student').click(function(e) {
+    if($('#student_listing').is(':visible'))
+	{
+		$('#student_listing').slideUp('slow');
+		$('#edit_student').html('Edit');
+	}
+	else
+	{
+		$('#student_listing').slideDown('slow');	
+		$('#edit_student').html('Done Editing');
+	}
+});
+
+
+
+$(document)	 .ready(function(e) {
+	$('#sample_3').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+		"responsive": true,
+  		"bAutoWidth": false,
+		<?php 
+		if(isset($this->announcement_data['announcement_id']))
+		{
+			?>
+		"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getteachers/type/family/an_anid/<?php echo $this->announcement_data['announcement_id'] ?>" ,
+			<?php	
+		}
+		else
+		{
+			?>
+		"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getteachers/type/family" ,
+			<?php	
+		}
+		?>
+ 		
+		"aaSorting": [[ 0, "desc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [0,1] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+		re_init();
+	
+		
+		}
+	} );
+});
+
+$('#check_all_family,#announcement_type-2').click(function(e) {
+    var check_val=$(this).val();
+	  if($(this).prop("checked") == true)
+	  {
+               $("input[name='select_family[]']").prop('checked', $(this).prop("checked"));
+			    $("input[name='check_all_family']").prop('checked', $(this).prop("checked"));
+      }
+      else if($(this).prop("checked") == false)
+	  {
+		   $("input[name='select_family[]']").removeAttr('checked');
+            $("input[name='check_all_family']").removeAttr('checked');       
+      }
+	
+});
+
+$('#edit_family').click(function(e) {
+    if($('#family_listing').is(':visible'))
+	{
+		$('#family_listing').slideUp('slow');
+		$('#edit_family').html('Edit');
+	}
+	else
+	{
+		$('#family_listing').slideDown('slow');	
+		$('#edit_family').html('Done Editing');
+	}
+});
+
+
+
+$(document)	 .ready(function(e) {
+	$('#sample_4').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+		"responsive": true,
+  		"bAutoWidth": false,
+		<?php 
+		if(isset($this->announcement_data['announcement_id']))
+		{
+			?>
+		"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getteachers/type/schoolsubadmin/an_anid/<?php echo $this->announcement_data['announcement_id'] ?>" ,
+			<?php	
+		}
+		else
+		{
+			?>
+		"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getteachers/type/schoolsubadmin" ,
+			<?php	
+		}
+		?>
+ 		
+		"aaSorting": [[ 0, "desc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [0,1] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+		re_init();
+	
+		
+		}
+	} );
+});
+
+$('#check_all_subadmin,#announcement_type-3').click(function(e) {
+    var check_val=$(this).val();
+	  if($(this).prop("checked") == true)
+	  {
+               $("input[name='select_subadmin[]']").prop('checked', $(this).prop("checked"));
+			     $("input[name='check_all_subadmin']").prop('checked', $(this).prop("checked"));
+			   
+      }
+      else if($(this).prop("checked") == false)
+	  {
+		   $("input[name='select_subadmin[]']").removeAttr('checked');
+            $("input[name='check_all_subadmin']").removeAttr('checked');          
+      }
+	
+});
+
+$('#edit_subadmin').click(function(e) {
+    if($('#subadmin_listing').is(':visible'))
+	{
+		$('#subadmin_listing').slideUp('slow');
+		$('#edit_subadmin').html('Edit');
+	}
+	else
+	{
+		$('#subadmin_listing').slideDown('slow');	
+		$('#edit_subadmin').html('Done Editing');
+	}
+});
+
+
+</script>
+<?php
+if(isset($this->teacher_data) && !empty($this->teacher_data))
+{
+?>
+<script>
+		var user_id='<?php echo $this->teacher_data['user_id']?>';
+</script>
+<?php	
+}
+ ?>
+ 
+ <script>
+       var APPLICATION_PATH_USER='<?=SITE_HTTP_URL?>/profile/uploadpath';
+	   
+	
+	function remove_doc(idval)
+	{
+		var testconfirm=confirm("Are you sure you want to remove this file?");
+		if(testconfirm)
+		{
+			$('#tr_'+idval).remove();
+			$("#delete_doc").val($("#delete_doc").val()+','+idval);
+		}
+			
+	}
+ </script>
+
+
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            <strong class="error text-danger"></strong>
+        </td>
+        <td>
+            <p class="size">Processing...</p>
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+        </td>
+        <td>
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start" disabled>
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start</span>
+                </button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+
+
+<script id="template-download" type="text/x-tmpl">
+
+{% for (var i=0, file; file=o.files[i]; i++) { 
+
+
+
+	if (file.error)
+	{
+		if(file.error=="Image requires a minimum width")
+		{
+			alert('Image should be of atleast 200 x 100 pixel.');
+		}
+		else
+		{
+	 		alert(file.error);
+		}
+	}
+	else
+	{
+	
+ %}
+
+    <tr class="template-download fade">
+        <td>
+            <span class="preview" style="cursor:pointer;">
+                {% if (file.thumbnailUrl) { %}
+                    <img draggable="false"  src="{%=file.thumbnailUrl%}">
+                {% } %}
+            </span>
+        </td>
+		<td>
+		
+		</td>
+        <td>
+            <p class="name">
+                {% if (file.url) { %}
+                    <a  title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                {% } else { %}
+                    <span>{%=file.name%}</span>
+                {% } %}
+            </p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td>
+            {% if (file.deleteUrl) { %}
+                <button  class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+	
+	
+{% 
+
+		}
+		
+		
+		
+} 
+	
+		
+		$('img').on('mousedown', function(e) {
+		e.preventDefault();
+		});
+		
+		$('img').bind("contextmenu", function(e) {
+		e.preventDefault();
+		});
+	
+
+%}
+
+
+</script>
+
+ 

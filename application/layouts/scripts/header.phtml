@@ -1,0 +1,113 @@
+
+<div class="row headermain">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="<?php echo SITE_HTTP_URL ?>"><img src="<?php echo HTTP_SITEIMG_PATH ?>/logo.png"  /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          
+          <ul class="nav navbar-nav navbar-right">
+          <?php 
+		  	if(isset($this->user->user_id) && ($this->user->user_type=='student' or $this->user->user_type=='school' or $this->user->user_type=='teacher' ))
+			{
+				$modelSuper = new Application_Model_SuperModel();
+				$message_unread=$modelSuper->Super_Get("messages","(message_reciver_id='".$this->user->user_id."') and message_read_stauts='0'","fetch",array("fields"=>array("COUNT(message_id) as msgcount")));
+				$school_id=$this->user->user_id;
+				if($this->user->user_type!='school')
+				{
+					$school_id=$this->user->user_school_id;	
+				}
+				$school_data=$modelSuper->Super_Get("users",'user_id="'.$school_id.'"',"fetch");
+				if(isset($school_data) && !empty($school_data) && ($school_data['user_message_status']==1))
+				{
+					?>
+                		<li><a href="<?php echo SITE_HTTP_URL ?>/message" data-title="features">Inbox (<?php echo $message_unread['msgcount'] ?>)</a></li>    
+                    <?php	
+				}
+				?>
+                
+                <?php	
+			}
+			if(isset($this->user->user_type))
+			{
+		  ?>
+            <li>
+              <?php 
+			if($this->user->user_type=='teacher')
+			{
+				?>
+             <a href="<?php echo $this->baseUrl()?>/profile/teacherdashboard">Dashboard</a>   
+                <?php	
+			}
+			else if($this->user->user_type=='student')
+			{
+				?>
+                  <a  href="<?php echo $this->baseUrl()?>/profile/studentdashboard">Dashboard </a> 
+                <?php	
+			}
+			else if($this->user->user_type=='school' || $this->user->user_type=='schoolsubadmin')
+			{
+				?>
+                  <a  href="<?php echo $this->baseUrl()?>/profile/dashboard">Dashboard</a> 
+                <?php
+			}
+			else if($this->user->user_type=='family' )
+			{
+				?>
+             <a  href="<?php echo $this->baseUrl()?>/profile/familydashboard/">Dashboard</i></a>        
+                <?php	
+			}
+			else
+			{
+				?>
+                 <a  href="<?php echo $this->baseUrl()?>/profile/teacherdashboard">Dashboard</a>        
+                <?php	
+			}
+			?>
+            
+            
+            
+            
+            </li>
+            <?php } ?>
+         <?php /*?>   <li><a href="<?php echo $this->baseUrl('about-us')?>"  data-title="about_us">About Us</a></li><?php */?>
+            <li>
+            <?php   if(isset($this->user) && !empty($this->user))
+			{
+			?>
+        	 <a href="<?php echo $this->url(array(),'front_profile') ?>"  data-title="front_profile">My Profile</a>
+        	<?php  } else
+			{ ?>
+     	    <a href="<?php echo $this->url(array(),'front_login') ?>"  data-title="Sign_in">Sign In</a>
+     	   <?php } ?>
+           </li>
+             <li>
+               <?php   if(isset($this->user) && !empty($this->user))
+			{
+			?>
+             <a  href="<?php echo $this->baseUrl('logout')?>" data-title="log_out">Logout</a>
+             <?php } else { ?>
+              <a  href="<?php echo $this->url(array(),'front_register') ?>" data-title="Sign_up">Sign Up</a>
+             <?php } ?>
+           </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+  </div>
+ <script>
+ 		$(document).ready(function(e)
+		{
+				$('.navbar a[data-title="<?php echo $this->page_slug?>"]').addClass("active_color");
+		}
+		
+		);
+ </script>

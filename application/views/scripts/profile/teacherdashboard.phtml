@@ -1,0 +1,426 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+.help-block {
+
+    overflow: hidden;
+    width: 100%; }
+</style>
+<?php
+$model = new Application_Model_Static();
+?>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<h5 class="text-center">
+            <?php 
+			if(isset($this->check_tecaher) && !empty($this->check_tecaher))
+			{
+				?>
+                Welcome "<?php echo  $this->check_tecaher['user_first_name'].", ".$this->check_tecaher['user_last_name']; ?>"
+                <?php
+			}
+			else
+			{
+					?>
+                 Welcome "<?php echo  $this->user->user_first_name.", ".$this->user->user_last_name; ?>"
+                    <?php
+			}
+			
+			if($this->user->user_last_login!='0000-00-00')
+			{
+				?>
+               , Your last visit was <?php echo date("F d, Y",strtotime($this->user->user_last_login)); ?>
+                <?php
+					
+			}
+			?>
+            
+            
+            </h5>
+			<h3 class="text-center"><b>Teacher Dashboard</b></h3>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/teacher1.png"  /></h5>
+            <br />
+               <?php /*?> <?php
+			if(isset($this->announcement_arr) && !empty($this->announcement_arr))
+			{
+				$ann_arr=$model->Super_Get("announce_attach",'an_un_id="'.$this->announcement_arr['announcement_id'].'"','fetchAll');
+				?><?php */?>
+                <div class="row">
+                	<div class="col-md-12">
+                        <div class="alert alert-info row" role="alert">
+                      <!--  <button type="button" class="close" data-dismiss="alert">×</button>-->
+                      <div class="pull-left"> 
+                       You have (<?php echo count($this->announcement_arr) ?>) unread Announcement(s)
+                         </div>
+                         <div class="pull-right">
+                       <a href="<?php  echo $this->url(array('controller'=>'profile','action'=>'announcements'),'default',true) ?>" class="pull-right"> <h5><strong>View All Announcements </strong></h5></a>
+                        </div>
+                        </div>
+                     </div>
+                </div>
+                <?php /*?><?php	
+			}
+			 ?><?php */?>
+            <br />
+            <div class="row">
+            
+             <br />
+                    <div class="row">
+                    <?php 
+					if(isset($this->check_tecaher) && !empty($this->check_tecaher))
+					{
+						?>
+                         <a href="<?php echo $this->baseUrl()?>/teacher/viewtemplates/teacher_id/<?php echo $this->check_tecaher['user_id'] ?>" class="dashboard_a text-center floatleft viewlesson">View ALL Templates</a>
+                   	     <a href="<?php echo $this->baseUrl()?>/teacher/viewlessons/teacher_id/<?php echo $this->check_tecaher['user_id'] ?>" class="dashboard_a text-center floatright viewlesson">View ALL Lessons</a>
+                        <?php
+					}
+					else
+					{
+						?>
+                         <a href="<?php echo $this->baseUrl()?>/teacher/viewtemplates" class="dashboard_a text-center floatleft viewlesson">Add / View Templates</a>
+                   	     <a href="<?php echo $this->baseUrl()?>/teacher/viewlessons" class="dashboard_a text-center floatright viewlesson">View ALL Lessons</a>
+                        <?php
+					}
+					?>
+                    
+                   <?php /*?><a href="<?php echo $this->baseUrl()?>/teacher/newlesson" class="dashboard_a text-center floatright">Create Lesson</a><?php */?>
+                    </div>
+                       
+             <br />
+            		<div class="allstudents row">
+                    <i class="fa fa-users"></i> Your Students
+                    <?php 
+						$status=0;
+						$teacher_id=0;
+						 if(isset($this->check_tecaher) && !empty($this->check_tecaher) )
+								  {
+										$status=1;  
+										$teacher_id= $this->check_tecaher['user_id'];
+								  }
+								 
+					?>
+                    <div class="pull-right">
+                    <label style="font-size:13px" class="pull-left">Search All Students &nbsp; &nbsp;</label>
+                     <input type="text" name="student_name" value="" id="student_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Student Name" class="form-control pull-right search_sudents" style="width:auto !important"   onkeyup="searchallStudent(this.value,'<?php echo $status ?>','<?php echo $teacher_id ?>');" />
+                     </div>
+                     
+                    </div>
+                     
+                    <div class="viewall row">
+                   
+                    	<div class="row">
+                        
+                        <br />
+                         <br />
+                        <div class="row nomargin">
+                        	<div class="col-md-12">
+                            <form method="post" action="<?php echo SITE_HTTP_URL ?>/profile/addtoroseter" class="profile_form" id="profile_form">
+                            		<div class="row nomargin">
+                                    	<div class="col-md-8">
+                                        	<input type="hidden" id="teacher_name" value="<?php echo $this->user_param_data['user_id'] ?>" name="teacher_name" />
+                                        	<div class="pull-left"><h3 class=" lesson_text">Please add the following student to my roster &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+                                            </div>
+                                           
+                                            <div class="pull-left">
+                                            <input type="text" name="stu_roster" id="stu_roster" class="form-control required maxselect" value="" placeholder="Type name here"  />
+                                            <?php /*?><select name="stu_roster" id="stu_roster"  data-live-search="true" class="form-control required maxselect  selectpicker">
+                                            	<option value="">Select Student</option>
+                                                <?php
+                                                	foreach($this->allStudents as $ks=>$vs){
+														
+														?>
+                                                        <option value="<?php echo $vs['user_id'] ?>"><?php echo ucfirst($vs['user_first_name'].' '.$vs['user_last_name']); ?></option>                <?php
+													}
+												?>
+                                            </select><?php */?>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-3">
+                                        	<input type="submit" name="submitBtn" id="submitBtn" value="Submit"  class="btn blue btn-primary roster_stu  btn btn-default"  />
+                                        </div>
+                                    </div>
+                            </form>
+                            </div>
+                        </div>
+                        <div class="col-md-12"><br /></div>
+                        <div class="row nomargin">
+                        	<div class="col-md-12">
+                            <form method="post"  action="<?php echo SITE_HTTP_URL ?>/profile/removefromroseter"  class="profile_form1" id="profile_form1">
+                            <input type="hidden" id="teacher_name" value="<?php echo $this->user_param_data['user_id'] ?>" name="teacher_name" />
+                            		<div class="row nomargin">
+                                    	<div class="col-md-8">
+                                        	<div class="pull-left"><h3 class=" lesson_text">Please remove the following student to my roster &nbsp;&nbsp;</h3>
+                                            </div>
+                                            <div class="pull-left">
+                                            <select name="stu_roster" id="stu_roster"  data-live-search="true" class="required form-control maxselect  selectpicker">
+                                            	<option value="">Select Student</option>
+                                                <?php
+                                                	foreach($this->students as $ks=>$vs){
+														?>
+                                                        <option value="<?php echo $vs['private_teacher_studentid'] ?>"><?php echo ucfirst($vs['user_first_name'].' '.$vs['user_last_name']); ?></option>                <?php
+													}
+												?>
+                                            </select>
+                                             </div>
+                                        </div>
+                                        
+                                        <div class="col-md-3">
+                                        	<input type="submit" name="submitBtn" id="submitBtn" value="Submit"  class="btn blue btn-primary roster_stu  btn btn-default"  />
+                                        </div>
+                                    </div>
+                            </form>
+                            </div>
+                        </div>
+                        <div class="col-md-12"><br /></div>
+                        <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                        	  	<h4 class="lesson_text">
+                                Click on student's name to be taken to their lesson page to create new lesson , or to finish a lesson in progress. 
+                                </h4>
+                        </div>
+                      
+                        </div>
+                       <div class="student_check">
+                        	<?php
+							if(!empty($this->students))
+							{
+								foreach($this->students as $k=>$v)
+								{
+									?>
+                                   <div class="col-md-3 " id="stu_name_<?php echo $k+1 ?>">
+                                   <?php 
+								   if(isset($this->check_tecaher) && !empty($this->check_tecaher) )
+								   {
+									?>
+                                    <a href="<?php echo SITE_HTTP_URL ?>/teacher/newlesson/student_id/<?php echo $v['user_id'] ?>/teacher_id/<?php echo $this->check_tecaher['user_id'] ?>" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['user_last_name'].", ". $v['user_first_name'] ?>
+                                    </div>
+                                    </a>
+                                    <?php  
+									}
+									else
+									{
+										?>
+                                        <a href="<?php echo SITE_HTTP_URL ?>/teacher/newlesson/student_id/<?php echo $v['private_teacher_studentid'] ?>" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['user_last_name'].", ".$v['user_first_name']?>
+                                    </div>
+                                    </a>
+                                        <?php
+									}
+								   ?>
+                                     
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Student added
+                                </div>
+                                <?php
+							}
+							 ?>
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <br />
+                    <br />
+                    <div class="row">
+                    	<div class="allstudents row"><i class="fa fa-users"></i> 
+                         
+                        Your Classes
+                           <div class="pull-right">
+                    <label style="font-size:13px" class="pull-left">Search All Classes &nbsp; &nbsp;</label>
+                         <input type="text" name="class_name" value="" id="class_name" onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Class Name" class="form-control pull-right search_sudents" style="width:auto !important" onkeyup="searchallClass(this.value);"></div>
+                     </div>
+                   		 <div class="viewall row">
+                    <br />
+                   
+                    	<div class="row">
+                        <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                        	  	<h4 class="lesson_text">Click on class name to be taken to the class lesson page to create a new lesson, or to finish a lesson in progress. </h4>
+                        </div>
+                      
+                        </div>
+                        <br />
+                       <div class="widthdiv" id="allclasses">
+                        	<?php
+							
+							if(!empty($this->all_classes))
+							{
+								foreach($this->all_classes as $k=>$v)
+								{
+									?>
+                                   <div class="col-md-3 " id="class_name_<?php echo $k+1 ?>">
+                                     <a href="<?php echo SITE_HTTP_URL ?>/teacher/newlesson/class_id/<?php echo $v['class_id'] ?>" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['class_name']?>
+                                    </div>
+                                    </a>
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Student added
+                                </div>
+                                <?php
+							}
+							 ?>
+                             </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    <br />
+                    <br />
+                    
+                    <div class="allstudents row"><i class="fa fa-folder-open"></i> Manage Folder</div>
+                     
+                    <div class="viewall row">
+                    <br />
+                    <div class="row">
+                    <?php 
+					if(isset($this->check_tecaher) && !empty($this->check_tecaher) )
+					{
+						?>
+                        	<a class="dashboard_a text-center floatright" href="<?php   echo $this->url(array('controller'=>'teacher','action'=>'uploadfiles','teacher_id'=>$this->check_tecaher['user_id']),'default',true) ?>">Add files</a>
+                        <?php		
+					}
+					else
+					{
+						?>
+                        	<a class="dashboard_a text-center floatright" href="<?php   echo $this->url(array('controller'=>'teacher','action'=>'uploadfiles'),'default',true) ?>">Add files</a>
+                        <?php
+						
+					}
+					?>
+                    	
+                    </div>
+                    	<div class="row">
+                        <br />
+                       
+                       <div class="row">
+                       
+                       <?php
+					   if(count($this->all_attachments)>0)
+					   {
+						   ?>
+                           <div class="row attach_back">
+                           		<?php
+									foreach($this->all_attachments as $k=>$v)
+									{
+										?>
+                                        <div class="row"><a href="<?php  echo $this->url(array('controller'=>'teacher','action'=>'viewfolder'),'default',true) ?>"><b><?php 
+										
+										if($v['teacher_attach_filename']=='')
+										{
+										echo $v['teacher_attach_name'];	
+										}
+										else
+										{
+											echo $v['teacher_attach_filename'];	
+										}
+										
+										
+										
+										 ?></b></a></div>
+                                        <?php	
+									}
+								 ?>
+                           </div>
+			
+						<?php 
+					   }
+					   else 
+					   {
+					    ?>
+                             <div class="row no_file">
+                             	No Record Found
+                             </div>       
+                             
+                            <?php } ?>
+                                    
+                        
+                                    
+                                    
+                                    
+                                	
+                    </div>
+                        </div>
+                    </div>
+                    
+                      <br />
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.profile_form1').validate();
+		$('.selectpicker').selectpicker();
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+	
+	function searchallStudent(valname,status,teacher_id)
+	{
+		$('#wrap').show();
+			$.ajax({
+			type: "POST",
+			url: "<?php echo SITE_HTTP_URL ?>/profile/getstudentsname/valname/"+valname+"/status/"+status+"/teacher_id/"+teacher_id,
+			data: "",
+			async: false,
+			cache: false,
+			success: function(data)
+			{
+				$('#wrap').hide();
+				$('.student_check').html(data);
+			}
+			});
+	}
+	
+	function searchallClass(valname)
+	{
+		$('#wrap').show();
+			$.ajax({
+			type: "POST",
+			url: "<?php echo SITE_HTTP_URL ?>/profile/getclassesall/valname/"+valname,
+			data: "",
+			async: false,
+			cache: false,
+			success: function(data)
+			{
+					$('#wrap').hide();
+				$('#allclasses').html(data);
+			}
+			});
+	}
+</script>
+
+
+ 

@@ -1,0 +1,44 @@
+
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<link type="text/css" href="http://192.168.1.99/sites/Lessonrewind/public/plugins/voicerocoder/demo/style.css"></link>
+
+<script type="text/javascript">
+
+	window.onload = function(){
+		var flashvars = {};
+
+		flashvars.myFilename="v7r2";
+		flashvars.myServer="http://192.168.1.99/sites/Lessonrewind/";
+		flashvars.myHandler="public/plugins/voicerocoder/demo/save.php";
+		flashvars.myDirectory="public/plugins/voicerocoder/demo/uploads/";
+		flashvars.timeLimit="30";
+		flashvars.showLink="Y";
+		flashvars.hideFlash ="N";
+		flashvars.bitRate="64";
+		flashvars.licensekey="2317e23c2a080396968d6ef2ddec8302";
+		flashvars.uploadMsg = "uploaded";
+		flashvars.uploadLink="download";
+		var parameters = {};
+		var attributes = {};
+		attributes.id="recorder";
+		attributes.name="recorder";
+		swfobject.embedSWF("http://192.168.1.99/sites/Lessonrewind/public/plugins/voicerocoder/demo/barebonesRecorder7.swf?ID="+Math.random()*100,"recorderDIV","400","200","11.2", "expressInstall.swf", flashvars, parameters, attributes);
+	}
+
+
+</script>
+
+
+
+	
+
+	<div id="recorderDIV"></div>
+
+
+
+
+
+
+

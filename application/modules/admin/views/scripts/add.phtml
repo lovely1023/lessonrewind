@@ -1,0 +1,155 @@
+
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet box purple">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="<?php echo $this->pageIcon?>"></i><?php echo $this->pageHeading?>  
+				</div>
+				
+			</div>
+			<div class="portlet-body form">
+				<div class="form-body">
+					<?php echo $this->form ;?>
+				</div>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>
+
+<script>
+	var user_id='';
+</script>
+<?php 
+$myControllerName=Zend_Controller_Front::getInstance()->getRequest()->getControllerName();	
+$myActionName=Zend_Controller_Front::getInstance()->getRequest()->getActionName();
+	
+	if($myControllerName=='slider')
+	{
+		?>
+
+    <p id="cm_image" style="color:#0399d7" >
+    <br />
+    <b>Note:</b> Please upload 1350 X 420 size of image.
+    <br />
+    </p>
+      <script>
+		
+    	$('#cm_image').insertAfter($('#slider_image_path_image').parent());
+    
+    </script>
+        <?php
+			
+	}
+	if(isset($this->slider_image_info) && !empty($this->slider_image_info))
+	{
+		?>
+        
+          <div id="slider_image" style="color:#0399d7; width:100%; overflow:hidden; padding-top:12px; padding-bottom:12px;" >
+   
+    <img src="<?php echo HTTP_SLIDER_IMAGES_PATH ?>/300/<?php echo $this->slider_image_info['slider_image_path'] ?>"  />
+   
+    </div>
+   
+    <script>
+		
+    	$('#slider_image').insertAfter($('#slider_image_alt').parent());
+    
+    </script>
+        <?php	
+	}
+if(isset($this->cust_show_image) and $this->cust_show_image ){
+	
+	
+	if(isset($this->prefix)){/* For Custmoization Steps */
+ 		
+		include(ROOT_PATH."/private/customizer_contstant.php");
+	 
+		global $_options_array_customizer , $_parent_child_relation_customization ;
+		
+ 	
+		$prefix = $this->prefix ;
+		
+		$_settings = $_options_array_customizer[$_parent_child_relation_customization[$prefix]];
+			
+		$image_key = $_settings['child'][$prefix]['prefix']."_child_thumb";
+		
+		if(!isset($this->page_content[$image_key])){
+			$image_key = $_settings['child'][$prefix]['prefix']."_cust_thumb";
+		}
+  	
+	
+		if(isset($this->page_content[$image_key]) and !empty($image_key) and file_exists($_settings['directory_path']['directory_path']."/".$this->page_content[$image_key])){
+			 
+			$http_image_name = $_settings['directory_path']['http_path']."/thumb/".$this->page_content[$image_key];
+			$element_image = '<p><img src="'.$http_image_name.'" alt="$image_name" /></p>';
+			 
+			?>
+			<script type="text/javascript">
+				$(document).ready(function(e) {
+					$('#<?php echo $image_key?>').parent().after('<?php echo $element_image ?>');
+				});
+			</script>
+		<?php		 
+		}
+		
+	}else{
+		/* Show thumbs for other  */	
+		
+		$image_fields = array_flip (array("product_thumb","product_banner_image"));
+		
+		$current_image_fields = array_intersect_key($this->page_content,$image_fields);
+		
+		foreach($current_image_fields as $image_key=>$values){
+ 			
+			if(isset($this->page_content[$image_key]) and !empty($image_key) and file_exists(PRODUCT_IMAGES_PATH."/1x1/".$this->page_content[$image_key])){
+			 
+				$http_image_name =HTTP_PRODUCT_IMAGES_PATH."/1x1/".$this->page_content[$image_key];
+				$element_image = '<p><img src="'.$http_image_name.'" alt="$image_name" /></p>';
+			 
+			?>
+			<script type="text/javascript">
+				$(document).ready(function(e) {
+					$('#<?php echo $image_key?>').parent().after('<?php echo $element_image ?>');
+				});
+			</script>
+		<?php		 
+		}
+ 		
+			
+		}
+		
+  		
+	}
+	
+	
+	
+	
+
+	
+	 
+	
+ }
+?>
+<? if(isset($this->cn_image)){?>
+<div class="form-group" id="image_div">
+	<img src="<?=HTTP_CARNEWS_IMAGES_PATH?>/68/<?=$this->cn_image?>" />
+</div>
+<script>
+		$('#cn_image').removeClass('required');
+    	$('#image_div').insertAfter($('#cn_image').parent());
+    
+ </script>
+<? }
+if(isset($this->user_id) && !empty($this->user_id))
+{
+	?>
+    <script>
+    	user_id='<?php echo $this->user_id ?>';
+    </script>
+    <?	
+}
+
+?>

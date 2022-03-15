@@ -1,0 +1,28 @@
+   	<?php
+							
+							if(!empty($this->all_classes))
+							{
+								foreach($this->all_classes as $k=>$v)
+								{
+									
+									
+									?>
+                                   <div class="col-md-3 " id="class_name_<?php echo $k+1 ?>">
+                                     <a href="<?php echo SITE_HTTP_URL ?>/teacher/newlesson/class_id/<?php echo $v['class_id'] ?>" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['class_name']?>
+                                    </div>
+                                    </a>
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                                <!--<div class="row no_file">
+                                	No Student added
+                                </div>-->
+                                <?php
+							}
+							 ?>

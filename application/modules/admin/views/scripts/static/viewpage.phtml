@@ -1,0 +1,31 @@
+<div class="portlet box purple">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="<?php echo $this->pageIcon?>"></i><?php echo $this->pageHeading?> </div>
+ 	</div>
+	
+	<div class="portlet-body">
+	
+		<div class="panel-group accordion" id="accordion3">
+			
+			<?php 
+				foreach($this->page_content as $key=>$value){ /* End Foreach*/
+				?>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+							<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#<?php echo  $key?>">
+								<?php echo ucwords(str_replace(array("_"),array(" "), $key))?>
+							</a>
+							</h4>
+						</div>
+						<div id="<?php echo  $key?>" class="panel-collapse collapse in " >
+							<div class="panel-body"><?php echo $value ?></div>
+						</div>
+					</div>
+				<?php /* End Foreach*/
+ 				}
+ 			?>
+ 		</div>
+	</div>
+</div>

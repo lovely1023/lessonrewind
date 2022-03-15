@@ -1,0 +1,50 @@
+<div class="row profile">
+	<div class="col-md-12">
+		<!--BEGIN TABS-->
+		<div class="tabbable tabbable-custom tabbable-full-width">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tab_1_3" data-toggle="tab">Account </a></li>
+			</ul>
+			<div class="tab-content">
+				<!--tab_1_2-->
+				<div class="tab-pane active" id="tab_1_3">
+					<div class="row profile-account">
+						<div class="col-md-3">
+							<?php echo $this->render("profile/_profile_side_bar.phtml");?>
+						</div>
+						<div class="col-md-9">
+							 <div class="custom-form-wrapper">
+							 
+ 								<form role="form" enctype="multipart/form-data" method="post">
+									<div class="form-group">
+										<div class="fileinput fileinput-new" data-provides="fileinput">
+											<div class="fileinput-new thumbnail" style="max-width: 350px; max-height: 350px;">
+												<img src="<?php echo getUserImage($this->user->user_image,"thumb")?>" alt=""/>
+											</div>
+											<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 350px; max-height: 350px;">
+											</div>
+											<div>
+												<span class="btn default btn-file">
+													<span class="fileinput-new"> Select image </span>
+													<span class="fileinput-exists"> Change </span>
+													<?php echo $this->form->user_image?>
+												</span>
+												<a href="#" class="btn default fileinput-exists" data-dismiss="fileinput">Remove </a>
+											</div>
+										</div>
+									</div>
+									<div class="margin-top-10"><button class="btn btn-sm green block_ui" type="submit">Submit</button></div>
+								</form>
+ 							 </div>
+ 						</div>
+						<!--end col-md-9-->
+					</div>
+				</div>
+				<!--end tab-pane-->
+			</div>
+		</div>
+		<!--END TABS-->
+	</div>
+</div>
+
+

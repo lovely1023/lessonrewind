@@ -1,0 +1,12 @@
+<?php if($this->current_controller=="profile" and $this->user->user_email_verified=='0' and $this->user->user_email!=''){?>
+  <div class="row">
+                    <div class="col-lg-12 col-md-12">
+	<div class="alert alert-warning mail_verification_pulsate" role="alert">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Account Verification ! </strong> Your Email Address is not verified , please verify your email address.
+		<br /> <a class="btn btn-xs btn-success" href="<?php echo $this->url(array("controller"=>"user","action"=>"sendverification"),'default')?>">Send Verification Email </a>
+	</div>
+      </div>
+                </div>
+
+<? } ?>

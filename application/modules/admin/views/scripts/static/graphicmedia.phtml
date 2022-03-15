@@ -1,0 +1,34 @@
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+	<div class="col-md-12">
+		<div class="btn-group"><a href="<?php echo $this->url(array(),'admin_add_graphic_media',true)?>" class="btn green"><i class="fa fa-plus"></i> Add New Media </a></div>
+		<!-- BEGIN FILTER -->
+		<div class="margin-top-10">
+			<div class="row mix-grid">
+				<?php foreach($this->all_media as $key=>$value) { ?>
+					<div class="col-md-3 col-sm-3 col-xs-6  mix ">
+						<div class="mix-inner">
+							<img class="img-responsive" src="<?php echo HTTP_MEDIA_IMAGES_PATH."/300/".$value['media_path']?>" alt="<?php echo $value['media_alt']?>">
+							<div class="mix-details">
+								<h4><?php echo $value['media_title']." / ".$value['media_alt']?></h4>
+								<a class="mix-link" href="<?php echo $this->url(array("media_id"=>$value['media_id']),"admin_edit_graphic_media",true)?>"><i class="fa fa-link"></i></a>
+								<a class="mix-link-delete" href="<?php echo $this->url(array("media_id"=>$value['media_id']),'admin_delete_graphic_media',true)?>"><i class="fa fa-trash-o"></i></a>
+								<a class="mix-preview fancybox-button" href="<?php echo HTTP_MEDIA_IMAGES_PATH."/".$value['media_path']?>" title="Project Name" data-rel="fancybox-button">
+								<i class="fa fa-search"></i>
+								</a>
+ 							</div>
+						</div>
+					</div>
+				<?php  } ?>
+			</div>
+		</div>
+		<!-- END FILTER -->
+ 	</div>
+</div>
+<!-- END PAGE CONTENT-->
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(e) {
+		 Portfolio.init();
+	});
+</script>
+

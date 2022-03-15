@@ -1,0 +1,71 @@
+<div class="row">
+ 	<div class="col-md-12 ">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet box purple">
+			<div class="portlet-title">
+				<div class="caption"><i class="<?php echo $this->pageIcon?>"></i> <?php echo $this->pageHeading?> </div>
+			</div>
+			
+			<div class="portlet-body">
+			
+				<form action="<?php echo $this->baseUrl() ?>/admin/instrument/remove" method="post" onsubmit="return checkSelects();" >
+			
+				<div class="table-toolbar">
+ 					<div class="btn-group"><button id="sample_editable_1_new" class="btn red"> <i class="fa fa-trash-o"></i> Delete Selected </button></div>	
+                      <a  class="btn red" href="<?php  echo $this->url(array('controller'=>'instrument','action'=>'add','module'=>'admin'),'default',true) ?>"> <i class="fa fa-plus"></i> ADD NEW </a>
+				</div>
+              
+ 			
+ 					<table class="table table-striped table-bordered table-hover dataTable" id="sample_1">
+						<thead>
+							<tr>
+								<th width="5%">S.NO</th>
+								<th width="5%"><input type="checkbox" class="group-checkable"  data-set="#sample_1 .checkboxes"  name="deletebcchk" id="deletebcchk" /></th>
+								<th>Instrument Name</th>
+								<th>Student Count</th>
+								<th>Teacher Count</th>
+                                <th>Status</th>
+ 								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+			
+			</form>
+			
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+
+
+</div>
+
+
+
+<!-- END EXAMPLE TABLE PORTLET-->
+<script type="text/javascript" charset="utf-8">
+$(document)	 .ready(function(e) {
+	$('#sample_1').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+ 		"sAjaxSource": "<?php echo $this->baseUrl()?>/admin/instrument/getinstrument" ,
+		"aaSorting": [[ 0, "desc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [1,2] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+		re_init();
+		}
+	} );
+});
+</script>
+
+ 

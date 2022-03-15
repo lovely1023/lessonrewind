@@ -1,0 +1,27 @@
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+	jQuery(window).on("load", function(){
+		jQuery('form.profile_form .form-group:last-child').before(jQuery('.g-recaptcha'));
+	});
+</script>
+<div class="row row_signup">
+<br />
+<div class="form-signin">
+	
+	<h1><i class="fa fa-user IconColor"></i> Sign Up</h1>
+     <hr />
+    <h4>Start your 30-day, no-obligation free trial</h4>
+    <br />
+	<p></p>
+	<?php echo $this->form;?>
+	<div class="g-recaptcha" data-sitekey="6LdzW7MUAAAAADcw-bMLuNJ5wfEajgULPS8N0e3i"></div>
+	<p></p>
+    <br />
+	<p class="forgot-instrucation text-center ">You will receive a activation email on your registered email to activate your account </p>
+	<p class="text-center"><a href="<?php echo $this->url(array(),'front_login')?>">Sign In</a> | <a href="<?php echo $this->url(array(),'front_forgotpassword')?>">Forgot Password</a></p>
+    
+    <br />
+    
+</div>
+</div>

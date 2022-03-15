@@ -1,0 +1,181 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<?php
+$model = new Application_Model_Static();
+
+?>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<h5 class="text-center">
+            <?php
+			if(isset($this->student_id))
+			{ 
+				?>
+                Welcome "<?php echo  $this->student_data['user_first_name']." ".$this->student_data['user_last_name']; ?>"
+                <?php
+				if($this->student_data['user_last_login']!='0000-00-00')
+			{
+				?>
+               , Your last visit was "<?php echo date("F d, Y",strtotime($this->student_data['user_last_login'])); ?>"
+                <?php
+					
+			}		
+			}
+			else
+			{
+				?>
+                Welcome "<?php echo  $this->user->user_first_name." ".$this->user->user_last_name; ?>"
+                <?php
+				if($this->user->user_last_login!='0000-00-00')
+			{
+				?>
+               , Your last visit was "<?php echo date("F d, Y",strtotime($this->user->user_last_login)); ?>"
+                <?php
+					
+			}	
+			}
+			
+			
+            
+			?>
+            </h5>
+			<h3 class="text-center"><b>Student Dashboard</b></h3>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/student1.png"  /></h5>
+           
+           <?php /*?> <?php 
+			if(empty($this->plan_detail))
+			{
+			?>
+            <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/subscription">Subscribed for a Plan</a>
+            <?php } ?><?php */?>
+            <br />
+               <?php /*?> <?php
+			if(isset($this->announcement_arr) && !empty($this->announcement_arr))
+			{
+				$ann_arr=$model->Super_Get("announce_attach",'an_un_id="'.$this->announcement_arr['announcement_id'].'"','fetchAll');
+				?><?php */?>
+                <div class="row">
+                	<div class="col-md-12">
+                        <div class="alert alert-info row" role="alert">
+                      <!--  <button type="button" class="close" data-dismiss="alert">×</button>-->
+                      <div class="pull-left"> 
+                     
+                       You have (<?php echo count($this->announcement_arr) ?>) unread Announcement(s)
+                         </div>
+                         <div class="pull-right">
+                         <?php
+					
+						 	if(isset($this->student_id))
+							{
+								?>
+                                 <a href="<?php  echo $this->url(array('controller'=>'profile','action'=>'announcements','student_id'=>$this->student_id),'default',true) ?>" class="pull-right"> <h5><strong>View All Announcements </strong></h5></a>
+                                <?php	
+							}
+							else
+							{
+								?>
+                                 <a href="<?php  echo $this->url(array('controller'=>'profile','action'=>'announcements'),'default',true) ?>" class="pull-right"> <h5><strong>View All Announcements </strong></h5></a>
+                                <?php	
+							}
+						 ?>
+                      
+                        </div>
+                        </div>
+                     </div>
+                </div>
+                <br />
+                 <div class="col-md-8 col-md-offset-2 text-center"><b class="text-ceneter">
+                 You will be able to access your lessons for 6 months after they are posted on your Student Dashboard. If there are any videos or other files that you wish to keep beyond that time, please download them to your computer or cloud storage within 6 months.
+                 <!--All lessons will be available for review for 6 months before being removed from the site. To exclude a lesson from being removed select “Yes” under “Save Lesson”.--> </b></div>
+                 <div class="widthdiv overflow">
+            <br />
+            </div>
+            <div class="row">
+            		<form action="<?php echo $this->baseUrl() ?>/admin/user/remove" method="post" onsubmit="return checkSelects();" >
+ 					<table class="table table-striped table-bordered table-hover dataTable" id="sample_1">
+						<thead>
+							<tr>
+						
+								
+								<th>Date</th>
+                                <th>Teacher</th>
+                                <th>Lesson Title</th>
+                              <!--  <th>Lesson Viewed</th>-->
+                             <!--   <th>Save Lesson</th>-->
+                              <!--  <th>Sent/Unsent</th>-->
+                                <th>View Lesson</th>
+                               
+                             
+                               
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+			
+			</form>
+                  
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+
+$(document)	 .ready(function(e) {
+	$('#sample_1').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+		"responsive": true,
+  		"bAutoWidth": false,
+		<?php 
+		if(isset($this->student_id) && $this->student_id!='')
+		{
+			?>
+			"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getlessons/student_id/<?php echo $this->student_id ?>" ,
+			<?php	
+		}
+		else
+		{
+			?>
+			"sAjaxSource": "<?php echo $this->baseUrl()?>/profile/getlessons" ,
+			<?php
+		}
+		?>
+ 		
+		"aaSorting": [[ 0, "desc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [0,1,2] },
+ 		 	
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+		re_init();
+		$('.labelLeft').text('No');
+		$('.labelRight').text('Yes');
+	
+		
+		}
+	} );
+});
+</script>
+
+

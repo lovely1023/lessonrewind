@@ -1,0 +1,187 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<h5 class="text-center">Welcome "<?php echo  $this->user->user_first_name." ".$this->user->user_last_name; ?>"</h5>
+			<h4 class="text-center"><b>View Folder</b></h4>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/teacher1.png"  /></h5>
+         <?php /*?>   <?php 
+			if(empty($this->plan_detail))
+			{
+			?>
+            <div class="row">
+            <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/dashboard">Go to Dashboard <i class="fa fa-arrow-right"></i></a>
+            </div>
+            <?php } ?><?php */?>
+            <br />
+            <br />
+            <div class="row">
+            <?php
+					
+					 if(isset($this->teacher_attach_images) && !empty($this->teacher_attach_images))
+					   {
+			 ?>
+            		<div class="allstudents row"><i class="fa fa-file-picture-o"></i> All Images</div>
+                     
+                    <div class="viewall row">
+                    <br />
+                  
+                    	<div class="row">
+                        <br />
+                       <?php
+					   	foreach($this->teacher_attach_images as $k=>$v)
+						{
+							?>
+                            <div class="col-md-3">
+                            <img src="<?php echo HTTP_TEACHER_FILES_PATH?>/200/<?php echo $v['teacher_attach_name'] ?>" class="img-thumbnail"  />
+                            	
+                            </div>
+                            <?php	
+						}
+					    ?>
+                        	
+                        </div>
+                        <br />
+                    <br />
+                    </div>
+                    <br />
+                    <br />
+                    
+               <?php } ?>   
+                <?php
+					
+					 if(isset($this->teacher_attach_documents) && !empty($this->teacher_attach_documents))
+					   {
+			 ?>
+            		<div class="allstudents row"><i class="fa fa-file-word-o"></i> All Documents</div>
+                     
+                    <div class="viewall row">
+                    <br />
+                  
+                    	<div class="row">
+                        <br />
+                       <table width="100%" border="1" class="table_doc">
+                       <thead>
+                       	<tr>
+                        	<th >
+                            File Name
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                       </thead>
+                       	<?php
+							foreach($this->teacher_attach_documents as $k=>$v)
+							{
+							
+								?>
+                                <tr class="">
+                                		<td>
+                                        	<?php echo $v['teacher_attach_name'] ?>
+                                        </td>
+                                        <td class="lesson_icon">
+                                        	<a  href="<?=$this->baseUrl()?>/teacher/contents/doc/<?=$v['teacher_attach_name']?>" target="_blank"><i class="fa fa-search"></i></a>
+                                           <a href="<?php echo APPLICATION_URL ?>/download.php?download_file=public/resources/teacher_attachements/<?php echo $v['teacher_attach_name']  ?>" target="_blank" ><i class="fa fa-download"></i></a>
+                                        </td>
+                                        
+                                </tr>
+                                <?php	
+							}
+						 ?>
+                       </table>
+                        	<br />
+                    <br />
+                        </div>
+                    </div>
+                    
+                    <br />
+                    <br />
+               <?php } ?>  
+                 <?php
+					
+					 if(isset($this->teacher_attach_video) && !empty($this->teacher_attach_video))
+					   {
+			 ?>
+            		<div class="allstudents row"><i class="fa fa-video-camera"></i> All Videos</div>
+                     
+                    <div class="viewall row">
+                    <br />
+                  
+                    	<div class="row">
+                        <br />
+                       
+                     
+                       <?php
+					   
+					   foreach($this->teacher_attach_video as $k=>$v)
+					   {
+						   
+						 
+							?>
+                            <div  class="col-md-3 mediaplayer">
+                              <div class="" id="mediaplayer_<?php echo $v['teacher_attach_id'] ?>"></div>
+                              </div>
+		<script type="text/javascript">
+		$(document).ready(function(e) {
+			
+			jwplayer("mediaplayer_<?php echo $v['teacher_attach_id'] ?>").setup
+			({
+				
+						flashplayer: "<?=$this->baseUrl()?>/public/plugins/mediaplayer/player.swf",
+						file: "<?php echo HTTP_TEACHER_FILES_PATH ?>/<?php echo $v['teacher_attach_name'] ?>",
+						image: "<?php echo HTTP_SITEIMG_PATH ?>/video.jpg",
+					/*	autostart: false,*/
+						//stretching: "none",
+					/*	"controlbar.position": "bottom",
+						"controlbar.idlehide": "false",
+						plugins: 'http://plugins.gitraffic.com/plugins/GirafficJW50Plugin.swf',*/
+				 });
+          
+        });
+       
+        </script>
+        
+                            <?php   
+						}
+					    ?>
+                        	<br />
+                    <br />
+                        </div>
+                    </div>
+                    
+                    <br />
+                    <br />
+               <?php } ?>   
+                 
+                    
+                      <br />
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+</script>
+
+
+ 

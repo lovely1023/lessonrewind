@@ -1,0 +1,58 @@
+<style>
+.main-container-outer
+{
+	width:100% !important;
+	padding:0px !important;
+	max-width: 100% !important;
+}
+</style>
+
+<div class="conatiner text-center" >
+<div class="row banner">
+ <?php 
+	
+	if($this->content['page_id']==1)
+	{
+		?>
+        <img src="<?php echo HTTP_SITEIMG_PATH?>/About-Us1.jpg"  />
+        <?php	
+
+	}
+	else if($this->content['page_id']==8)
+	{
+	?>
+    <img src="<?php echo HTTP_SITEIMG_PATH?>/terms-and-conditions-banner.jpg"  />
+    <?php	
+	}
+	else
+	{
+	?>
+      <img src="<?php echo HTTP_SITEIMG_PATH?>/privacy_policy_banner.jpg"  />
+    <?	
+	}
+		
+	
+	?>
+
+</div>
+	<br />
+   
+	<div class="row">
+  	  <div class="container">
+		<div class="col-md-12 ">
+			<div class="page-content">
+			<h1 class="static-content-heading text-center" style="text-transform:uppercase;"><big><big><?php echo $this->content['page_title'];?></big></big></h1>	
+            <hr />
+			<?php echo $this->content['page_content']?>
+            
+            <br />	
+            
+            
+            </div>
+		</div>
+      </div>
+	</div>
+    <br />
+</div>
+
+ 

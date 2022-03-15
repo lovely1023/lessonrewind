@@ -1,0 +1,546 @@
+<style>
+.class_days
+{
+	padding:0px;
+}
+body
+{
+	  background: #eee !important;
+}
+.bs-example
+{
+	max-width:545px;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus
+{
+	  border: 1px solid #b3b3b3 !important;
+  border-bottom-color: transparent !important;	
+  border-radius:4px !important;
+}
+.nav-tabs
+{
+	margin-bottom:0px;
+	 border-bottom: 1px solid #b3b3b3;
+	border-radius:4px !important;
+	border-bottom-left-radius:0px !important;
+}
+.tab-content
+{
+	  border: 1px solid #b3b3b3;
+	  border-top: 0px !important;	
+	  padding-left:24px;
+	padding-right:24px;
+	border-radius:4px !important;
+	border-top-left-radius:0px !important;
+}.table-toolbar {
+  margin-top: -38px;
+}
+
+
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+     
+		<div class="custom-form-wrapper addnew">
+        <div class="col-sm-10 col-md-offset-1">
+        <!--	<div class="row">
+           <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>
+           </div>
+-->
+        	<h1><?php echo $this->pageHeadingshow ?></h1>
+            <hr />
+            <div class="row">
+            	<div class="row classnew">
+                <form enctype="multipart/form-data" class="profile_form" novalidate="novalidate" role="form" method="post">
+                <div class="row">
+                <?php echo $this->form->class_type ?>
+                </div>
+                <br />
+                <div class="row" id="template">
+                <?php echo $this->form->class_template_name ?>
+                </div>
+                 <br />
+                <div class="row">
+                <?php echo $this->form->class_name ?>
+                </div>
+                 <br />
+                <div class="col-md-12 class_days">
+                <?php echo $this->form->class_days ?>
+                </div>
+                <br />
+                <div class="row">
+                	<?php echo $this->form->class_date_type ?>
+                </div>                
+                 <br />
+                <div class="row hide_clss1" id="selectdate">
+                <?php echo $this->form->class_date ?>
+                </div>
+                <br />
+                <div class="row hide_clss1" id="selectdate1">
+                <?php echo $this->form->class_date_only ?>
+                </div>
+                 <br />
+                 <div class="row hide_clss1" id="selecttime">
+                 	<?php echo $this->form->date_timepicker_start ?>
+                    <?php echo $this->form->date_timepicker_end ?>
+                 </div>
+                 <br />
+                <div class="row">
+                    <a class="btn blue btn-primary  btn btn-default pull-right " href="<?php echo SITE_HTTP_URL ?>/class">Cancel</a>
+                 <?php echo $this->form->bttnsubmittemplate  ?>
+                <?php echo $this->form->bttnsubmit ?>
+                </div>
+                  
+                
+                </form>
+                <?php /*?><?php echo $this->form ?><?php */?>
+                </div>
+            </div>
+            
+            <?php 
+		  if(isset($this->class_data) && !empty($this->class_data))
+		  {
+		  ?>  
+        <div class="bs-example">
+        <div class="row">
+        <ul class="nav nav-tabs">
+      		  <li class="active"><a data-toggle="tab" href="#sectionA">Students</a></li>
+       		 <li><a data-toggle="tab" href="#sectionB">Teachers</a></li>
+        
+        </ul>
+        <div class="tab-content">
+                <div id="sectionA" class="tab-pane fade in active">
+               
+               		<div class="row">
+                	<div class="portlet-body">
+                    
+              
+                        <form action="<?php echo $this->baseUrl() ?>/class/reomvestudentclass/class_id/<?php echo $this->class_data['class_id'] ?>" method="post" onsubmit="return checkSelects();" >
+                        <br />
+                        <br />
+                        <div class="row"></div>
+                        <div class="col-md-12">
+                        	<label><b>Students currently assigned to class</b>  <span class="instrument_add"><a  onclick="showstudent()" ><b>(+ Assign Students)</b></a></span></label>
+                        </div>
+			
+				
+              
+ 			
+ 					<table class="table table-striped table-bordered table-hover dataTable" id="sample_1">
+						<thead>
+							<tr>
+								<th width="5%"><input type="checkbox" class="group-checkable"  data-set="#sample_1 .checkboxes"  name="deletebcchk" id="selecctall" /></th>
+								
+								<th>Last Name</th>
+                                <th>First Name</th>
+								<th>Added Date</th>
+ 								
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+                    
+                    <div class="table-toolbar">
+ 					<div class="btn-group"><button id="sample_editable_1_new" class="btn red"> <i class="fa fa-trash-o"></i> Remove Selected From Students </button></div>	
+                   
+				</div>
+			
+			</form>
+                     
+				
+						
+			
+			</div>
+                </div>
+               
+               	</div>
+               
+                <div id="sectionB" class="tab-pane fade">
+               
+               				<div class="row">
+                	<div class="portlet-body">
+                    
+              
+                        <form action="<?php echo $this->baseUrl() ?>/class/removeteachersclass/class_id/<?php echo $this->class_data['class_id'] ?>" method="post" onsubmit="return checkSelects();" >
+			 <br />
+                        <br />
+                        <div class="row"></div>
+                        <div class="col-md-12">
+                        	<label><b>Teachers currently assigned to class</b>  <span class="instrument_add"><a onclick="showteachers()" ><b>(+ Assign Teachers)</b></a></span></label>
+                        </div>
+				
+              
+ 			
+ 					<table class="table table-striped table-bordered table-hover dataTable" id="sample_2">
+						<thead>
+							<tr>
+								<th width="5%"><input type="checkbox" class="group-checkable"  data-set="#sample_2 .checkboxes"  name="deletebcchk" id="selecctall2" /></th>
+							
+								<th>Last Name</th>
+                                <th>First Name</th>
+								<th>Added Date</th>
+ 								
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+                    
+                    <div class="table-toolbar">
+ 					<div class="btn-group"><button id="sample_editable_1_new" class="btn red"> <i class="fa fa-trash-o"></i> Remove Selected from Teachers </button></div>	
+                    <!--  <a  class="btn red" href="<?php  echo $this->url(array('controller'=>'subscription','action'=>'addplan','module'=>'admin'),'default',true) ?>"> <i class="fa fa-plus"></i> ADD NEW </a>-->
+				</div>
+			
+			</form>
+                     
+				
+						
+			
+			</div>
+                </div>
+               
+               
+                </div>
+        
+        </div>
+        </div>
+        </div>
+        
+        <?php } ?>
+            
+            
+            
+        </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+
+
+ <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Assign Students
+         <input type="text" name="student_name" value="" id="student_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Student Name" class="form-control pull-right search_sudents "   onkeyup="searchFamily1('instrumets','student_name');" /> &nbsp;&nbsp;
+        </h4>
+      </div>
+      <div class="modal-body">
+	      	<div class="col-md-12">
+            <form method="post" class="studentForm" action="<?php echo $this->baseUrl() ?>/class/addstudentclass/class_id/<?php echo $this->class_data['class_id'] ?>">
+               <label>Select Students</label>
+            <div class="row student_form" id="instrumets">
+         
+       		<?php echo $this->studentform->instrument_student ?>
+            </div>
+            <?php echo $this->studentform->bttnsubmit ?>
+            
+            </form>
+           </div> 
+            </div>
+    
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Teacher Modal -->
+<div class="modal fade" id="myModalTeacher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Assign Teachers
+         <input type="text" name="teachers_name" value="" id="teachers_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Teacher Name" class="form-control pull-right search_sudents "   onkeyup="searchFamily1('instrumets_teachers','teachers_name');" /> &nbsp;&nbsp;
+        </h4>
+      </div>
+      <div class="modal-body">
+	      	<div class="col-md-12">
+            <form method="post" class="teacherForm" action="<?php echo $this->baseUrl() ?>/class/addteachersclass/class_id/<?php echo $this->class_data['class_id'] ?>">
+                <label>Select Teachers</label>
+            <div class="row student_form" id="instrumets_teachers">
+       		<?php echo $this->teacherform->instrument_teachers ?>
+            </div>
+            <?php echo $this->teacherform->bttnsubmit ?>
+            
+            </form>
+           </div> 
+            </div>
+    
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+function showteachers()
+{
+	$('#myModalTeacher').modal('show');
+	  $('#instrumets_teachers').getNiceScroll().remove();  
+	 $('#instrumets_teachers').niceScroll({  cursorcolor: "#ff8400",
+      			  cursoropacitymin: 0.3,
+      		  background: "#bbb",
+      		 cursorborder: "0",
+     			   autohidemode: false,
+      		  cursorminheight: 30});
+			  $('#ascrail2000-hr').show();	
+}
+
+function showstudent()
+{
+	$('#myModal').modal('show');
+	$('#instrumets').getNiceScroll().remove();  
+	$('#instrumets').niceScroll({  cursorcolor: "#ff8400",
+      		cursoropacitymin: 0.3,
+      		background: "#bbb",
+      		cursorborder: "0",
+     		autohidemode: false,
+      		cursorminheight: 30});
+			      $('#ascrail2000').show();
+}
+
+$('.class_date_type').change(function(e) {
+  var getval=$(this).val();
+  $('#class_date').val('');
+  if(getval==0)
+  {
+		$('#selectdate').addClass('hide_clss1');
+		$('#selectdate1').addClass('hide_clss1');
+		$('#selecttime').addClass('hide_clss1');
+		$('#class_date').removeClass('required');
+		$('#date_timepicker_start').removeClass('required');
+		$('#date_timepicker_end').removeClass('required');
+		$('#class_date_only').removeClass('required');
+  }
+  else if(getval==1)
+  {
+		$('#selectdate').addClass('hide_clss1');
+		$('#selectdate1').addClass('hide_clss1');
+		$('#selecttime').removeClass('hide_clss1');
+		$('#date_timepicker_start').addClass('required');
+		$('#date_timepicker_end').addClass('required');
+		$('#class_date').removeClass('required');
+		$('#class_date_only').removeClass('required');  
+  }
+  else if(getval==2)
+  {
+	  $('#selectdate').addClass('hide_clss1');
+		$('#selectdate1').removeClass('hide_clss1');
+		$('#date_timepicker_start').removeClass('required');
+		$('#date_timepicker_end').removeClass('required');
+		$('#selecttime').addClass('hide_clss1');
+		$('#class_date').removeClass('required');
+		$('#class_date_only').addClass('required');  
+  }
+  else
+  {
+	$('#selectdate').removeClass('hide_clss1');
+		$('#selectdate1').addClass('hide_clss1');
+		$('#selecttime').addClass('hide_clss1');
+		$('#date_timepicker_start').removeClass('required');
+		$('#date_timepicker_end').removeClass('required');
+		$('#class_date').addClass('required');
+		$('#class_date_only').removeClass('required');  
+  }
+  
+});
+var timeexplode1,timeexplode2,timeexplode3,timeexplode4,timeexplode5,timeexplode6,timeexplode7,timeexplode8;
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	  
+	});
+		</script>
+       <?php 
+	 
+	 
+	 
+		  if(isset($this->class_data) && !empty($this->class_data))
+		  {
+			 
+	 if(isset($this->class_data) && $this->class_data['class_date_type']==1)
+	 {
+		/* Ongoing Class Include Time  */		 
+		?>
+         <script>
+		
+                	$('#selecttime').removeClass('hide_clss1');
+          </script>
+        <?php
+	 }
+	 else if(isset($this->class_data) && $this->class_data['class_date_type']==2)
+	 {
+		?>
+        <script>
+		
+                	$('#selectdate1').removeClass('hide_clss1');
+          </script>
+        <?php 
+		}
+	 else if(isset($this->class_data) && $this->class_data['class_date_type']==3)
+	 {
+		?>
+      	  <script>
+		  timeexplode1="<?=$this->timeexplode1?>";
+					 timeexplode2="<?=$this->timeexplode2?>";
+					 timeexplode3="<?=$this->timeexplode3?>";
+					 timeexplode4="<?=$this->timeexplode4?>";
+					 timeexplode5="<?=$this->timeexplode5?>";
+					 timeexplode6="<?=$this->timeexplode6?>";
+					 timeexplode7="<?=$this->timeexplode7?>";
+					 timeexplode8="<?=$this->timeexplode8?>";
+           $('#selectdate').removeClass('hide_clss1');
+			$(document).ready(function(e) {
+				setTimeout(function(){
+					 $('.daterangepicker').find('select').children('option').removeAttr('selected');
+					var daterangepicker_start="<?=$this->daterangepicker_start?>";
+					var daterangepicker_end="<?=$this->daterangepicker_end?>";
+                       $('input[name=daterangepicker_start]').val(daterangepicker_start);
+					   var startdate=daterangepicker_start.split('/');
+          		 	 $('input[name=daterangepicker_end]').val(daterangepicker_end);	
+					   var endtdate=daterangepicker_end.split('/');
+						$('.second').find('.hourselect option[value='+timeexplode1+']').attr('selected','selected');
+						$('.second').find('.minuteselect option[value='+timeexplode2+']').attr('selected','selected');
+						$('.second').find('.ampmselect option[value='+timeexplode3+']').attr('selected','selected');
+						$('.first').find('.hourselect option[value='+timeexplode4+']').attr('selected','selected');
+						$('.first').find('.minuteselect option[value='+timeexplode5+']').attr('selected','selected');
+						$('.first').find('.ampmselect option[value='+timeexplode6+']').attr('selected','selected');
+								
+						 for (var row = 0; row < 6; row++) {
+              				  for (var col = 0; col < 7; col++) {
+								  var datevals= $('.second').find('td[data-title="r'+row+'c'+col+'"]').html();
+								    var datevale= $('.first').find('td[data-title="r'+row+'c'+col+'"]').html();
+								  if(startdate[1]==datevals)
+								  {	
+								  $('.second').find('td').removeClass('active').removeClass('start-date').removeClass('end-date');
+								  	$('.second').find('td[data-title="r'+row+'c'+col+'"]').addClass('active').addClass('start-date').addClass('end-date')
+								  }
+								  if(endtdate[1]==datevale)
+								  {	$('.first').find('td').removeClass('active').removeClass('start-date').removeClass('end-date');
+								  	$('.first').find('td[data-title="r'+row+'c'+col+'"]').addClass('active').addClass('start-date').addClass('end-date')
+								  }
+								  }
+              				 
+           								 }
+							 $('.hourselect').trigger('change');
+							 // alert('innn');
+				 }, 500);
+                    });
+					
+				
+          </script>
+        <?php 
+		
+		}
+			 
+		  ?>
+          
+          <script>
+	$(document)	 .ready(function(e) {
+		
+		$('#sample_2').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+		"oLanguage": {
+        "sEmptyTable":     "No Record Found"
+    				},
+ 		"sAjaxSource": "<?php echo $this->baseUrl()?>/class/getteacherclass/class_id/<?php echo $this->class_data['class_id'] ?>" ,
+		"order": [[ 2, "asc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [0,1] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+		re_init();
+		}
+	} );
+		
+		
+	$('#sample_1').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+		"oLanguage": {
+        "sEmptyTable":     "No Record Found"
+    				},
+ 		"sAjaxSource": "<?php echo $this->baseUrl()?>/class/getstudentclass/class_id/<?php echo $this->class_data['class_id'] ?>" ,
+		"order": [[ 2, "asc" ]],
+		"aoColumnDefs": 
+		 [
+			{ "bSortable": false, "aTargets": [0,1] },
+ 		 	/*{ "sClass": "hidden-767", "aTargets": [ 1 ] },
+			{ "sClass": "hidden-480", "aTargets": [ 5 ] },
+			{ "sClass": "hidden-320", "aTargets": [6] }*/
+		 ],
+		"iDisplayLength":50,
+	    "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+		"fnDrawCallback": function( oSettings ) {
+		re_init();
+		}
+	} );
+	 $('#selecctall').click(function(event) {  //on click 
+	 
+        if(this.checked) { // check select status
+            $('.checkbox1').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"               
+            });
+        }else{
+            $('.checkbox1').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                       
+            });         
+        }
+    });
+	
+	
+	 $('#selecctall2').click(function(event) {  //on click 
+	
+        if(this.checked) { // check select status
+            $('.checkbox2').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"               
+            });
+        }else{
+            $('.checkbox2').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                       
+            });         
+        }
+    });
+	
+	
+});
+</script>
+
+<?php } ?>
+
+
+<script>
+	$('.applyBtn').click(function(e) {
+       // alert("lkk");
+    });
+	
+	
+</script>
+
+ 

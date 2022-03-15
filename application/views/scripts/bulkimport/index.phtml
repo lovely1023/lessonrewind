@@ -1,0 +1,117 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<?php
+$model = new Application_Model_Static();
+
+?>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        
+			<h3 class="text-center"><b>Bulk Importing</b></h3>
+        
+            <br />
+    
+            <div class="row">
+            
+             <br />
+                    <div class="row">
+                <!--   <a class="pull-right subscribed_plan" href="/Lerry/dashboard">Go to Dashboard <i class="fa fa-arrow-right"></i></a>-->
+                   <?php /*?><a href="<?php echo $this->baseUrl()?>/teacher/newlesson" class="dashboard_a text-center floatright">Create Lesson</a><?php */?>
+                    </div>
+            
+                    <div class="allstudents row"><i class="fa fa-share-square-o"></i> Bulk Import</div>
+                     
+                    <div class="viewall row">
+                    <br />
+                   
+                    	<div class="row">
+                        <br />
+                       
+                       <div class="row">
+                       <div class="col-md-3">
+                               <a href="<?php echo $this->baseUrl() ?>/bulkimport/importteacher" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                               			Import Teachers       
+                                    </div>
+                                </a>
+                         </div>
+                        <div class="col-md-3">
+                     <a href="<?php echo $this->baseUrl() ?>/bulkimport/importstudent" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                               Import Students         </div>
+                                    </a>
+                         </div>
+                           <div class="col-md-3">
+                     <a href="<?php echo $this->baseUrl() ?>/bulkimport/importprivatestudent" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                             Import  Teacher’s current private student         </div>
+                                    </a>
+                         </div>
+                         
+                         <div class="col-md-3">
+                     <a href="<?php echo $this->baseUrl() ?>/bulkimport/studentinstrument" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                             Import student’s current Instrument(s)         </div>
+                                    </a>
+                         </div>
+                                 
+                          <div class="col-md-3">
+                     <a href="<?php echo $this->baseUrl() ?>/bulkimport/teacherinstrument" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                             Import teacher’s current Instrument(s)          </div>
+                                    </a>
+                         </div>
+                         
+                          <div class="col-md-3">
+                     <a href="<?php echo $this->baseUrl() ?>/bulkimport/studentgroupclasses" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                             Import student’s current Group Classes          </div>
+                                    </a>
+                         </div>
+                         
+                         <div class="col-md-3">
+                     <a href="<?php echo $this->baseUrl() ?>/bulkimport/teachergroupclasses" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                             Import teacher’s current Group Classes           </div>
+                                    </a>
+                         </div>
+                                    
+                                    
+                                    
+                                	
+                    </div>
+                        </div>
+                    </div>
+                    
+                      <br />
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+</script>
+
+
+ 

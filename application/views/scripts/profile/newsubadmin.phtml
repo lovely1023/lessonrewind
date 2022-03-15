@@ -1,0 +1,62 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+     
+		<div class="custom-form-wrapper addnew">
+        <!--	<div class="row">
+           <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>
+           </div>
+-->
+        	<h1><?php echo $this->pageHeadingshow ?></h1>
+            <hr />
+            <div class="row">
+            	<div class="row">
+                
+             <form method="post" action="" class="profile_form" id="profile_form">
+             	<?php echo $this->form->user_first_name ?>
+                <?php echo $this->form->user_last_name ?>
+                <?php echo $this->form->user_email ?>
+                <?php echo $this->form->admin_permission ?>
+                <div class="row">
+                		  <a class="btn blue btn-primary  btn btn-default pull-right " href="<?php echo SITE_HTTP_URL ?>/profile/viewsubadmin">Cancel</a>
+              		  <?php echo $this->form->bttnsubmit ?>
+                </div>
+             </form>
+                </div>
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<?php
+if(isset($this->teacher_data) && !empty($this->teacher_data))
+{
+?>
+<script>
+		var user_id='<?php echo $this->teacher_data['user_id']?>';
+</script>
+<?php	
+}
+ ?>
+ 
+ 
+
+
+
+ 

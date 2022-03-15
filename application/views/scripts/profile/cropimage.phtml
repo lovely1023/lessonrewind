@@ -1,0 +1,59 @@
+<?php $path_new = HTTP_PROFILE_IMAGES_PATH."/".$this->path;?>
+<!--BEGIN TABS-->
+<div class="row profile-account">
+	<div class="col-md-3">
+		<?php echo $this->render("profile/_profile_side_bar.phtml");?>
+	</div>
+
+	<div class="col-md-9">
+		 <div class="custom-form-wrapper">
+			<p><a class="btn btn-info btn-xs"  href="<?php echo $this->url(array(),'front_image')?>" ><span class="glyphicon glyphicon-chevron-left"></span> Back to Profile</a></p>
+			<div class="jc-demo-box" style="border:none; margin:0 auto; padding:50px 0;" align="center">
+				<img src="<?=$path_new?>" id="cropbox" style="max-width:500px;" />
+				<form action="" method="post" onsubmit="return checkCoords();">
+					<input type="hidden" id="x" name="x" />
+					<input type="hidden" id="y" name="y" />
+					<input type="hidden" id="w" name="w" />
+					<input type="hidden" id="h" name="h" />
+					<input type="submit" value="Crop Image" class="btn btn-success btn-sm " style="margin:10px 0;" />
+				</form>
+			</div>	
+		 </div>
+	</div>
+	<!--end col-md-9-->
+</div>
+
+<script type="text/javascript">
+
+$(function(){
+	var imgWidth = parseInt('<?php echo $this->imageWidth; ?>');
+	var imgHeight = parseInt('<?php echo $this->imageHeight; ?>');
+	$('#cropbox').Jcrop({
+	  boxWidth: 500,
+	 // boxHeight: 500,	
+	  aspectRatio: 1,
+	  onSelect: updateCoords,
+		setSelect:   [50, 0, 200,200],
+		minSize: [ 160, 160 ],
+		trueSize: [imgWidth,imgHeight]
+		//maxSize: [ 160, 160 ]
+	});
+});
+
+function updateCoords(c) 
+{
+$('#x').val(c.x);
+$('#y').val(c.y);
+$('#w').val(c.w);
+$('#h').val(c.h);
+};
+
+
+function checkCoords(){
+if (parseInt($('#w').val())) return true;
+alert('Please select a crop region then press submit.');
+return false;
+};
+
+</script>
+

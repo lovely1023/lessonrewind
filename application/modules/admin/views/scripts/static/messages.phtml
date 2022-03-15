@@ -1,0 +1,40 @@
+<?php global $mySession; ?>
+
+<?php if(isset($mySession->defaultMsg)){?>
+<div class="alert alert-warning fade in">
+    <button class="close" data-dismiss="alert" type="button"></button>
+    <strong>Warning Alert</strong><br>
+    <?php echo $mySession->defaultMsg?>
+</div>
+<?php unset($mySession->defaultMsg);?>
+<?php }?>
+
+
+<?php if(isset($mySession->infoMsg)){?>
+<div class="alert alert-info fade in">
+    <button class="close" data-dismiss="alert" type="button"></button>
+    <strong>Info Alert</strong><br>
+     <?php echo $mySession->infoMsg?>
+</div>
+<?php unset($mySession->infoMsg);?>
+<?php }?>
+
+<?php if(isset($mySession->successMsg)){?>
+<div class="alert alert-success fade in">
+    <button class="close" data-dismiss="alert" type="button"></button>
+    <strong>Success Alert</strong><br>
+     <?php echo $mySession->successMsg?>
+</div>
+<?php unset($mySession->successMsg);?>
+<?php }?>
+
+
+<?php if(isset($mySession->errorMsg)){?>
+<div class="alert alert-danger fade in">
+    <button class="close" data-dismiss="alert" type="button"></button>
+    <strong>Error Alert</strong><br>
+     <?php echo $mySession->errorMsg?>
+</div>
+<?php unset($mySession->errorMsg);?>
+<?php }?>
+

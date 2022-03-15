@@ -1,0 +1,284 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+     
+		<div class="custom-form-wrapper addnew">
+        <div class="col-sm-10 col-md-offset-1">
+        	<div class="row">
+        <!--   <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>-->
+           </div>
+
+        	<h1><?php echo $this->pageHeadingshow ?></h1>
+            <hr />
+            <div class="col-md-12">
+            	<div class="row">
+                
+               <form enctype="multipart/form-data" id="profile_form" class="profile_form" novalidate="novalidate" role="form" method="post">
+               <?php 
+			   	if(!isset($this->user_id) && $this->user_id=='')
+				{
+					?>
+                  <div class="row">
+                  <label for="user_linked_family" class="optional"> Email Address/ Username (enter email address in box below) </label>
+                  <br />
+               	<?php echo $this->form->user_login_type ?>
+               </div>
+               <div class="row">
+               	<label for="user_email" class="optional">(By choosing this option there will be a Username and Password created for the Family. School Admin must supply login info to Family contact) <br />
+                Login details can be found by clicking on the "Last Name" on the Family list page.
+                <br />	
+                </label>
+               </div>
+                    <?php
+				}
+				else
+				{
+					?>
+                    <div class="row">
+                    	<?php echo $this->form->user_username ?>
+                    </div>
+                    <?php	
+				}
+			   ?>
+              
+               <div class="row" id="user_email_parent">
+               		<?php echo $this->form->user_email ?>
+               </div>
+               <div class="row">
+               		<?php echo $this->form->user_first_name ?>
+               </div>
+               <div class="row">
+               		<?php echo $this->form->user_last_name ?>
+                    <?php echo $this->form->newstudent_param ?>
+               </div>
+               
+          	  <div class="row" id="student_text">
+                        	<label class="widthdiv">
+                            <div class="instrument_add link_unlink">Link / Unlink Current Students to This Family</div>
+                             <div class=" link_unlink"><a onclick="addnewstudent()">Add New Students to This Family</a></div>
+                          
+                         </label>
+                         <div class="widthdiv">
+                              <input type="text" name="ins_name" value="" id="ins_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Student Name" class="form-control pull-right search_sudents hide_clss1"   onkeyup="searchFamily1('main_student','ins_name');" />
+                           </div>
+                           <br />
+                               <div class="hide_clss main_div" id="main_student">
+                        	<?php echo $this->form->family_students ?>
+                            	</div>
+                                <div class="row">
+                                <label for="user_linked_family" class="optional"> Linked Students </label>
+                                </div>
+                                 <div class="row textarea_div">
+                            	(NONE)
+                               
+                               </div>
+                        </div>
+		     
+                <div class="row">
+                   <a class="btn blue btn-primary  btn btn-default pull-right " href="<?php echo SITE_HTTP_URL ?>/family">Cancel</a>
+                		<?php echo $this->form->bttnsubmit ?>
+                </div>
+               </form>
+                </div>
+            </div>
+            
+         </div>
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+<br />
+<br />
+</div>
+
+<?php
+
+if(isset($this->family_data) && !empty($this->family_data))
+{
+?>
+<script>
+		var user_id='<?php echo $this->family_data['user_id']?>';
+		
+</script>
+<?php	
+}
+ ?>
+ 
+ 
+ 
+ <script>
+ 
+ $('#profile_form').submit(function(e) {
+   		if($('#profile_form').valid())
+		{ 
+		}
+		else
+		{
+			
+			$('.textarea_div').css('border-color','#8bd4e8');
+			if($('span[for="family_students[]"]').is(':visible'))
+			{
+				$('#student_text .textarea_div').css('border-color','#b94a48');
+			}
+			
+			
+		}
+});
+ 
+ 	function addnewstudent()
+	{
+		$('input[name="family_students[]"]').removeClass('required');
+		  if($('#profile_form').valid()) 
+		  {
+				$('#newstudent_param').val('1');
+				$('#profile_form').submit();
+		  }	
+	}
+	$('#bttnsubmit').click(function(e) {
+        $('input[name="family_students[]"]').addClass('required');
+    });
+ 
+ 	function addStudent(idval)
+	{
+		var instrument_id=$(idval).val();
+		
+		if($('#student_text .textarea_div .tag_div').length>0)
+		{
+				
+		}
+		else
+		{
+			$('#student_text .textarea_div').html('');	
+		}
+		if($(idval).is(':checked'))
+		{
+			if(instrument_id=='None' )
+			{
+				$('#student_text .textarea_div').html('(NONE)');		
+				$("input[type='checkbox'][name='family_students[]']").each(function(){
+						
+						var instru_id=$(this).val();
+						if(instru_id!='None')
+						{
+						
+							$(this).removeAttr('checked');
+						}
+				});
+				}
+			else
+			{
+				$('#family_students-None').val('None');
+				$('#family_students-None').removeAttr('checked');
+				var text_name=$(idval).parent().children('span').html();
+				var insid="#stu_"+instrument_id;
+				if($(insid).length==0)
+				{				
+				$('#student_text .textarea_div').append('<div class="tag_div" id="stu_'+instrument_id+'">'+text_name+'</div>');
+				}
+			}
+		}
+		else
+		{
+			
+			if(instrument_id=='None' )
+			{
+				$('#student_text .textarea_div').html('(NONE)');		
+				
+			}
+			else
+			{
+				
+				var insid="#stu_"+instrument_id;
+				if($(insid).length!=0)
+				{				
+				$(insid).remove();
+				}
+			}
+		
+		}
+		
+	}
+	
+	$('.instrument_add').click(function(e) {
+       
+	   
+	   var newrest_hide_div=$(this).parent().parent().children('.main_div').attr('id');
+	  var hide_id='#'+newrest_hide_div;
+	   if($(hide_id).hasClass('hide_clss'))
+	   {
+		  
+			  $(hide_id).removeClass('hide_clss');
+			  $('#ins_name').removeClass('hide_clss1');
+			
+			    $("#main_student").niceScroll({  cursorcolor: "#ff8400",
+        cursoropacitymin: 0.3,
+        background: "#bbb",
+        cursorborder: "0",
+        autohidemode: false,
+        cursorminheight: 30});
+		 	  $('#ascrail2000').show();
+	   }
+	   else
+	   {
+		  $(hide_id).addClass('hide_clss');
+		 $("#main_student").getNiceScroll().remove();  
+		  $('#ins_name').addClass('hide_clss1');
+		  }
+    });
+	
+	
+	
+ </script>
+ 
+
+
+
+ <?php
+
+if(isset($this->family_data) && !empty($this->family_data))
+{
+	
+	?>
+    <script>
+		$('#student_text .textarea_div').html('');
+    </script>
+    <?
+	foreach($this->family_data['family_students'] as $k=>$v)
+	{
+			?>
+            <script>
+            		var instru_id='<?php echo $v ?>';
+					var id_val='#family_students-'+instru_id;
+					var text_name=$(id_val).parent().children('span').html();
+					if(instru_id!='None')
+						{
+								$('#student_text .textarea_div').append('<div class="tag_div" id="stu_'+instru_id+'">'+text_name+'</div>');	
+						}
+						else
+						{
+							
+								$('#student_text .textarea_div').html('(None)');
+						}
+            </script>
+            <?php	
+	}
+	
+?>
+<script>
+		//var user_id='<?php echo $this->teacher_data['user_id']?>';
+</script>
+<?php	
+}
+ ?>

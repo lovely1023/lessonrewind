@@ -1,0 +1,31 @@
+ <!-- THEJAMPSTOP -->
+ <!--Erorr Phtml  -->
+ <!-- pages       -->
+<!-- <h1><?php echo $this->message ?></h1>
+
+-->
+<img src="<?php echo HTTP_IMG_PATH?>/error_404.png"  class="center-block" style="margin-top: 56px; border:1px solid#cccccc; padding:9px; margin-bottom: 34px;" />
+<?php echo @$this->hiddenmessage ?>
+  <?php if (isset($this->exception)): ?>
+  
+  <h3>Exception information:</h3>
+  <p>
+      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+  </p>
+
+<?php if(isset($this->lastQuery)){ ?>
+ <p>
+      <b>Last Query:</b> <pre><?php print_r($this->lastQuery); ?></pre>
+  </p>
+<?php } ?>
+
+
+  <h3>Stack trace:</h3>
+  <pre><?php echo $this->exception->getTraceAsString(); ?>
+  </pre>
+
+  <h3>Request Parameters:</h3>
+  <pre><?php echo $this->escape(var_export($this->request->getParams(), true)) ?>
+  </pre>
+
+  <?php endif ?>

@@ -1,0 +1,71 @@
+<div class="block-area">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="tile-light p-5 m-b-15">
+                                <div class="cover p-relative">
+                                   
+                                </div>
+                                <div class="p-5 m-t-15">
+                                	<span><?php echo ucfirst($this->data[0]['user_first_name']). ' '.ucfirst($this->data[0]['user_last_name']) ?></span>
+                                    <div class="clearfix"></div>
+                                    <span><?php echo $this->data[0]['user_email'] ?></span>
+                                </div>
+                            </div>
+                            
+                            <!--<div class="m-b-15 text-center profile-summary">
+                                <button class="btn btn-sm">42 Followers</button>
+                                <button class="btn btn-sm">69 Followings</button>
+                                <button class="btn btn-sm hidden-xs">120 Comments</button>
+                                <button class="btn btn-sm hidden-xs">165 Likes</button>
+                            </div>-->
+                            
+                            
+                            
+                        </div>
+                        
+                        <div class="col-md-3">
+                            
+                            <!-- About Me -->
+                            
+                            
+                            <!-- Friends -->
+                            <div class="tile">
+                                <h2 class="tile-title">ROLES</h2>
+                                <div class="tile-config dropdown">
+                                    <a data-toggle="dropdown" href="" class="tooltips tile-menu" title="" data-original-title="Options"></a>
+                                  <!--  <ul class="dropdown-menu pull-right text-right"> 
+                                        <li><a href="">Edit</a></li>
+                                        <li><a href="">Delete</a></li>
+                                    </ul>-->
+                                </div>
+                                
+                                	<div class="listview narrow">
+                                    <?php
+                                    global $roleArr;
+									
+									foreach ($this->data as $data)
+									{
+										?>
+                                         <div class="media p-l-5">
+                                      
+                                        <div class="media-body">
+                                            <a class="news-title" href=""><?=$roleArr[$data['sr_key']]?></a>
+                                           <!-- <div class="clearfix"></div>
+                                            <a href=""><small class="text-muted">Unfriend</small></a>-->
+                                        </div>
+                                    </div>
+                                        <?
+									}
+									?>
+                                   
+                                 
+                                  
+                                </div>
+                            </div>
+                            
+                         
+                        </div>
+                    </div>
+                    
+                    <br/><br/><br/>
+</div> 

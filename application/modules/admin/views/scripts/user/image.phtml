@@ -1,0 +1,302 @@
+<?php 
+	$user =  $this->user_information ;
+?>
+<!-- BEGIN PAGE CONTENT-->
+<div class="row profile">
+	<div class="col-md-12">
+		<!--BEGIN TABS-->
+		<div class="tabbable tabbable-custom tabbable-full-width">
+			<ul class="nav nav-tabs">
+				<li class="active">	<a href="#tab_1_1" data-toggle="tab"> Overview </a>	</li>
+ 			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="tab_1_1">
+					<div class="row">
+						<div class="col-md-3">
+							<ul class="list-unstyled profile-nav">
+								<li><img src="<?php echo getUserImage($user['user_image'],'thumb')?>" class="img-responsive" alt=""/></li>
+								<li><a href="<?php echo $this->baseUrl("admin/user/account/user_id/".$user['user_id'])?>">Update Profile </a></li>
+								<li><a href="<?php echo $this->baseUrl("admin/user/password/user_id/".$user['user_id'])?>">Update Password </a></li>
+								<li><a href="<?php echo $this->baseUrl("admin/user/image/user_id/".$user['user_id'])?>">Update Image </a></li>
+								 
+							</ul>
+						</div>
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-8 profile-info">
+									<h1><?php echo ucwords($user['user_first_name']." ".$user['user_last_name'])." <br />";
+									//pr($user);
+									if(!empty($user['user_email']))
+									{
+									echo "<small>(".$user['user_email'].") </small>";
+									
+									}
+									?></h1>
+									<ul class="list-inline">
+										<?php if($user['user_country']!=''){?><li><i class="fa fa-map-marker"></i> <?php echo ucwords($user['user_country']);?></li><?php }?>
+										<?php if($user['user_created']!=''){?><li><i class="fa fa-calendar"></i> <?php echo date('d M Y',strtotime($user['user_created'])); ?></li><?php }?>
+									</ul>
+									
+									<div class="custom-form-wrapper">
+										<form role="form" enctype="multipart/form-data" method="post">
+											<div class="form-group">
+												<div class="fileinput fileinput-new" data-provides="fileinput">
+													<div class="fileinput-new thumbnail" style="max-width: 350px; max-height: 350px;">
+														<img src="<?php echo getUserImage($user['user_image'],"thumb")?>" alt=""/>
+													</div>
+													<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 350px; max-height: 350px;">
+													</div>
+													<div>
+														<span class="btn default btn-file">
+															<span class="fileinput-new"> Select image </span>
+															<span class="fileinput-exists"> Change </span>
+															<?php echo $this->form->user_image?>
+														</span>
+														<a href="#" class="btn default fileinput-exists" data-dismiss="fileinput">Remove </a>
+													</div>
+												</div>
+											</div>
+											<div class="margin-top-10"><button class="btn btn-sm green block_ui" type="submit">Submit</button></div>
+										</form>
+									</div>
+ 								</div>
+								
+								<!--end col-md-8-->
+								<?php /*?><div class="col-md-4">
+									<div class="portlet sale-summary">
+										<div class="portlet-title">
+											<div class="caption">
+												 Sales Summary
+											</div>
+											<div class="tools">
+												<a class="reload" href="javascript:;">
+												</a>
+											</div>
+										</div>
+										<div class="portlet-body">
+											<ul class="list-unstyled">
+												<li>
+													<span class="sale-info">
+													TODAY SOLD <i class="fa fa-img-up"></i>
+													</span>
+													<span class="sale-num">
+													23 </span>
+												</li>
+												<li>
+													<span class="sale-info">
+													WEEKLY SALES <i class="fa fa-img-down"></i>
+													</span>
+													<span class="sale-num">
+													87 </span>
+												</li>
+												<li>
+													<span class="sale-info">
+													TOTAL SOLD </span>
+													<span class="sale-num">
+													2377 </span>
+												</li>
+												<li>
+													<span class="sale-info">
+													EARNS </span>
+													<span class="sale-num">
+													$37.990 </span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div><?php */?>
+								<!--end col-md-4-->
+							</div>
+							<!--end row-->
+						</div>
+					</div>
+				</div>
+				<!--tab_1_2-->
+			</div>
+		</div>
+		<!--END TABS-->
+	</div>
+</div>
+<!-- END PAGE CONTENT-->
+
+
+
+<?php if(false) {?>
+
+<div class="row-fluid profile">
+    <div class="span12">
+        <!--BEGIN TABS-->
+        <div class="tabbable tabbable-custom">
+            
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab_1_1" data-toggle="tab">Overview</a></li>
+                <li><a href="#tab_1_2" data-toggle="tab">Profile</a></li>
+                <li><a href="#tab_1_3" data-toggle="tab">Update Verification Status</a></li>
+            </ul>
+			
+			
+            
+            <div class="tab-content">
+			
+                <div class="tab-pane active row-fluid " id="tab_1_1">
+				
+					
+                    <ul class="unstyled profile-nav  span3">
+                        <li class="text-center">
+                          	<p><img src="<?php echo $path?>" title="<?php $user['user_first_name']?>"  /></p>
+						</li>
+                      </ul>
+                    
+					<div class="span9">
+                        <div class="row-fluid">
+                            <div class="span8 profile-info">
+								
+								<p style="margin-bottom:6px"></p>
+                                <h1 class="ucwords">
+ 									<?php echo $user['user_first_name']." ".$user['user_last_name']?> <span class="label label-success">User</span>
+ 								</h1>
+
+									<p>
+										<?php 
+											switch($this->user_information['user_verification_status']){
+												case '1':?><img src="<?php echo $this->baseUrl("assets/front/img/")?>user_verified_stamp.png" /><?php break;
+												case '2':?><img src="<?php echo $this->baseUrl("assets/front/img/")?>user_partiallyverified_stamp.png" /><?php break;
+												case '3':?><img src="<?php echo $this->baseUrl("assets/front/img/")?>user_unverified_stamp.png" /><?php break;
+												
+											}
+										?>
+									</p>
+                                <ul class="unstyled inline">
+                                    <li><i class="icon-map-marker"></i><?php echo $user['user_country']?></li>
+                                    <li><i class="icon-calendar"></i><?php echo date("d M Y",strtotime($user['user_created']))?></li>
+                                    <li><i class="icon-briefcase"></i> <?php switch($user['user_type']){case "1":echo "Master Admin";break;case "2":echo "Sub Admin";break;case "3":echo "User";break;}?></li>
+									<?php if($user['user_request_admin']) { ?>
+                                    <li><i class="icon-star"></i><?php echo "Request Admin"; ?></li>
+                                    <?php } ?>
+                                 </ul>
+                            </div>
+                            <!--end span8-->
+							
+							
+                            <div class="span4">
+                                <div class="portlet sale-summary">
+                                    <div class="portlet-title">
+                                        <h4>Sales Summary</h4>
+                                        <div class="tools">
+                                            <a class="reload" href="javascript:;"></a>
+                                        </div>
+                                    </div>
+                                    <ul class="unstyled">
+                                        <li>
+                                            <span class="sale-info">TODAY SOLD <i class="icon-img-up"></i></span> 
+                                            <span class="sale-num">23</span>
+                                        </li>
+                                        <li>
+                                            <span class="sale-info">WEEKLY SALES <i class="icon-img-down"></i></span> 
+                                            <span class="sale-num">87</span>
+                                        </li>
+                                        <li>
+                                            <span class="sale-info">TOTAL SOLD</span> 
+                                            <span class="sale-num">2377</span>
+                                        </li>
+                                        <li>
+                                            <span class="sale-info">EARNS</span> 
+                                            <span class="sale-num">$37.990</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--end span4-->
+                        </div>
+                        <!--end row-fluid-->
+						
+						
+                        
+                    </div>
+                    
+                    </div>
+
+                
+ 				
+                
+                 
+                 
+                 
+				<div class="tab-pane  profile-classic row-fluid  " id="tab_1_3">
+					
+					<div class="span2"><img src="<?php echo $path?>" alt="" /></div>
+					
+					<div class="span10">
+						<div class="row-fluid">
+							<div class="portlet box grey">
+				
+								<div class="portlet-title"><h4>User Verification fields and Status</h4></div>
+				
+								<div class="portlet-body"> <!-- begin Portlet body-->
+								
+									<form method="post"  class="validate_other1">
+						
+									<table class="table table-striped table-bordered table-hover dataTable">
+									<thead>
+										<tr>
+											<th width="20%">Field Name</th>
+											<th>Value</th>
+											<th width="20%">Status</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+									  <?                                       
+										  foreach($this->user_information as $key=>$value){
+											  if(!array_key_exists($key,$verification_fields))
+												continue; 
+											?>
+									   
+											 <tr class="<?php echo $row_class?>">
+												<td><strong><?php echo $verification_fields[$key]?></strong></td>
+												<td><?php echo $value?></td>
+												<td>
+												 <div class="appove-toggle-button">
+													 <input type="checkbox" class="toggle" name="<?php echo $key?>"   <?php echo $user_current_verification_status[$key]=="0"?"checked='checked'":""?> />
+													  
+												</div> 
+												 </td>
+											 </tr>
+										<?php 
+										
+										}?>
+										
+									</tbody>
+									</table>
+						
+						
+									<div class="alert alert-info" style="padding:20px;"><!-- begin : alert alert-info -->
+										<?php echo $this->request_admin_form->request_admin;?>
+										<div>
+											<label>Private Comment  </label>
+											<textarea name="private_remark" rows="3" class="span12" placeholder="Private Comment is only visible to request admin"></textarea>
+										</div>
+										<div class="clearfix">
+										   <div class="btn-group"><button id="sample_editable_1_new" type="submit" class="btn green"> Submit <i class="icon-ok"></i></button></div>
+										</div>
+									</div><!-- begin : alert alert-info -->
+						
+								</form>
+						
+						</div>
+					</div>
+				</div>
+					</div>
+				</div>
+                
+                    
+                    <!--end span9-->
+                </div>
+                <!--end tab-pane-->
+            </div>
+        </div>
+        <!--END TABS-->
+    </div>
+</div>
+
+<?php }  ?>

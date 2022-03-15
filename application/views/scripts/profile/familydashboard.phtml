@@ -1,0 +1,162 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<?php
+$model = new Application_Model_Static();
+
+?>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	
+			<h3 class="text-center"><b>Family Dashboard</b></h3>
+             <h5 class="text-center">Welcome "<?php echo  $this->user->user_first_name." ".$this->user->user_last_name; ?>"
+            <?php 
+			if($this->user->user_last_login!='0000-00-00')
+			{
+				?>
+               , Your last visit was "<?php echo date("F d, Y",strtotime($this->user->user_last_login)); ?>"
+                <?php
+					
+			}	
+			?>
+            </h5>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/family.png"  /></h5>
+           
+           <?php /*?> <?php 
+			if(empty($this->plan_detail))
+			{
+			?>
+            <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl()?>/profile/subscription">Subscribed for a Plan</a>
+            <?php } ?><?php */?>
+            <br />
+               <?php /*?> <?php
+			if(isset($this->announcement_arr) && !empty($this->announcement_arr))
+			{
+				$ann_arr=$model->Super_Get("announce_attach",'an_un_id="'.$this->announcement_arr['announcement_id'].'"','fetchAll');
+				?><?php */?>
+                <div class="row">
+                	<div class="col-md-12">
+                        <div class="alert alert-info row" role="alert">
+                      <!--  <button type="button" class="close" data-dismiss="alert">×</button>-->
+                      <div class="pull-left"> 
+                       You have (<?php echo count($this->announcement_arr) ?>) unread Announcement(s)
+                         </div>
+                         <div class="pull-right">
+                       <a href="<?php  echo $this->url(array('controller'=>'profile','action'=>'announcements'),'default',true) ?>" class="pull-right"> <h5><strong>View All Announcements </strong></h5></a>
+                        </div>
+                        </div>
+                     </div>
+                </div>
+                <?php /*?><?php	
+			}
+			 ?><?php */?>
+            <br />
+            <div class="row">
+            		<div class="allstudents row"><i class="fa fa-users"></i> Students</div>
+                     
+                    <div class="viewall row">
+                    <br />
+                  <?php /*?>  <div class="row">
+                   			<a  onclick="morestudent()"  class="btn btn-primary btn-lg dashboard_a text-center floatright viewlesson">Add More Students</a>
+                    		
+                    </div><?php */?>
+                    	<div class="row">
+                        <br />
+                       
+                        	<?php
+							if(!empty($this->family_students_user))
+							{
+								foreach($this->family_students_user as $k=>$v)
+								{
+									
+									?>
+                                   <div class="col-md-3">
+                                   	<a style="color:#ffffff; text-decoration:none;" href="<?php echo $this->baseUrl()?>/profile/studentdashboard/student_id/<?php echo $v['user_id'] ?>">
+                                   	<div class="row student_view">                                                                                                                                        
+                                   <?php echo $v['user_last_name'].", ".$v['user_first_name']?>
+                                    </div>
+                                    </a>
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Student added
+                                </div>
+                                <?php
+							}
+							 ?>
+                        </div>
+                    </div>
+                    
+                    <br />
+                    <br />
+                  
+            </div>
+		</div>
+		
+		 
+	<!--/span-->
+<?php
+ ?>
+	
+</div>
+<br />
+<br />
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add More Student in Family</h4>
+      </div>
+      <div class="modal-body" id="modal_body">
+        ...
+      </div>
+     <?php /*?> <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div><?php */?>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+	
+	function morestudent()
+	{
+		$.ajax({
+        url: "<?php echo SITE_HTTP_URL ?>/profile/getfamilystudents",
+        data: "",
+        success: function(data){
+           
+			$('#myModal').modal('show'); 
+			$('#modal_body').html(data);
+            
+        },
+        error:function(){
+            
+        }
+    });
+	}
+</script>
+
+
+ 

@@ -1,0 +1,143 @@
+<?php 
+	$user =  $this->user_information ;
+
+	$modelSuper = new Application_Model_SuperModel();
+?>
+<style>
+	.maxcount
+	{
+		display:none;		
+	}
+	.change_pass
+	{
+		display:none;	
+	}
+</style>
+<!-- BEGIN PAGE CONTENT-->
+<div class="row profile">
+	<div class="col-md-12">
+		<!--BEGIN TABS-->
+		<div class="tabbable tabbable-custom tabbable-full-width">
+			
+			<div class="tab-content">
+				<div class="tab-pane active" id="tab_1_1">
+					<div class="row">
+						
+						
+					 
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-12 profile-info">
+									
+									
+									<div class="">
+                                    <form method="post" action="" class="profile_form" id="profile_form" novalidate="novalidate" autocomplete="off">
+											<?php echo $this->form->user_school_name ?>
+                                            <?php echo $this->form->user_first_name ?>
+                                            <?php echo $this->form->user_last_name ?>
+                                            <?php echo $this->form->user_student_active ?>
+                                            <div class=" maxcount">
+                                            	<?php echo $this->form->user_maxstudent_count ?>
+                                            </div>
+                                            <?php 
+											if(!empty($this->user_data))
+												{
+													echo $this->form->user_active_student;
+												}
+											?>
+                                            <?php echo $this->form->user_email ?>
+                                            <input type="text"  style="display:none"  />
+                                                <input type="password"  style="display:none"  />
+                                            <?php
+												if(empty($this->user_data))
+												{
+													?>
+                                                     <?php echo $this->form->user_password ?>
+                                           			 <?php echo $this->form->user_rpassword ?>
+                                           
+                                                    <?php	
+												}
+												else
+												{
+											 ?>
+                                             <div><a onclick="check_pass()" style="cursor:pointer">Change Password? </a></div>
+                                             <div class="change_pass" >
+                                            <?php echo $this->form->user_password ?>
+                                            <?php echo $this->form->user_rpassword ?>
+                                           
+                                             </div>
+                                             <?php } ?>
+                                            <?php echo $this->form->user_phone ?>
+                                            <?php  echo $this->form->user_address ?>
+                                            <?php echo $this->form->user_city ?>
+                                            <?php echo $this->form->user_timezone ?>
+                                            <?php echo $this->form->user_notes ?>
+                                            <?php echo $this->form->submitbtn ?>
+                                    </form>
+                                    
+								
+									</div>
+ 								</div>
+								
+							
+							</div>
+							<!--end row-->
+						</div>
+					</div>
+				</div>
+				<!--tab_1_2-->
+			</div>
+		</div>
+		<!--END TABS-->
+	</div>
+</div>
+<!-- END PAGE CONTENT-->
+
+<?php 
+if(isset($this->user_data['user_student_active']))
+{
+	?>
+    <script>
+    	var user_id='<?php echo $this->user_data['user_id'] ?>';
+    </script>
+    <?php
+	
+}
+if(isset($this->user_data['user_student_active']) && $this->user_data['user_student_active']==1)
+{
+?>
+<script>
+
+	$(document).ready(function(e) {
+        $('.maxcount').show();
+    });
+</script>
+<?php	
+}
+?>
+<script>
+	$('#user_student_active').change(function(e) {
+		
+		var idval=$(this).val();
+		if(idval==1)
+		{
+			$('.maxcount').show();
+		}
+		else
+		{
+			$('.maxcount').hide();
+		}
+       
+    });
+	function check_pass()
+	{
+		if($('.change_pass').is(':visible'))
+		{
+			$('.change_pass').hide('slow');	
+		}	
+		else
+		{
+			$('.change_pass').show('slow');		
+		}
+	}
+</script>

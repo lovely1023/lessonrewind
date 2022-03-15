@@ -1,0 +1,126 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<?php
+$model = new Application_Model_Static();
+
+?>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<h5 class="text-center">Welcome "<?php echo  $this->user->user_first_name." ".$this->user->user_last_name; ?>"</h5>
+			<h4 class="text-center"><b>Add Template By Admin</b></h4>
+            <h5 class="text-center"> <img src="<?php echo HTTP_SITEIMG_PATH ?>/teacher1.png"  /></h5>
+            <br />
+            
+            <br />
+            <div class="row">
+            
+             <br />
+                    <div class="row">
+                    <div class="col-md-8">
+                    <b> To create a template for a teacher , choose the teacher's name below. To create a template for administrator , "Admin Template".	
+                    
+                    
+                    </b>
+                    </div>
+                    <div class="col-md-4">
+                    <div class="row">
+                   			 <a href="<?php echo $this->baseUrl()?>/dashboard" class="dashboard_a text-center floatright viewlesson">Go to Dashboard</a>
+                     </div>
+                     <div class="row">
+                     		 <a href="<?php echo $this->baseUrl()?>/teacher/alltemplates" class="dashboard_a text-center floatright viewlesson">View All Template</a>
+                     </div>
+                         </div>
+                    		<?php /*?><a href="<?php echo $this->baseUrl()?>/teacher/newlesson" class="dashboard_a text-center floatright">Create Lesson</a><?php */?>
+                    </div>
+                       
+             <br />
+             	<div class="allstudents row"><i class="fa fa-users"></i> Choose the teacher's name or 'Admin Template'
+                    
+                    
+                    <input type="text" name="teacher_name" value="" id="teacher_name"   onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" placeholder="Teacher Name" class="form-control pull-right search_sudents"   onkeyup="searchTeacher();" />
+                    </div>
+                     
+                   
+                    <div class="viewall row">
+                   
+                    	<div class="row">
+                        <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                        	  	<h4 class="lesson_text">To create a lesson for a teacher, choose the teacher's name below and then choose the students'name from the teacher's dashboard. </h4>
+                        </div>
+                      
+                        </div>
+                        <br />
+                       
+                        	<?php
+							
+							if(!empty($this->teachers))
+							{
+								foreach($this->teachers as $k=>$v)
+								{
+									
+									
+									?>
+                                   <div class="col-md-3 " id="teacher_name_<?php echo $k+1 ?>">
+                                     <a href="<?php echo SITE_HTTP_URL ?>/teacher/addtemplate/teacher_id/<?php echo $v['user_id'] ?>"  style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 <?php echo $v['user_last_name'].", ".$v['user_first_name']?>
+                                    </div>
+                                    </a>
+                                   </div>
+                                    <?php
+								}	
+							}
+							else
+							{
+								?>
+                                <div class="row no_file">
+                                	No Teacher added
+                                </div>
+                                <?php
+							}
+							 ?>
+                          
+                        </div>
+                           <br />
+                           <br />	
+                             <div class="row">
+                             	<div class="col-md-3 " id="teacher_name_1">
+                                     <a href="<?php echo SITE_HTTP_URL ?>/teacher/addtemplate" style="text-decoration:none; color:#ffffff;">	
+                                   	<div class="row student_view">
+                                 	Admin Template
+                                   </div>
+                                    </a>
+                                   </div>
+                             </div>
+                    </div>
+             <br />
+             <br />
+                    
+             
+            </div>
+		</div>
+	<!--/span-->
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+</script>
+
+
+ 

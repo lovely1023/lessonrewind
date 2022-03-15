@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+	<nav>
+		
+		<dashboard>
+			<label>Dashboard</label>
+			<uri>/</uri>
+		</dashboard>
+		
+		<myprofile>
+			<label>My Profile</label>
+			<uri></uri>
+			<pages>
+				<editprofile>
+					<label>Edit my profile</label>
+					<uri>/user/profile</uri>
+				</editprofile>
+				<changepassword>
+					<label>Change my password</label>
+					<uri>/user/password</uri>
+				</changepassword>
+				
+				
+				<divider>
+					<label>divider</label>
+					<uri></uri>
+				</divider>				
+				<logout>
+					<label>Log out</label>
+					<uri>/index/logout</uri>
+				</logout>
+			</pages>
+		</myprofile>
+		<admin>
+			<label>Administration</label>
+			<uri>/admin</uri>
+		</admin>
+	</nav>
+</configdata>

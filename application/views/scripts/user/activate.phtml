@@ -1,0 +1,27 @@
+<div class="row-fluid">
+    <div class="span9">	
+        <div class="well" id="profile-heading"><h2><?=$this->pageHeading?> </h2></div>
+        <div >
+        <?
+        if($this->activeState=='1')
+        {
+        ?>
+          Thank You! <a href="<?=APPLICATION_URL?>/user/login" >Click Here</a> <br />Your Account activated successfully. 
+        <?
+        }
+        if($this->activeState=='2')
+        {
+        ?>
+        <h3>Your Account already activated.<br /><a href="<?=APPLICATION_URL?>" >Click Here</a> to Login.</h3>
+        <?
+        }
+        if($this->activeState=='3')
+        {
+        ?>
+        <h3>The account activation link you are using is invalid or expired.<br /><a href="<?php echo $this->baseUrl()?>/user/login" >Click Here</a> to Login.</h3>
+        <?
+        }
+        ?>
+        </div>
+    </div>
+</div>

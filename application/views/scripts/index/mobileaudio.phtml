@@ -1,0 +1,266 @@
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+     
+		<div class="custom-form-wrapper addnew">
+        <!--	<div class="row">
+           <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/teacherdashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>
+           </div>
+-->
+        	<h1><?php echo $this->pageHeadingshow ?></h1>
+            <hr />
+            <div class="row">
+            	<div class="row">
+                <form id="less_form" name="less_form"  class="profile_form" action="" method="POST" enctype="multipart/form-data">
+               <?php echo $this->form->lesson_title; ?>
+               <?php echo $this->form->lesson_desc; ?>
+         	  
+         	   <br>
+               <div class="row">
+               		<div class="row">
+                        <div id="video_integrate" class="row">
+                        
+                        </div>
+                    	  <div id="uploadvideo" class="btn btn-success fileinput-button"><i class="fa fa-video-camera"></i> Upload Video</div>
+                          
+                    </div>
+                    <br/>
+                    <div class="row">
+                    <div id="audio_integrate" class="row"></div>
+                    	  <div id="uploadaudio" class="btn btn-success fileinput-button"><i class="fa fa-file-audio-o"></i> Upload Audio</div>
+                    </div>
+               </div>
+         	 
+             
+               </form>
+               
+            <div class="row" id="file_upload_div">
+            	<form id="fileupload" action="" method="POST" enctype="multipart/form-data">
+            <!-- Redirect browsers with JavaScript disabled to the origin page -->
+            <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
+            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+            <div class="row form-group">
+                
+            <div id="errormsg" style="display:none;" class="error_div_cls">
+    		  </div>   
+              
+               <div id="errormsgnew" style="display:none; width:500px;" class="error_div_cls">
+              
+    		  </div>   
+           <div class="row">&nbsp;</div>
+           
+            
+                <div class="col-md-9 nopadding" align="left">
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <span class="btn btn-success fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Add files...</span>
+                        
+                       
+                        <input type="file" name="files[]" id="uploadify_file" multiple="multiple" style="font-size:22px;">
+                    </span>
+                
+                    <!-- The global file processing state -->
+                    <span class="fileupload-process"></span>
+                </div>
+            
+                <input type="hidden" name="test"  value="ll"/>
+                <!-- The global progress state -->
+                <div class="col-lg-5 fileupload-progress fade">
+                    <!-- The global progress bar -->
+                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height:10px;">
+                        <div class="progress-bar progress-bar-success" style="width:0%; display:none;"></div>
+                    </div>
+                    <!-- The extended global progress state -->
+                    <div class="progress-extended" style="height:5px; display:none;">&nbsp;</div>
+                </div>
+            </div>
+            <!-- The table listing the files available for upload/download -->
+           
+        		<div class="col-md-12 text-center">
+                	<img src="" class="presentation_img" id="files_0" style="max-width:1000px; display:none;"/>
+                </div>
+                
+                 <div class="col-md-12 overflow no_padding" align="left">
+              <table role="presentation" class="table" style="border:solid #141311 1px;"><tbody class="files"></tbody></table>
+           		</div>
+           <input type="hidden"  value="" name="delete_doc" id="delete_doc" />
+        </form>
+        <br />
+            </div>   
+              <div>&nbsp;</div>
+				<?php echo $this->form->bttnsubmit; ?>
+            </div>
+            
+            
+		</div>
+		
+		 
+	<!--/span-->
+
+	
+</div>
+		
+<br />
+<br />
+</div>
+	
+</div>
+<script>
+	$('#bttnsubmit').click(function(e) {
+	if($('.profile_form').valid())
+	{
+		$('.profile_form').submit();
+	}
+});
+</script>
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            <strong class="error text-danger"></strong>
+        </td>
+        <td>
+            <p class="size">Processing...</p>
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+        </td>
+        <td>
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start" disabled>
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start</span>
+                </button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+<script id="template-download" type="text/x-tmpl">
+
+{% for (var i=0, file; file=o.files[i]; i++) { 
+
+
+
+	if (file.error)
+	{
+		if(file.error=="Image requires a minimum width")
+		{
+			alert('Image should be of atleast 200 x 100 pixel.');
+		}
+		else
+		{
+	 		alert(file.error);
+		}
+	}
+	else
+	{
+	
+ %}
+
+    <tr class="template-download fade">
+        <td>
+            <span class="preview" style="cursor:pointer;">
+                {% if (file.thumbnailUrl) { %}
+                    <img draggable="false"  src="{%=file.thumbnailUrl%}">
+                {% } %}
+            </span>
+        </td>
+		<td>
+		
+		</td>
+        <td>
+            <p class="name">
+                {% if (file.url) { %}
+                    <a  title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                {% } else { %}
+                    <span>{%=file.name%}</span>
+                {% } %}
+            </p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td>
+            {% if (file.deleteUrl) { %}
+                <button  class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+	
+	
+{% 
+
+		}
+		
+		
+		
+} 
+	
+		
+		$('img').on('mousedown', function(e) {
+		e.preventDefault();
+		});
+		
+		$('img').bind("contextmenu", function(e) {
+		e.preventDefault();
+		});
+	
+
+%}
+
+
+</script>
+<script>
+var APPLICATION_PATH_USER='<?=SITE_HTTP_URL?>/teacher/uploadpathlession';
+
+var count_video=1;
+
+	$('#uploadvideo').click(function(e) {
+		
+        $('#video_integrate').append('<div class="row videodiv" id="videodiv_'+count_video+'"><div class="row"><a class="pull-right" onClick="deletfunc('+count_video+')"  ><i class="fa fa-trash-o"></i></a></div><div class="form-group"><label for="file_1" class="required" aria-required="true">Upload Video</label><input type="file" name="myvideo['+count_video+'][]" id="file_'+count_video+'" class=" form-control" accept="video/*" capture></div></div>');
+		count_video=parseInt(count_video)+1;
+    });
+var count_audio=1;
+	$('#uploadaudio').click(function(e) {
+        
+		   $('#audio_integrate').append('<div class="row videodiv" id="audiodiv_'+count_audio+'"><div class="row"><a class="pull-right" onClick="deletfuncaudio('+count_audio+')"  ><i class="fa fa-trash-o"></i></a></div><div class="form-group"><label for="audiofile_1" class="required" aria-required="true">Upload Audio</label><input type="file" name="myaudio['+count_audio+'][]" id="audiofile_'+count_audio+'" class=" form-control" accept="audio/*" capture></div></div>');
+		count_audio=parseInt(count_audio)+1;
+    });
+	
+	function deletfunc(idval)
+	{
+	
+		$('#videodiv_'+idval).remove();
+	}
+	
+	function deletfuncaudio(idval)
+	{
+	
+		$('#audiodiv_'+idval).remove();
+	}
+	
+</script>

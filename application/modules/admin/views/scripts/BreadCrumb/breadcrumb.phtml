@@ -1,0 +1,20 @@
+<ul class="breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="<?php echo $this->baseUrl()."/admin"?>">Home</a> 
+        <i class="icon-angle-right"></i>
+    </li>
+    
+    <?php $breadcrumb = 0;
+	
+        foreach($this->links as $key=>$values){
+	?>
+            <li><a href="<?php echo $this->baseUrl('admin').$values?>"><?php echo $key?></a>
+            <?php if(++$breadcrumb!=count($this->links)){?>
+            <i class="icon-angle-right"></i>
+            <?php } ?>
+            </li>	
+        <?php 
+        }
+    ?>
+</ul>

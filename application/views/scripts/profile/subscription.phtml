@@ -1,0 +1,119 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+
+<div class="row row-offcanvas row-offcanvas-left">
+	<div class="col-sm-12">
+		
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+        	<h5 class="text-center">Welcome "<?php echo  $this->user->user_school_name; ?>"</h5>
+			<h3 class="text-center"><b>Subscription</b></h3>
+         <!--   <a class="pull-right subscribed_plan" href="<?php echo $this->url(array(),'front_dashboard')?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>-->
+            <br />
+            <br />
+            <div class="row">
+             <?php
+				   if(empty($this->subscribad_plan))
+				   {
+					 ?>
+          		<div class="col-md-12">
+                	<div class="row plan_block" style="min-height:auto !important">
+                    	Currently You are using 30-days trial period plan. If you want to access this site after completing 30 days trial period then Upgarde your Plan. See below for more information about plan.
+                    </div>
+                </div>
+                  <?php } ?>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+            <?php 
+				foreach($this->get_all_plans as $k=>$v)
+				{
+					?>
+                    <div class="col-md-4 ">
+                	<div class="row plan_block">
+                	<div class="plan_name"><?php echo $v['subscription_plan_title'] ?></div>
+                    <br />
+                      <div class="row text-center "> 
+                      <?php 
+					  	if($v['subscription_account_type']==0)
+						{
+								
+							?>
+                             <span class="currency_class">
+                      
+                      </span><span class="price_class">  <?php echo 'Free'?> </span> 
+                            <?php	
+						}
+						else
+						{
+							?>
+                             <span class="currency_class">
+                      
+                       <?php echo $this->site_configs['site_currency']?> </span><span class="price_class">  <?php echo $v['subscription_plan_price']?> </span> <span class="currency_class1"> monthly </span>
+                            <?php	
+						}
+					  ?>
+                     </div>
+                    <div class="row plan_des"> <?php echo $v['subscription_plan_description'] ?></div>
+                   <br />
+                   <div class="row text-center">
+                   <?php
+				   if(!empty($this->subscribad_plan) && $this->subscribad_plan['subscription_planid']==$v['subscription_plan_id'])
+				   {
+					 ?>
+                   <a class="subscribed_plan" >Current Plan</a>
+                     <?php	  
+					 }
+				   else
+				   {
+					   if(empty($this->subscribad_plan) && $v['subscription_account_type']==0)
+					   {
+					
+						   ?>
+                              <a class="subscribed_plan" >Current Plan</a>
+                           <?
+						   
+						 }
+						 else
+						 {
+							if($v['subscription_plan_id']>$this->subscribad_plan['subscription_planid'])
+							{
+							?>
+                              <a class=" subscribed_plan" href="<?php echo $this->baseUrl().'/profile/plansubscription/suscr_id/'.$v['subscription_plan_id'] ?>">Subscribe Now <i class="fa fa-arrow-right"></i></a>
+                            <?php	
+							}
+						}
+				    } ?>
+                   </div>
+                     </div>
+                </div>
+                    <?php	
+				}
+			?>
+            	
+            </div>
+         
+            
+		</div>
+	<!--/span-->
+</div>
+<br />
+<br />
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+</script>
+
+
+ 

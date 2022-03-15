@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+ 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+	<?php  
+        echo $this->headMeta();
+        echo $this->headTitle();
+        echo $this->headLink(); ?>
+	
+	<script src="<?php echo $this->baseUrl('public/plugins/jquery-1.11.0.min.js')?>"></script>
+
+    <!-- END FOOTER -->
+	<!-- BEGIN JAVASCRIPTS -->
+	<!-- Load javascripts at bottom, this will reduce page load time -->
+    
+	<!--[if lt IE 9]>
+	<script src="<?php echo $this->baseUrl().ADMIN_ASSETS_PATH?>/js/excanvas.js"></script>
+	<script src="<?php echo $this->baseUrl().ADMIN_ASSETS_PATH?>/js/respond.js"></script>	
+	<![endif]-->	
+	
+    <link rel="shortcut icon" href="<?=$this->baseUrl()?>/images/favicon.png">
+    		
+	
+	<!-- END JAVASCRIPTS -->       
+	        
+	<script>
+		var baseUrl='<?=$this->baseUrl()?>' ;
+		var SITEURL='<?=$this->baseUrl()?>' ;
+		var SiteHttpUrl='<?php echo SITE_HTTP_URL;?>'; 
+    </script>
+
+<style>.admin-image-nav{width:29px;height:29px;}</style>
+
+
+</head>
+
+<body class="page-header-fixed page-quick-sidebar-over-content">
+
+	 
+ 	<div class="clearfix"></div>
+	
+	
+	 <!-- BEGIN PAGE CONTENT-->
+	<div class="row">
+		<div class="col-md-12" style="padding:0 20px;">
+			<!-- BEGIN FILTER -->
+			<div class="margin-top-10">
+				<div class="row mix-grid">
+					<?php foreach($this->images as $key=>$value) { ?>
+						<div class="col-md-3 col-sm-3 col-xs-6  mix ">
+							<div class="mix-inner">
+								<img class="pickimage img-responsive" src="<?php echo HTTP_MEDIA_IMAGES_PATH."/300/".$value['media_path']?>" alt="<?php echo $value['media_alt']?>">
+								<div class="mix-details">
+									<h4><?php echo $value['media_title']." / ".$value['media_alt']?></h4>
+									<a class=" mix-link" style="right:40%;"><i class="fa fa-link"></i></a>
+								</div>
+							</div>
+						</div>
+					<?php  } ?>
+				</div>
+			</div>
+			<!-- END FILTER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT-->
+	
+  
+
+  
+
+
+
+	<?php 
+		 
+		 
+		
+		echo $this->headScript(); // Javascript
+    ?>	
+	
+<script type="text/javascript">
+ 	jQuery(document).ready(function() {    
+	   Metronic.init(); // init metronic core componets
+	   Layout.init(); // init layout
+ 	   Index.init();   
+	    Portfolio.init();
+	});
+	
+	
+</script>
+ 
+ 
+ <script type="text/javascript">  
+
+  
+
+
+$('.mix-link').click(function(e) {
+	$(this).parent().siblings('img').trigger('click');
+});
+
+
+
+$('.pickimage').click(function(e) {
+ 	  
+	var tgt = e.target || event.srcElement,  url;  
+	
+	if( tgt.nodeName != 'IMG' )  
+		return;  
+	
+	url = tgt.src;
+	url = url.replace("/300","");
+	alt = tgt.alt;
+	title = tgt.title;
+	this.onclick = null;  
+	window.opener.CKEDITOR.tools.callFunction( <?php echo $_GET['CKEditorFuncNum']; ?>, url, function() {
+	  var element, dialog = this.getDialog();
+	  element = dialog.getContentElement( 'info', 'txtAlt' );
+	  if ( element )
+		element.setValue(alt);
+		
+		 element = dialog.getContentElement( 'info', 'txtTitle' );
+	  if ( element )
+		element.setValue(title);
+	});
+	window.close();  
+});
+</script>
+
+
+	    </body>  
+</html>

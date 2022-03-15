@@ -1,0 +1,63 @@
+[10-Nov-2014 05:51:27 UTC] PHP Fatal error:  Call to undefined function is_assoc() in /opt/lampp/htdocs/sites/BullionHub/cron/Library/DbAdapter.php on line 115
+[10-Nov-2014 05:53:30 UTC] PHP Warning:  mysql_affected_rows() expects parameter 1 to be resource, boolean given in /opt/lampp/htdocs/sites/BullionHub/cron/Library/DbAdapter.php on line 157
+[10-Nov-2014 06:09:10 UTC] PHP Fatal error:  Class 'Transaction' not found in /opt/lampp/htdocs/sites/BullionHub/cron/Library/Orders.php on line 163
+[10-Nov-2014 06:09:17 UTC] PHP Fatal error:  Class 'Transactions' not found in /opt/lampp/htdocs/sites/BullionHub/cron/Library/Orders.php on line 163
+[10-Nov-2014 06:14:23 UTC] PHP Notice:  Undefined variable: sellOrder in /opt/lampp/htdocs/sites/BullionHub/cron/Library/Orders.php on line 257
+[10-Nov-2014 06:37:33 UTC] PHP Fatal error:  Class 'Application_Model_User' not found in /opt/lampp/htdocs/sites/BullionHub/cron/Library/Transactions.php on line 795
+[23-May-2015 11:23:04 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(32): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type=='use...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:23:33 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(32): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type=='use...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:24:07 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(32): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type=='use...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:24:20 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(32): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type=='use...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:25:21 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(31): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type='user...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:25:23 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(31): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type='user...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:25:24 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(31): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type='user...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:26:05 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(31): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type='user...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:26:07 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(31): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type='user...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:26:38 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(31): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type='user...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126
+[23-May-2015 11:27:22 UTC] PHP Fatal error:  Call to undefined method User::reportException() in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 173
+[23-May-2015 11:27:24 UTC] PHP Fatal error:  Call to undefined method User::reportException() in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 173
+[23-May-2015 11:30:23 UTC] PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message ' Argument #2 cannot be empty or must be an associative array type ' in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php:126
+Stack trace:
+#0 /home/tbsdein/public_html/iawebsite/private/cron/cron.php(110): DbAdapter->Super_Insert('users', 'user_logout_sta...', 'user_type=='use...')
+#1 {main}
+  thrown in /home/tbsdein/public_html/iawebsite/private/cron/Library/DbAdapter.php on line 126

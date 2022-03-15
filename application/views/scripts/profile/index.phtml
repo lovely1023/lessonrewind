@@ -1,0 +1,46 @@
+<h1 class="static-content-heading"><?php echo $this->content['page_title'];?></h1>
+<div class="row">
+	<div class="col-md-3">
+    	
+    </div>
+    <div class="col-md-9">
+    		<?php
+				if($this->user->user_type=='school')
+				{
+					?>
+                    <h3 class="text-center"><b> Profile for "<?php echo $this->user->user_school_name ?>" </b> </h3> 
+                    <?php
+				}
+			 ?>
+    </div>
+</div>
+<div class="row row-offcanvas row-offcanvas-left">
+		
+	<div class=" col-sm-3 "  role="navigation" >
+	  <?php echo $this->render("profile/_profile_side_bar.phtml");?>
+	</div><!--/span-->
+	
+	
+	<div class="col-sm-9">
+		<div class="clearfix"></div>
+		<div class="custom-form-wrapper">
+			<?php echo $this->form?>
+		</div>
+	<!--/span-->
+<br />
+	
+</div>
+<br />
+</div>
+<br />
+<script type="text/javascript">
+var user_id='<?php echo $this->user->user_id ?>';
+	$(document).ready(function() {
+	  $('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	  });
+	});
+</script>
+
+
+ 

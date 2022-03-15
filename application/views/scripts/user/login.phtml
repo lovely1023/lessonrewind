@@ -1,0 +1,26 @@
+
+<style>
+.row_signup
+{
+	background-image:url('<?php echo HTTP_SITEIMG_PATH."/slider.jpg" ?>');
+	background-position:center;
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+	
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+</style>
+<div class="row row_signup">
+<br />
+<div class="form-signin">
+	<h1 class="form-signin-heading"><i class="fa fa-user IconColor"></i><?php echo $this->pageHeading;?></h1>
+    <hr />
+    <br />
+	<?php echo $this->form;?>
+	<p></p>
+	<p  class="text-center"><a href="<?php echo $this->url(array(),'front_register')?>">Sign Up</a> | <a href="<?php echo $this->url(array(),'front_forgotpassword')?>">Forgot Password</a></p>
+    <br />
+    
+</div>
+</div>

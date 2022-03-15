@@ -1,0 +1,56 @@
+<style>
+body
+{
+	  background: #eee !important;
+}
+</style>
+
+<div class="list-group">
+<h3 style="margin:0;">Profile </h3>
+<a class="list-group-item text-center">
+<img class="img-responsive img-circle" style="display:inline-block;" src="<?php echo getUserImage($this->user->user_image,'thumb')?>" alt="<?php echo $this->user->user_first_name?>" title="" />
+</a>
+<?php 
+if($this->user->user_type=="school" || $this->user->user_type=="schoolsubadmin" ){?>
+<a class="list-group-item" data-title="front_subscribe" href="<?php echo $this->url(array(),'front_dashboard')?>"> Dashboard </a>
+<?php
+if($this->user->user_type=='school')
+{
+ ?>
+<!--<a class="list-group-item" data-title="front_subscribe" href="<?php echo $this->baseUrl()?>/profile/subscription"> View Plan </a>-->
+
+<?php } }
+else if($this->user->user_type=='teacher')
+{
+?>
+	<a class="list-group-item" data-title="front_subscribe" href="<?php echo $this->baseUrl('profile/teacherdashboard')?>"> Dashboard </a>
+
+<?php }
+else if($this->user->user_type=='student')
+{
+	?>
+    <a class="list-group-item" data-title="front_subscribe" href="<?php echo $this->baseUrl('profile/studentdashboard')?>"> Dashboard </a>
+    <?php
+}
+else
+{
+?>
+ <a class="list-group-item" data-title="front_subscribe" href="<?php echo $this->baseUrl('profile/familydashboard')?>"> Dashboard </a>
+<?php	
+}
+ ?>
+<a class="list-group-item" data-title="front_profile"   href="<?php echo $this->url(array(),'front_profile')?>"> Update Account </a>
+
+<?php 
+if($this->user->user_login_type=="normal"){?>
+<a class="list-group-item" data-title="front_image" href="<?php echo $this->url(array(),'front_image')?>">Change Image</a>
+<a class="list-group-item" data-title="change_password"  href ="<?php echo $this->url(array(),'change_password')?>">Change Password</a>
+<?php  } ?>
+
+<a class="list-group-item" data-title="logout"  href ="<?php echo $this->url(array(),'front_logout')?>">Logout</a>
+
+</div>
+
+<script  type="text/javascript">
+$(document).ready(function(e){$('a[data-title="<?php echo $this->show?>"]').addClass("active");});
+</script>

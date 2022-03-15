@@ -1,0 +1,59 @@
+
+		
+		<script src="<?php echo SITE_HTTP_URL?>/public/plugins/voice/voice/cdn/recorder.js"></script>
+		<script src="<?php echo SITE_HTTP_URL?>/public/plugins/voice/voice/cdn/jquery.voice.min.js"></script>
+		<script src="<?php echo SITE_HTTP_URL?>/public/plugins/voice/voice/cdn/record.js"></script>
+ 	
+		<div id="content">
+			<h2>Record, Play & Download Microphone Voice</h2>
+			<audio controls src="" id="audio"></audio>
+			<div style="margin:10px;">
+				<a class="button" id="record">Record</a>
+				<a class="button disabled one" id="stop">Reset</a>
+				<a class="button disabled one" id="play">Play</a>
+				<a class="button disabled one" id="download">Download</a>
+			</div>
+            <form method="post" id="voice_form" name="voice_form" action="<?php echo SITE_HTTP_URL ?>/index/testvoice" enctype="multipart/form-data">
+			<input class="button" type="checkbox" id="live"/>
+            			<label for="live">Live Output</label>
+            <input type="hidden" name="voice_input" id="voice_input"  value=""/>
+            <div id="dataval"></div>
+            </form>
+            
+			<style>
+			.button{
+				display: inline-block;
+				vertical-align: middle;
+				margin: 0px 5px;
+				padding: 5px 12px;
+				cursor: pointer;
+				outline: none;
+				font-size: 13px;
+				text-decoration: none !important;
+				text-align: center;
+				color:#fff;
+				background-color: #4D90FE;
+				background-image: linear-gradient(top,#4D90FE, #4787ED);
+				background-image: -ms-linear-gradient(top,#4D90FE, #4787ED);
+				background-image: -o-linear-gradient(top,#4D90FE, #4787ED);
+				background-image: linear-gradient(top,#4D90FE, #4787ED);
+				border: 1px solid #4787ED;
+				box-shadow: 0 1px 3px #BFBFBF;
+			}
+			a.button{
+				color: #fff;
+			}
+			.button:hover{
+				box-shadow: inset 0px 1px 1px #8C8C8C;
+			}
+			.button.disabled{
+				box-shadow:none;
+				opacity:0.7;
+			}
+			</style>
+		</div>
+ 	
+
+<script>
+var BLOB_URL="<?php echo SITE_HTTP_URL  ?>/index/testvoice";
+</script>

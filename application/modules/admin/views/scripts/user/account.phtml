@@ -1,0 +1,169 @@
+<?php 
+	$user =  $this->user_information ;
+
+	$modelSuper = new Application_Model_SuperModel();
+?>
+<!-- BEGIN PAGE CONTENT-->
+<div class="row profile">
+	<div class="col-md-12">
+		<!--BEGIN TABS-->
+		<div class="tabbable tabbable-custom tabbable-full-width">
+			<ul class="nav nav-tabs">
+				<li class="active">	<a href="#tab_1_1" data-toggle="tab"> Overview </a>	</li>
+ 			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="tab_1_1">
+					<div class="row">
+						<div class="col-md-3">
+							<ul class="list-unstyled profile-nav">
+								<li><img src="<?php echo getUserImage($user['user_image'],'thumb')?>" class="img-responsive" alt=""/></li>
+								<li><a href="<?php echo $this->baseUrl("admin/user/account/user_id/".$user['user_id'])?>">Update Profile </a></li>
+								<li><a href="<?php echo $this->baseUrl("admin/user/password/user_id/".$user['user_id'])?>">Update Password </a></li>
+								<li><a href="<?php echo $this->baseUrl("admin/user/image/user_id/".$user['user_id'])?>">Update Image </a></li>
+								 
+							</ul>
+						</div>
+						
+					 
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-8 profile-info">
+									<h1><?php echo ucwords($user['user_first_name']." ".$user['user_last_name'])." <br />";
+									//pr($user);
+									if(!empty($user['user_email']))
+									{
+									echo "<small>(".$user['user_email'].") </small>";
+									
+									}
+									?></h1>
+									<ul class="list-inline">
+										<?php if($user['user_country']!=''){?><li><i class="fa fa-map-marker"></i> <?php echo ucwords($user['user_country']);?></li><?php }?>
+										<?php if($user['user_created']!=''){?><li><i class="fa fa-calendar"></i> <?php echo date('d M Y',strtotime($user['user_created'])); ?></li><?php }?>
+ 									</ul>
+									
+									<div class="custom-form-wrapper">
+                                    <form method="post" action="" class="profile_form" id="profile_form">
+                                    	<div class="row">
+                                         <div class="col-md-12">
+                                        	<?php echo $this->form->user_first_name ?>
+                                            </div>
+                                             <div class="col-md-12">
+                                            <?php echo $this->form->user_last_name ?>
+                                            </div>
+                                             <div class="col-md-12">
+                                            <?php echo $this->form->user_email ?>
+                                            </div>
+                                             <div class="col-md-12">
+                                            <?php echo $this->form->user_phone ?>
+                                            </div>
+                                            <?php 
+											if($this->user_information['user_type']=='school')
+											{
+												?>
+                                                <div class="col-md-12">
+                                            <?php echo $this->form->user_status ?>
+                                            </div>
+                                            <div class="col-md-12">
+                                            	<?php echo $this->form->user_current_student ?>
+                                            </div>
+                                                <?php
+											}
+											else 
+											{
+												?>
+                                                <div class="col-md-12">
+                                                	<?php echo $this->form->school_name ?>
+                                                </div>
+                                                <div class="col-md-12">
+                                                	<?php echo $this->form->user_type ?>
+                                                </div>
+                                                <?php	
+											}
+											?>
+                                             <div class="col-md-12">
+                                            <?php echo $this->form->user_timezone ?>
+                                            </div>
+                                            <div class="col-md-12">
+                                            	<label><b>Address (Optional) </b></label>
+                                            </div>
+                                             <div class="col-md-12">
+                                            <?php echo $this->form->user_address ?>
+                                            </div>
+                                             <div class="col-md-12">
+                                              <?php echo $this->form->user_city ?>
+                                              </div>
+                                              <div class="col-md-12">
+                                              	<?php echo $this->form->bttnsubmit ?>
+                                              </div>
+                                        </div>
+                                    </form>
+									<?php /*?>	<?php echo $this->form;?><?php */?>
+									</div>
+ 								</div>
+								
+							
+							</div>
+							<!--end row-->
+						</div>
+					</div>
+				</div>
+				<!--tab_1_2-->
+			</div>
+		</div>
+		<!--END TABS-->
+	</div>
+</div>
+<!-- END PAGE CONTENT-->
+
+
+<?php
+if($this->user_type=='family' )
+{
+	
+$student_users=array();
+$student_users=$modelSuper->Super_Get("student_family",'s_f_fid="'.$this->user_information['user_id'].'"',"fetchAll");
+
+?>
+<div class=" form-group " id="student_text">
+<br />
+                        	<label>Linked Students </label>
+                             
+                                 <div class="col-md-12 textarea_div">
+                            	
+                               
+                               </div>
+                        </div>
+<?php
+foreach($student_users as $k=>$v)
+{
+	$user_data=array();
+	$user_data=$modelSuper->Super_Get("users",'user_id="'.$v['s_f_sid'].'"',"fetch",array('user_first_name','user_last_name'));
+		
+		
+		?>
+          <script>
+            		var student_id='<?php echo $v['s_f_id'] ?>';
+					var id_val='#family_student_'+student_id;
+					var text_name='<?php echo $user_data['user_first_name'].' '.$user_data['user_last_name'] ?>';
+					if(student_id!='None')
+					{
+								$('#student_text .textarea_div').append('<div class="tag_div" id="stu_'+student_id+'">'+text_name+'</div>');	
+					}
+					else
+					{
+							
+								$('#student_text .textarea_div').html('(None)');
+					}
+            </script>
+       
+        <?php
+}
+	?>
+    <script>
+    	$('#student_text').insertAfter('#user_email');
+    </script>
+    <?php	
+}
+
+ ?>
+

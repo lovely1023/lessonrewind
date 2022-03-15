@@ -1,0 +1,83 @@
+<?php 
+$modelSuper = new Application_Model_SuperModel();
+$notification_arr=array();
+$notification_arr=$modelSuper->Super_Get("notifications","notification_user_id='".$this->user->user_id."' and notification_status='0'","fetch",array("fields"=>array("COUNT(notification_id) as ncount")));
+$message_notification_arr=array();
+$message_notification_arr=$modelSuper->Super_Get("notifications","notification_user_id='".$this->user->user_id."' and notification_status='0' and notification_type='2'","fetch",array("fields"=>array("COUNT(notification_id) as ncount")));
+	
+?>
+<div class="list-group">
+  <h3 style="margin:0;">Profile </h3>
+  <a class="list-group-item text-center noback"> <img class="img-responsive img-circle" style="display:inline-block;" src="<?php echo getUserImage($this->user->user_image,'160')?>" alt="<?php echo $this->user->user_first_name?>" title="" /> </a> 
+    <?php
+	if($this->user->user_type=='student')
+	{
+		?>
+      <!-- <a class="list-group-item" data-title="student_dashboard"  href ="<?php echo SITE_HTTP_URL ?>/profile/studentdashboard"><i class="fa fa-dashboard"></i> Dashboard</a>-->
+        <?php	
+	}
+	else
+	{ 
+		?>
+        <a class="list-group-item" data-title="teacher_dashboard" href="<?php echo  SITE_HTTP_URL ?>/profile/teacherdashboard"><i class="fa fa-dashboard" aria-hidden="true"></i>   <?php echo $this->translate("Dashboard"); ?></a>
+        <?php
+	}
+
+	
+	 ?>
+  <a class="list-group-item" data-title="front_profile" href ="<?php echo $this->url(array(),'front_profile')?>"> <i class="fa fa-user"></i> <?php echo $this->translate("Edit  Profile"); ?> </a>
+<!--   <a class="list-group-item" data-title="front_image" href ="<?php echo $this->url(array(),'front_image')?>"><i class="fa fa-image"></i> Change Image</a>-->
+   <? if($this->user->user_login_type=='normal'){ ?>
+  <!--  <a class="list-group-item" data-title="change_password"  href ="<?php echo $this->url(array(),'change_password')?>"><i class="fa fa-tags"></i> Change Password</a>-->
+ 
+ 	<? } ?>
+    <?php
+	if($this->user->user_type=='student')
+	{
+		?>
+       <a class="list-group-item" data-title="manage_job"  href ="<?php echo SITE_HTTP_URL ?>/job"><i class="fa fa-retweet"></i> <?php echo $this->translate("Manage Job"); ?>
+       </a>
+      <?php /*?>  <a class="list-group-item" data-title="all_contents" href="<?php echo SITE_HTTP_URL ?>/content" >  <i class="fa fa-paperclip" aria-hidden="true"></i>
+        <?php echo $this->translate("All Content"); ?></a>
+        <a class="list-group-item" data-title="my_orders"  href ="<?php echo SITE_HTTP_URL ?>/content/myorders"><i class="fa fa-retweet"></i> <?php echo $this->translate("My Purchase "); ?></a>
+          <a class="list-group-item" data-title="my_contents"  href ="<?php echo SITE_HTTP_URL ?>/content/mycontent"><i class="fa fa-book" aria-hidden="true"></i> <?php echo $this->translate("My Content"); ?></a>
+        <?php	<?php */?>
+       <?php
+	}
+	else
+	{ 
+		?>
+        <a class="list-group-item" data-title="choose_subject"  href ="<?php echo SITE_HTTP_URL ?>/profile/subject"><i class="fa fa-book"></i> <?php echo $this->translate("Choose Subject"); ?></a>  
+        
+        <?php /*?><a class="list-group-item" data-title="my_job" href="<?php echo  SITE_HTTP_URL ?>/job/myjob"><i class="fa fa-search" aria-hidden="true"></i><?php echo $this->translate("My Jobs"); ?></a><?php */?>
+        <a class="list-group-item" data-title="all_reviews" href="<?php echo SITE_HTTP_URL ?>/job/allreviews" >  <i class="fa fa-star" aria-hidden="true"></i>
+        <?php echo $this->translate("All Reviews"); ?></a>
+        
+       <?php /*?> <a class="list-group-item" data-title="all_contents" href="<?php echo SITE_HTTP_URL ?>/content" >  <i class="fa fa-paperclip" aria-hidden="true"></i>
+        <?php echo $this->translate("All Content"); ?></a>
+        <a class="list-group-item" data-title="my_orders"  href ="<?php echo SITE_HTTP_URL ?>/content/myorders"><i class="fa fa-retweet"></i> <?php echo $this->translate("My Purchase "); ?></a><?php */?>
+         <!--<a class="list-group-item" data-title="my_sales"  href ="<?php echo SITE_HTTP_URL ?>/content/mysales"><i class="fa fa-retweet"></i> <?php echo $this->translate("My Contents Orders"); ?></a>-->
+        <?php
+	}
+
+	
+	 ?>
+        <a class="list-group-item" data-title="all_messages" href="<?php echo  SITE_HTTP_URL ?>/message/inbox"><i class="fa fa-envelope" aria-hidden="true"></i> 
+        <?php echo $this->translate("Messages"); ?> 
+         <?php
+   if($notification_arr['ncount']!=0)
+   {
+	 	?>
+         <span class="notification_div"><?php echo $notification_arr['ncount'] ?></span>
+        <?php  
+	}
+    ?>
+        
+       </a>
+    <a class="list-group-item" data-title="logout" href ="<?php echo $this->url(array(),'front_logout')?>"><i class="log_out fa fa-power-off"></i> <?php echo $this->translate("Log Out") ?></a>
+  <?php /*?>	<a class="list-group-item" data-title="logout"  href ="<?php echo $this->url(array(),'front_logout')?>">Logout</a><?php */?>
+</div>
+
+<script  type="text/javascript"  >
+	$(document).ready(function(e){$('a[data-title="<?php echo $this->show?>"]').addClass("active");});
+</script> 

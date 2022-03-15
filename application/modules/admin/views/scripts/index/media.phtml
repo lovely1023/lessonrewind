@@ -1,0 +1,103 @@
+<table>  
+
+<?php  
+ 
+$dir = "public/resources/media_images/300";
+
+$dir = rtrim($dir, '/'); // the script will add the ending slash when appropriate  
+
+$files = scandir($dir);  
+  
+$images = array();  
+
+foreach($this->images as $key=>$value){
+	
+	$file = $value['media_path'] ;
+   
+	$thumbSrc =  APPLICATION_URL."/".$dir . '/' . $file;  ;
+	 
+ 	    // produce an image tag
+    $str = sprintf('<img src="%s" title="%s"  alt="%s" >',$thumbSrc ,$value['media_title'] , $value['media_alt']  );  
+
+    // save image tags in an array
+    $images[] = str_replace("'", "\\'", $str); // an unescaped apostrophe would break js  
+
+}
+
+$numRows = floor( count($images) / 12 );  
+
+// if there are any images left over then add another row
+if( count($images) % 12 != 0 )  
+    $numRows++;  
+
+
+// produce the correct number of table rows with empty cells
+for($i=0; $i<$numRows; $i++)   
+    echo "\t<tr>" . implode('', array_fill(0, 12, '<td></td>')) . "</tr>\n\n";  
+
+?>  
+</table>  
+
+
+<script>  
+
+site_http_url = '<?php echo APPLICATION_URL?>/resources/graphic_media/';
+
+
+// make a js array from the php array
+images = [  
+<?php   
+
+foreach( $images as $v)  
+	 
+
+    echo sprintf("\t'%s',\n", $v);  
+
+?>];  
+
+tbl = document.getElementsByTagName('table')[0];  
+
+td = tbl.getElementsByTagName('td');  
+
+// fill the empty table cells with data
+for(var i=0; i < images.length; i++)  
+    td[i].innerHTML = images[i];  
+
+
+// event handler to place clicked image into CKeditor
+tbl.onclick =   
+
+    function(e) {  
+
+        var tgt = e.target || event.srcElement,  url;  
+ 
+         if( tgt.nodeName != 'IMG' )  
+            return;  
+         
+		 url = tgt.src;
+		 
+		  
+		url = url.replace("/160","");
+		 
+		 
+		 alt = tgt.alt;
+		 
+		 title = tgt.title;
+		 
+         this.onclick = null;  
+		 
+		 window.opener.CKEDITOR.tools.callFunction( <?php echo $_GET['CKEditorFuncNum']; ?>, url, function() {
+			  var element, dialog = this.getDialog();
+			  element = dialog.getContentElement( 'info', 'txtAlt' );
+			  if ( element )
+				element.setValue(alt);
+				
+				 element = dialog.getContentElement( 'info', 'txtTitle' );
+			  if ( element )
+				element.setValue(title);
+ 			});
+
+  
+        window.close();  
+    }  
+</script>  

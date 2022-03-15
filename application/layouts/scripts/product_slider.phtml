@@ -1,0 +1,77 @@
+<?php if($this->current_controller=="product" and $this->current_action=="view"){?>
+
+
+
+<div class="product-slider-wrapper">
+	
+	<div class="container container-slider"><!-- Begin container container-slider -->
+		 <div class="row">
+		 	
+			<div class="col-lg-4 col-md-4 col-sm-12 col-md-push-8 slider-right-wraper ">
+				<h2>NAVY PINSTRIPE SUIT</h2>
+				<p>Subtle yet elegant, the Navy Pinstripe Suit is sure to impress. Our navy pinstripe fabric is 100% wool with a subtle sheen and luxurious drape</p>
+				<h3>$449</h3>
+				<p class="hwb-button"><button class="btn-custom btn-dark btn-hwb ">GET STARTED</button></p>
+				<div class="row">
+					<div class="col-md-6">
+						<p><img src="<?php echo HTTP_IMG_PATH?>/icon-shipping.png" alt="" width="42" /></p>
+						<p>Free Global Shipping on order over $150 </p>
+					</div>
+					<div class="col-md-6">
+						<p><img src="<?php echo HTTP_IMG_PATH?>/icon-measurement.png" alt="" width="42" /></p>
+						<p>Custom made to your measurements</p>
+					</div>
+				</div>
+				<hr />
+				<p>RECEIVE BY 15 AUGUST	</p>
+			</div>
+			
+			<div class="col-lg-8 col-md-8 col-sm-12  col-md-pull-4">
+ 				<div class="row text-center">
+					<img src="<?php echo HTTP_IMG_PATH?>/_temp_slider_image.jpg" alt="Slider Image" class="img-responsive inline-block" />
+				</div>
+ 			</div>
+			
+			
+		 
+		 </div>
+		 
+ 	</div><!-- End // container container-slider -->
+	
+	
+	<div class="slider_image_thumb" style="background:#eeeeee" >
+		
+		<div class="container">
+			
+			<div class="text-center" style="padding:16px 0;">
+				
+				<?php foreach($this->product_images as $key=>$value){?>
+					<img  src="<?php echo HTTP_PRODUCT_IMAGES_PATH?>/<?php echo $value['product_gallery_image']?>" alt="" width="60" />
+				<?php  } ?>
+			</div>
+		
+		</div>
+	
+	
+	</div>
+	
+</div>
+
+<?php  } ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

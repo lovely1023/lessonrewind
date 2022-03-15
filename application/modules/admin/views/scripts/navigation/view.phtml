@@ -1,0 +1,92 @@
+<div class="portlet box grey">
+        <div class="portlet-title">
+            <h4><i class="icon-reorder"></i><?php echo $this->pageHeading?></h4>
+         </div>
+        <div class="portlet-body">
+            <div class="accordion" id="accordion1">
+            
+            	<?php 
+ 					
+					$keyValues = array(
+ 						"menu_page_id"=>" Content Of Menu Page ",
+						"menu_permalink"=>"Menu Permalink",
+						"menu_title"=>"Menu  Link",
+						"menu_meta_keywords"=>"Menu Meta Keyworkds",
+						"menu_meta_description"=>"Menu Meta Description ",
+						"menu_index"=>"Menu Index",
+						"menu_follow"=>"Menu Follow",
+						"menu_google_code"=>"Google Analytics Code",
+						"menu_status"=>"Menu Status",
+ 						);
+				
+					foreach($this->page_content as $key=>$value){
+ 						if(!array_key_exists($key,$keyValues))
+							continue;
+ 						 
+					?>
+                    
+                    
+                 	<div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion<?php echo  $key?>" href="#collapse_<?php echo  $key?>">
+                            <i class="icon-angle-right"></i>   <strong><?php echo  $keyValues[$key];?></strong></a>
+                        </div>
+                        <div id="collapse_<?php echo  $key?>" class="accordion-body collapse in">
+                            <div class="accordion-inner">
+                                 <?php 
+								 	if($key=='menu_page_id'){
+											echo $this->getHelper('Other')->getPageData($value);
+									}else if($key=='menu_updated'){
+										echo date('h:i A , d - F - Y',strtotime(getTimeByTimezone($value , $this->admin->time_diff)));
+ 									}else if($key=="menu_status"){
+										if(!$this->page_content['menu_publish']){
+											echo " Not Published (Draft)";
+ 										}else{
+											if($this->page_content['menu_status']=='1'){
+												echo " Published ";
+											}else{
+												echo " Not Published (Draft)";
+											}
+										}
+									}else{
+										echo $value;
+									}
+								
+								?>
+                            
+                         </div>
+                    </div>
+             </div>
+            
+               <?php  } ?>
+               
+               
+                
+               <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordiondelete" href="#collapse_delete">
+                            <i class="icon-angle-right"></i><strong>&nbsp;&nbsp;Delete Page &nbsp;&nbsp;</strong></a>
+                        </div>
+                        <div id="collapse_delete" class="accordion-body collapse in">
+                            <div class="accordion-inner">
+                                
+                                <div class="portlet box grey">
+                                    <div class="portlet-title">
+                                        <h4><i class="icon-reorder"></i>Delete Page Form</h4>
+                                     </div>
+                                    <div class="portlet-body">
+                                        <?php echo $this->form;?>
+                                    </div>
+                                </div>
+                                    
+                           </div>
+                    </div>
+                </div>
+        
+        
+        
+        
+         </div>
+     </div>
+ </div>
+     
