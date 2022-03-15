@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Barebones API  for the Barebones Recorder 7</title>
+<style type="text/css">
+	@import url(dp.SyntaxHighlighter/Styles/SyntaxHighlighter.css);
+	@import url(style.css);
+</style>
+
+</head>
+
+<body>
+<h1>Barebones API  for the Barebones Recorder 7</h1>
+
+<h2>Embedding the recorder in a web page</h2>
+
+<p>The recorder is a SWF file, so it must be embedded into the web page. You can use Adobe's embed code, but using the swfobject is much easier and more standards-friendly.</p>
+<p>Embedding using the swfobject is a two-step process. First, you must load the Javascript file into your web page. Google hosts the file, so you can load it from Google thusly:</p>
+
+<pre name="code" class="html">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+</pre>
+
+<p>Second, you call the swfobject and pass it parameters thusly:</p>
+
+<pre name="code" class="html">
+	window.onload = function(){
+		var flashvars = {};
+
+		flashvars.myFilename="audiofile001";
+		flashvars.myServer="http://fubar.com/snafu/";
+		flashvars.myHandler="save.php";
+		flashvars.myDirectory="uploads/";
+		flashvars.timeLimit="30";
+		flashvars.showLink="Y";
+		flashvars.hideFlash ="N";
+		flashvars.bitRate="64";
+		flashvars.licensekey="2317e23c2a080396968d6ef2ddec8302";
+		flashvars.uploadMsg = "Your recording was uploaded.";
+		flashvars.uploadLink="Download it here";
+
+		var parameters = {};
+		var attributes = {};
+		attributes.id="recorder";
+		attributes.name="recorder";
+
+		swfobject.embedSWF("barebonesRecorder7.swf?ID="+Math.random()*100,"recorderDIV","400","200","11.2", "expressInstall.swf", flashvars, parameters, attributes);
+	}
+
+</pre>
+
+<p>The parameters are described in detail below.</p>
+
+<h3>Required Parameters</h3>
+
+<p>The following variables must be passed to the recorder (via the Flashvars in the embed code):</p>
+
+<table border="1" width="90%">
+<tr><th>Variable</th><th>Value</th></tr>
+<tr><td width="150">myFilename</td><td>A string that tells the recorder what to name the recording. E.g., test001</td></tr>
+<tr><td>myServer</td><td>The full URL of the website where the save script is. Must end in a trailing slash, e.g.,  http://fubar.com/snafu/</td></tr>
+<tr><td>myHandler</td><td>The name of the script that handles the file upload, e.g. save.php</td></tr>
+<tr><td>myDirectory</td><td>Name of the directory where recordings are saved, e.g., uploads (this is only to enable downloads)</td></tr>
+<tr><td>timeLimit</td><td>Maximum time limit of recordings, in seconds, e.g., 30</td></tr>
+<tr><td>showLink</td><td>Whether or not to show a link to the recording after it has been uploaded. Values can be Y or N</td></tr>
+<tr><td>licensekey</td><td>The license key that you purchased to unlock the recorder. It will be a long string of text something like this: 2317e23c2a080396968d6ef2ddec8302. A license key is locked to one domain. If the license key is wrong, incomplete, or for the wrong domain, the recorder will enter into demo mode.</td></tr>
+
+</table>
+
+<h3>Optional Parameters</h3>
+
+<p>The following variables may be passed to the recorder to set interface options</p>
+
+<table border="1" width="90%">
+<tr><th>Variable</th><th>Value</th></tr>
+
+<tr><td>uploadMsg</td><td>Sort message to display when the file has been uploaded, e.g., "upload was successful."</td></tr>
+<tr><td>uploadLink</td><td>If you want users to be able to download their recordings, this is the link text, e.g., "download."</td></tr>
+<tr><td>bitRate</td><td>The compression bit rate of the MP3 file. Default is 128. Allowable values are 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256 and 320.</td></tr>
+
+
+
+
+
+<tr><td width="150">recordLabelText</td><td>Label for the RECORD button</td></tr>
+<tr><td>stopLabelText</td><td>Label for the STOP button</td></tr>
+<tr><td>playLabelText</td><td>Label for the PLAY button</td></tr>
+<tr><td>pauseLabelText</td><td>Label for the PAUSE button</td></tr>
+<tr><td>cancelLabelText</td><td>Label for the CANCEL button</td></tr>
+<tr><td>saveLabelText</td><td>Label for the SAVE button</td></tr>
+
+<tr><td>hideFlash</td><td>Send "Y" to make the Flash interface invisible.</td></tr>
+
+<tr>
+</table>
+
+
+<h3>Changing the button icons</h3>
+
+<p>You can specify alternative icons for the recorder buttons. Add the flashvar "imageDirectory," then include the directory and images when you deploy the recorder.</p>
+<p>Images must be in PNG format, and named thusly:</p>
+<ul>
+	<li>record: record.png</li>
+	<li>stop: stop.png</li>
+	<li>play: play.png</li>
+	<li>pause: pause.png</li>
+	<li>save: save.png</li>
+	<li>cancel: cancel.png</li>
+</ul>
+
+<p>For example, you may create your own icons, then place them in a directory called "mySuperIcons." When you put the recorder online, you must put the directory on the server, then add a line to the embed code:</p>
+	<blockquote>flashvars.imageDirectory="mySuperIcons";</blockquote>
+<p>Images will be resized to 32x32 pixels.</p>
+
+
+<h2>
+	Creating an HTML Interface
+</h2>
+<p>You can hide the recorder (embed as usual, but set the width and height to 1 pixel), and use Javascript to interact with the recorder. Create your own HTML-based interface.</p>
+
+<h3>Sending Commands to the Recorder</h3>
+	<blockquote>
+	Your interface must communicate with the recorder, which is embedded in the web page (although invisible). You should use this approach to locating the embedded SWF will overcome cross-browser differences in the DOM: When embedding the recorder, be sure to pass the attributes.name and attributes.id in the embed code.
+	</blockquote>
+
+<pre name="code" class="html">
+	window.onload = function(){
+
+		var flashvars = {};
+		flashvars.myFilename="test003";
+		flashvars.myServer="http://fubar.com/snafu/";
+		flashvars.myHandler="save.php";
+		flashvars.myDirectory="uploads";
+		flashvars.timeLimit="30";
+		flashvars.showLink="Y";
+		
+		var parameters = {};
+		var attributes = {};
+		attributes.id="recorder";
+		attributes.name="recorder";
+		
+		swfobject.embedSWF("barebonesRecorder5.swf?ID="+Math.random()*100,"recorderDIV","1","1","10.1", "expressInstall.swf", flashvars, parameters, attributes);
+	}
+
+</pre>
+
+<h3>Controlling the recorder via Javascript</h3>
+<p>The recorder will accept the following Javascript commands from the host web page:</p>
+
+
+<table border="1">
+	<t><th>Command</th><th>Function:</th></tr>
+	<tr><td>sendRecord</td><td>Begins recording</td></tr>
+	<tr><td>sendStop</td><td>Stops recording or playing</td></tr>
+	<tr><td>sendPlay</td><td>Begins playback</td></tr>
+	<tr><td>sendPause</td><td>Pauses recording or playback</td></tr>
+	<tr><td>sendSave</td><td>Begins the save process</td></tr>
+	<tr><td>sendCancel</td><td>Discards the recording and re-initializes the recorder</td></tr>
+	<tr><td>setFilename(x:string)</td><td>Changes the name of the MP3 file that the recorder creates</td></tr>
+	<tr><td>setTimeLimit(x:int)</td><td>Changes the time limit of the recording</td></tr>
+	<tr><td>doScrub(x:int)</td><td>Move the playhead to the position x seconds in the recording</td></tr>
+	<tr><td>showSettings</td><td>Display the Flash permissions dialog</td></tr>
+</table>
+
+<h3>Accepting messages from the recorder</h3>
+<p>
+	The recorder calls Javascript functions and sends the functions data representing status messages from the recorder. You use that data to update your interface.
+</p>
+
+<h4>
+	recorderMessage (x:int)
+</h4>
+<blockquote>An integer representing a status code. The status codes are listed in this table:</blockquote>
+
+<table border="1">
+<tr><th>Value</th><th>Status Event</th></tr>
+<tr><td>0</td><td>Not licensed for this domain. Entering demo mode (max. 10 second recording time)</td></tr>
+<tr><td>1</td><td>Recorder initialized, ready to record</td></tr>
+<tr><td>2</td><td>Recording</td></tr>
+<tr><td>3</td><td>Stopped recording</td></tr>
+<tr><td>4</td><td>Stopped playback</td></tr>
+<tr><td>5</td><td>Ready</td></tr>
+<tr><td>6</td><td>Playing</td></tr>
+<tr><td>7</td><td>Starting to save</td></tr>
+<tr><td>8</td><td>Nothing to save (error)</td></tr>
+<tr><td>9</td><td>Truncating recording to 10 seconds (in demo mode)</td></tr>
+<tr><td>10</td><td>Encoding to MP3</td></tr>
+<tr><td>11</td><td>Encoding progress</td></tr>
+<tr><td>12</td><td>Encoding error</td></tr>
+<tr><td>13</td><td>Encoding complete</td></tr>
+<tr><td>14</td><td>Uploading the MP3 file to the server</td></tr>
+<tr><td>15</td><td>Upload complete</td></tr>
+<tr><td>16</td><td>Paused recording</td></tr>
+<tr><td>17</td><td>Paused playback</td></tr>
+<tr><td>18</td><td>The microphone has been disabled</td></tr>
+<tr><td>19</td><td>The microphone has been enabled</td></tr>
+</table>
+
+<h4>recorderEncodingProgress (x:int)</h4>
+<blockquote>Sends an integer indicating the progress of the MP3 encoding process, expressed in percent (e.g., 25 indicates that the encoding is 25% completed).</blockquote>
+
+<h4>recorderMeter (x:int)</h4>
+<blockquote>Sends an integer indicating the activity level of the microphone. Expressed in a number between 0 and 100.</blockquote>
+
+<h4>recorderTime (x:String)</h4>
+<blockquote>Sends time in a formatted string. While recording, shows the length of time remaining (counting down from the maximum recording length). During playback, shows elapsed playback time.</blockquote>
+
+<h4>recorderUpload (x:String, y:String)</h4>
+
+<blockquote>Sends two strings. The first is a general "success" message when the recorder has successfully uploaded the file. If the showLink value is Y, includes a link to the MP3 file. The second string is the text that the handler sends to the recorder. For example, you might want a specific message such as "have a nice day" after the upload has been processed. That message will be send from the recorder to the Javascript function.</blockquote>
+
+<hr />
+<p>Following is a complete HTML file with all the Javascript commands and a basic HTML interface</p>
+<pre name="code" class="html:collapse">
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="description" content="Online audio recorder" />
+<meta name="keywords" content="Flash audio,MP3,Online recorder,Web-based recorder,web recorder,online MP3" />
+<link type="text/plain" rel="author" href="http://recorder.denniehoopingarner.com/humans.txt" />
+<title>Barebones Audio Recorder version 7</title>
+<style type="text/css">
+	@import url(style.css);
+</style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+
+<script type="text/javascript">
+	var recMessageArray = new Array()
+	recMessageArray[0] = "entering demo mode.";
+	recMessageArray[1] = "ready to go!";
+	recMessageArray[2] = "recording";
+	recMessageArray[3] = "stopped recording";
+	recMessageArray[4] = "stopped playing";
+	recMessageArray[5] = "ready!!";
+	recMessageArray[6] = "playing";
+	recMessageArray[7] = "starting to save";
+	recMessageArray[8] = "hmm. nothing to save";
+	recMessageArray[9] = "truncating the file to 10 seconds";
+	recMessageArray[10] = "encoding to MP3";
+	recMessageArray[11] = "...";
+	recMessageArray[12] = "encoding error";
+	recMessageArray[13] = "encode complete";
+	recMessageArray[14] = "uploading...";
+	recMessageArray[15] = "upload complete";
+	recMessageArray[16] = "record pause";
+	recMessageArray[17] = "play pause";
+	recMessageArray[18] = "mic not ready";
+	recMessageArray[19] = "mic ready";
+
+	window.onload = function(){
+		var flashvars = {};
+
+		flashvars.myFilename="v7r2";
+		flashvars.myServer="http://192.168.1.99/sites/ritu/voicerocoder/demo/";
+		flashvars.myHandler="save.php";
+		flashvars.myDirectory="uploads/";
+		flashvars.timeLimit="30";
+		flashvars.showLink="Y";
+		flashvars.hideFlash ="true";
+		flashvars.bitRate="64";
+		flashvars.licensekey="2317e23c2a080396968d6ef2ddec8302";
+		flashvars.uploadMsg = "uploaded";
+		flashvars.uploadLink="download";
+
+		var parameters = {};
+		var attributes = {};
+		attributes.id="recorder";
+		attributes.name="recorder";
+
+		swfobject.embedSWF("barebonesRecorder7.swf?ID="+Math.random()*100,"recorderDIV","215","138","11.2", "expressInstall.swf", flashvars, parameters, attributes);
+	}
+
+	function recorderMessage(x,y){
+		switch(x){
+			case 2:
+				document.getElementById("recorderUpload").innerHTML = "";
+				document.getElementById("recorderMessage").innerHTML = recMessageArray[x];
+				break;
+			default:
+				document.getElementById("recorderMessage").innerHTML = recMessageArray[x];
+				break;	
+		}
+	}
+	
+	function recorderEncodingProgress(x){
+		document.getElementById("recorderMessage").innerHTML = x;
+		document.getElementById("recorderMeterBar").style.width = x + "px";
+	}
+
+	function recorderMeter(x){
+		document.getElementById("recorderMeter").innerHTML = x;
+		document.getElementById("recorderMeterBar").style.width = x + "px";
+	}
+
+	function recorderTime(x){
+		document.getElementById("recorderTime").innerHTML = x;
+	}
+
+	function recorderUpload(x){
+		document.getElementById("recorderUpload").innerHTML = x;
+	}
+
+	function thisMovie(movieName) {
+	    if (navigator.appName.indexOf("Microsoft") != -1) {
+	        return window[movieName];
+	    } else {
+	        return document[movieName];
+	    }
+	}
+
+
+</script>
+</head>
+<body>
+<p>This is a VERY basic implementation, showing how HTML elements can control the recorder. Obviously, with graphics and styling, the recorder can look like anything you like.</p>
+
+<fieldset>
+	<legend>Bare-bones HTML controls</legend>
+	<button type="button" onclick="thisMovie('recorder').sendRecord()">Record</button>
+	<button type="button" onclick="thisMovie('recorder').sendStop()">Stop</button>
+	<button type="button" onclick="thisMovie('recorder').sendPlay()">Play</button>
+	<button type="button" onclick="thisMovie('recorder').sendPause()">Pause</button>
+	<button type="button" onclick="thisMovie('recorder').sendCancel()">Cancel</button>
+	<button type="button" onclick="thisMovie('recorder').sendSave()">Save</button>
+	<br />
+	<table width="100%">
+		<tr>
+			<td width="150">recorder message:</td>
+			<td><div id="recorderMessage">&nbsp;</div></td>
+		</tr>
+		<tr>
+			<td>meter (raw number):</td>
+			<td><div id="recorderMeter">&nbsp;</div></td>
+		</tr>
+			<td>meter (rendered):</td>
+			<td><div id="recorderMeterBar"></div></td>
+		</tr>
+		<tr>
+			<td>recorder time:</td>
+			<td><div id="recorderTime">&nbsp;</div></td>
+		</tr>
+		<tr>
+			<td colspan="2"><div id="recorderUpload">&nbsp;</div></td>
+		</tr>
+	</table>
+	
+	
+</fieldset>
+
+<p>If the "meter (raw number)" shows a value of -1, then you probably have to set the permissions for the Flash plugin to "allow" and "remember." There is detailed information about that on this page: <a href="http://clear.msu.edu/teaching/online/ria/recordhowto/">http://clear.msu.edu/teaching/online/ria/recordhowto/</a>.</p>
+
+
+	<div id="recorderDIV"></div>
+
+</body>
+</html>
+
+
+</pre>
+
+
+
+
+
+<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shCore.js"></script>
+<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shBrushXml.js"></script>
+<script language="javascript">
+	dp.SyntaxHighlighter.ClipboardSwf = 'dp.SyntaxHighlighter/Scripts/clipboard.swf';
+	dp.SyntaxHighlighter.HighlightAll('code');
+</script>
+</body>
+</html>
+

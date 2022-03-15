@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="description" content="Online audio recorder" />
+<meta name="keywords" content="Flash audio,MP3,Online recorder,Web-based recorder,web recorder,online MP3" />
+<link type="text/plain" rel="author" href="http://recorder.denniehoopingarner.com/humans.txt" />
+<title>Barebones Audio Recorder version 7</title>
+<style type="text/css">
+	@import url(style.css);
+</style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+
+<script type="text/javascript">
+	var recMessageArray = new Array()
+	recMessageArray[0] = "entering demo mode.";
+	recMessageArray[1] = "ready to go!";
+	recMessageArray[2] = "recording";
+	recMessageArray[3] = "stopped recording";
+	recMessageArray[4] = "stopped playing";
+	recMessageArray[5] = "ready!!";
+	recMessageArray[6] = "playing";
+	recMessageArray[7] = "starting to save";
+	recMessageArray[8] = "hmm. nothing to save";
+	recMessageArray[9] = "truncating the file to 10 seconds";
+	recMessageArray[10] = "encoding to MP3";
+	recMessageArray[11] = "...";
+	recMessageArray[12] = "encoding error";
+	recMessageArray[13] = "encode complete";
+	recMessageArray[14] = "uploading...";
+	recMessageArray[15] = "upload complete";
+	recMessageArray[16] = "record pause";
+	recMessageArray[17] = "play pause";
+	recMessageArray[18] = "mic not ready";
+	recMessageArray[19] = "mic ready";
+
+	window.onload = function(){
+		var flashvars = {};
+
+		flashvars.myFilename="v7r2";
+		flashvars.myServer="http://192.168.1.99/sites/ritu/voicerocoder/demo/";
+		flashvars.myHandler="save.php";
+		flashvars.myDirectory="uploads/";
+		flashvars.timeLimit="30";
+		flashvars.showLink="Y";
+		flashvars.hideFlash ="true";
+		flashvars.bitRate="64";
+		flashvars.licensekey="2317e23c2a080396968d6ef2ddec8302";
+		flashvars.uploadMsg = "uploaded";
+		flashvars.uploadLink="download";
+
+		var parameters = {};
+		var attributes = {};
+		attributes.id="recorder";
+		attributes.name="recorder";
+
+		swfobject.embedSWF("barebonesRecorder7.swf?ID="+Math.random()*100,"recorderDIV","215","138","11.2", "expressInstall.swf", flashvars, parameters, attributes);
+	}
+
+	function recorderMessage(x,y){
+		switch(x){
+			case 2:
+				document.getElementById("recorderUpload").innerHTML = "";
+				document.getElementById("recorderMessage").innerHTML = recMessageArray[x];
+				break;
+			default:
+				document.getElementById("recorderMessage").innerHTML = recMessageArray[x];
+				break;	
+		}
+	}
+	
+	function recorderEncodingProgress(x){
+		document.getElementById("recorderMessage").innerHTML = x;
+		document.getElementById("recorderMeterBar").style.width = x + "px";
+	}
+
+	function recorderMeter(x){
+		document.getElementById("recorderMeter").innerHTML = x;
+		document.getElementById("recorderMeterBar").style.width = x + "px";
+	}
+
+	function recorderTime(x){
+		document.getElementById("recorderTime").innerHTML = x;
+	}
+
+	function recorderUpload(x){
+		document.getElementById("recorderUpload").innerHTML = x;
+	}
+
+	function thisMovie(movieName) {
+	    if (navigator.appName.indexOf("Microsoft") != -1) {
+	        return window[movieName];
+	    } else {
+	        return document[movieName];
+	    }
+	}
+
+
+</script>
+</head>
+<body>
+<p>This is a VERY basic implementation, showing how HTML elements can control the recorder. Obviously, with graphics and styling, the recorder can look like anything you like.</p>
+
+<fieldset>
+	<legend>Bare-bones HTML controls</legend>
+	<button type="button" onclick="thisMovie('recorder').sendRecord()">Record</button>
+	<button type="button" onclick="thisMovie('recorder').sendStop()">Stop</button>
+	<button type="button" onclick="thisMovie('recorder').sendPlay()">Play</button>
+	<button type="button" onclick="thisMovie('recorder').sendPause()">Pause</button>
+	<button type="button" onclick="thisMovie('recorder').sendCancel()">Cancel</button>
+	<button type="button" onclick="thisMovie('recorder').sendSave()">Save</button>
+	<br />
+	<table width="100%">
+		<tr>
+			<td width="150">recorder message:</td>
+			<td><div id="recorderMessage">&nbsp;</div></td>
+		</tr>
+		<tr>
+			<td>meter (raw number):</td>
+			<td><div id="recorderMeter">&nbsp;</div></td>
+		</tr>
+			<td>meter (rendered):</td>
+			<td><div id="recorderMeterBar"></div></td>
+		</tr>
+		<tr>
+			<td>recorder time:</td>
+			<td><div id="recorderTime">&nbsp;</div></td>
+		</tr>
+		<tr>
+			<td colspan="2"><div id="recorderUpload">&nbsp;</div></td>
+		</tr>
+	</table>
+	
+	
+</fieldset>
+
+<p>If the "meter (raw number)" shows a value of -1, then you probably have to set the permissions for the Flash plugin to "allow" and "remember." There is detailed information about that on this page: <a href="http://clear.msu.edu/teaching/online/ria/recordhowto/">http://clear.msu.edu/teaching/online/ria/recordhowto/</a>.</p>
+
+
+	<div id="recorderDIV"></div>
+
+</body>
+</html>

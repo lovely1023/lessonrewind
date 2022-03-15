@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+span.required{
+	color:#f3565d;
+}
+
+.form .form-actions{
+	margin:20px -10px -10px -10px;
+}
+
+
+.admin-nav-img{
+	width:29px;
+}
+
+
+.custom-form-wrapper{
+	background:#f0f6fa;	
+	padding:16px;
+}
+
+
+.dt_product_name{
+	margin:0px;
+	padding:6px 0 ;
+	font-weight:bold;
+	font-size:16px;
+}
+
+.dt_label{
+	font-size:13px;
+	font-weight:600;
+	font-style:italic;
+	margin-bottom:6px;
+}
+
+.dt_bold{
+	font-weight:bold;
+}
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active.open > a, .page-sidebar .page-sidebar-menu > li.active > a, .page-sidebar .page-sidebar-menu > li.active.open > a
+{
+	background:#ff6903 !important;
+}
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a
+{
+	background:#ff6903;
+}

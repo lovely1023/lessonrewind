@@ -1,0 +1,20 @@
+	
+	fieldset{
+		width: 500px;
+	}
+	#recorderMeterBar{
+		border: 1px solid #666;
+		width: 100px;
+		height: 20px;
+		background: #ccc;
+	}
+	a, a.visited {
+		color: blue;
+	}
+	
+	
+	table { 
+		border: 1px solid #cccccc;
+		border-collapse: collapse;
+	}
+	

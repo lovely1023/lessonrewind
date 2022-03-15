@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="description" content="Online audio recorder" />
+<meta name="keywords" content="Flash audio,MP3,Online recorder,Web-based recorder,web recorder,online MP3" />
+<link type="text/plain" rel="author" href="http://recorder.denniehoopingarner.com/humans.txt" />
+<title>Barebones Audio Recorder version 7</title>
+<style type="text/css">
+	@import url(style.css);
+</style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+
+<script type="text/javascript">
+
+	window.onload = function(){
+		var flashvars = {};
+
+		flashvars.myFilename="v7r2";
+		flashvars.myServer="http://192.168.1.99/sites/ritu/voicerocoder/demo/";
+		flashvars.myHandler="save.php";
+		flashvars.myDirectory="uploads/";
+		flashvars.timeLimit="30";
+		flashvars.showLink="Y";
+		flashvars.hideFlash ="N";
+		flashvars.bitRate="64";
+		flashvars.licensekey="2317e23c2a080396968d6ef2ddec8302";
+		flashvars.uploadMsg = "uploaded";
+		flashvars.uploadLink="download";
+
+		var parameters = {};
+		var attributes = {};
+		attributes.id="recorder";
+		attributes.name="recorder";
+
+		swfobject.embedSWF("barebonesRecorder7.swf?ID="+Math.random()*100,"recorderDIV","400","200","11.2", "expressInstall.swf", flashvars, parameters, attributes);
+	}
+
+
+</script>
+</head>
+<body>
+
+<div style="float: left; width: 550px;">
+
+	<h3>Barebones Audio Recorder 7</h3>
+	<p><em>Client-side audio capture and conversion to MP3.</em></p>
+	<p>This recorder captures user audio, converts to MP3 format on the client side, then uploads to the server.</p>
+
+	<div id="recorderDIV"></div>
+	<div style="font-style: italic; text-align: center; width: 400px;">
+			This recorder is fully functional.
+	</div>
+	<h3><a href="documentation.html" target="_blank">Documentation and API</a></h3>
+
+
+<h3>Features:</h3>
+<ul>
+	<li>Record, edit, play back audio in the browser window.</li>
+	<li>Upload MP3 file to your server.</li>
+	<li>All recorder functions are exposed to Javascript. <br />
+	Make your own <a href="htmlinterface.html">HTML interface</a>.</li>
+</ul>
+<h4>Requirements:</h4>
+<ul>
+	<li>Flash player version 11.2 or higher.</li>
+	<li>Microphone and speakers.</li>
+	<li>License key.</li>
+	<li><a href="demo.zip">Download the recorder here</a></li>
+	<li>
+		Note that the recorder requires a license key in order to operate fully. 
+		You can <a href="http://store.denniehoopingarner.com/">buy a license key online</a> for US$74.99.
+	</li>
+</ul>
+
+
+
+<h3>Licensing Information</h3>
+<p>A single-domain license costs $74.99. To purchase a license, <a href="http://store.denniehoopingarner.com/">go to the online store</a>.</p>
+
+
+<hr />
+<h4>For More Information, Contact:</h4>
+
+<p>
+	Den Hoopingarner <br />
+	dhoopingarner@gmail.com
+</p>
+
+<p><em>Source code is available under a separate license.</em></p>
+
+
+<hr />
+
+	<div style="font-size: .8em; font-style: italic;">
+		<? require "counter.php"; ?> visits since 5-12-2013
+	</div>
+</div>
+
+<div style="float: right; width: 300px;">
+
+	<h4>New! The Visual Recorder!</h4>
+	<p>
+	Do you need something more visual? Try the Visual Recorder,
+	available now for only $49.99.
+	</p>
+	
+	<a href="http://visualrecorder.denniehoopingarner.com/"><img src="visualrecorderscreenshot.png" border="0"/></a>
+	
+	<p align="center"><em>Think "Audacity in a web page."</em></p>
+</div>
+
+
+</body>
+</html>
