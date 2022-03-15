@@ -11,7 +11,10 @@ class Application_Model_Navigation extends Zend_Db_Table_Abstract
 	
 	/* Add / Edit Page Information */
 	public function add($data , $id = false   ){
- 
+		// ================ add  ==========
+		date_default_timezone_set('America/Los_Angeles');	// PDT time
+		// ================================
+		
  		$data['menu_updated']=date('Y-m-d H:i:s');
 		try{
 		

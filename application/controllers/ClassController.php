@@ -1559,9 +1559,14 @@ class ClassController extends Zend_Controller_Action
 					{
 						
 						$data_arr=array();
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
+						
 						$data_arr=array('student_instrument_studentid'=>$v,
 										'student_instrument_insid'=>$instrument_id,
-										'student_instrument_date'=>gmdate('Y-m-d H:i:s'),
+										// 'student_instrument_date'=>gmdate('Y-m-d H:i:s'),
+										'student_instrument_date'=>date('Y-m-d H:i:s'),
 						);	
 						$kk=$this->modelStatic->Super_Insert("student_instrument",$data_arr);
 						
@@ -1595,9 +1600,14 @@ class ClassController extends Zend_Controller_Action
 					{
 						
 						$data_arr=array();
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
+						
 						$data_arr=array('student_class_studentid'=>$v,
 										'student_class_classid'=>$class_id,
-										'student_class_date'=>gmdate('Y-m-d H:i:s'),
+										// 'student_class_date'=>gmdate('Y-m-d H:i:s'),
+										'student_class_date'=>date('Y-m-d H:i:s'),
 						);	
 						$kk=$this->modelStatic->Super_Insert("student_class",$data_arr);
 						
@@ -1631,9 +1641,14 @@ class ClassController extends Zend_Controller_Action
 					{
 						
 						$data_arr=array();
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
+						
 						$data_arr=array('teacher_class_userid'=>$v,
 										'teacher_class_classid'=>$class_id,
-										'teacher_class_date'=>gmdate('Y-m-d H:i:s'),
+										// 'teacher_class_date'=>gmdate('Y-m-d H:i:s'),
+										'teacher_class_date'=>date('Y-m-d H:i:s'),
 						);	
 						$kk=$this->modelStatic->Super_Insert("teacher_classes",$data_arr);
 						
@@ -1666,9 +1681,14 @@ class ClassController extends Zend_Controller_Action
 					{
 						
 						$data_arr=array();
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
+						
 						$data_arr=array('teacher_insrument_userid'=>$v,
 										'teacher_insrument_instid'=>$instrument_id,
-										'teacher_insrument_date'=>gmdate('Y-m-d H:i:s'),
+										// 'teacher_insrument_date'=>gmdate('Y-m-d H:i:s'),
+										'teacher_insrument_date'=>date('Y-m-d H:i:s'),
 						);	
 						$kk=$this->modelStatic->Super_Insert("teacher_insruments",$data_arr);
 						

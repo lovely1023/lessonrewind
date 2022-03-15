@@ -408,7 +408,12 @@ class ProfileController extends Zend_Controller_Action
 									
 						}
 						$data_insert['announcement_status']='1';
-						$data_insert['announcement_date']=gmdate('Y-m-d H:i:s');
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
+						
+						// $data_insert['announcement_date']=gmdate('Y-m-d H:i:s');
+						$data_insert['announcement_date']=date('Y-m-d H:i:s');
 						$this->modelStatic->Super_Insert("announcement",$data_insert,'announcement_id="'.$announcement_id.'"');
 						$options=array();
 						if(isset($posted_data['select_teacher']))
@@ -618,7 +623,12 @@ class ProfileController extends Zend_Controller_Action
 							$data_insert1['announcement_status']='1';
 							$data_insert1['announcement_desc']=$data_insert['announcement_desc'];
 							$data_insert1['announcement_title']=$data_insert['announcement_title'];
-							$data_insert1['announcement_date']=gmdate('Y-m-d H:i:s');
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							// ================================
+							
+							// $data_insert1['announcement_date']=gmdate('Y-m-d H:i:s');
+							$data_insert1['announcement_date']=date('Y-m-d H:i:s');
 							$data_insert1['announcement_insertid']=$this->view->user->user_id;
 							$data_insert1['announcement_schoolid']=$school_id;
 							$k=$this->modelStatic->Super_Insert("announcement",$data_insert1); 
@@ -1062,10 +1072,15 @@ class ProfileController extends Zend_Controller_Action
 					foreach($permissions_arr as $k=>$v)
 					{
 						$ins_array=array();
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
+						
 						$ins_array=array(
 								'admin_permission_type'=>$v,
 								'admin_permissions_adminid'=>$user_id,
-								'admin_permission_date'=>gmdate('Y-m-d H:i:s'),								
+								// 'admin_permission_date'=>gmdate('Y-m-d H:i:s'),								
+								'admin_permission_date'=>date('Y-m-d H:i:s'),								
 								);	
 					$this->modelStatic->Super_Insert("admin_permissions",$ins_array);		
 					}
@@ -2114,13 +2129,17 @@ class ProfileController extends Zend_Controller_Action
 			$isSubscribed = $objPayapal->CreateRecurringPaymentsProfile($data_val);
 			if($isSubscribed['RESPMSG']=='Approved')
 			{
+			// ================ add  ==========
+			date_default_timezone_set('America/Los_Angeles');	// PDT time
+			// ================================
 			
 			$data_subscription=array(
 			'subscription_user_id'=>$this->view->user->user_id,
 			'subscription_planid'=>$plan_detail['subscription_plan_id'],
 			'subscription_plantitle'=>$plan_detail['subscription_plan_title'],
 			'subscription_planprice'=>$plan_detail['subscription_plan_price'],
-			'subscription_start_date'=>gmdate('Y-m-d H:i:s'),
+			// 'subscription_start_date'=>gmdate('Y-m-d H:i:s'),
+			'subscription_start_date'=>date('Y-m-d H:i:s'),
 			'subscription_plandes'=>$plan_detail['subscription_plan_description'],
 			'subscription_profile_id'=>$isSubscribed['PROFILEID'],
 			'subscription_userfirstname'=>$data_val['user_first_name'],

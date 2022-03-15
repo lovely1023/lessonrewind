@@ -342,6 +342,10 @@ class DbAdapter { /* Begin Class DB */
 				
 				
 				/* Update order_serials status with completed */
+				
+				// ================ add  ==========
+				date_default_timezone_set('America/Los_Angeles');	// PDT time
+				// 
 				$is_serial_status_changed = $this->Super_Insert("order_serials",array("order_serial_status"=>"completed","order_serial_updated"=>date('Y-m-d H:i:s')),"order_serial_id IN (".implode(",",$serial_ids['order_serial_id']).")");
 				
 				if($is_serial_status_changed->success){
@@ -395,6 +399,9 @@ class DbAdapter { /* Begin Class DB */
 							*/
 							
 							
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							// 
 							$data_update_to_buy_order = array(
 								'order_quantity_remaining'=>"`order_quantity_remaining` - ".count($all_serials)."",
 								'order_updated'=>date('Y-m-d H:i:s'),
@@ -635,6 +642,10 @@ class DbAdapter { /* Begin Class DB */
 		
 			
 		/* Update Buy Order Data */
+		
+		// ================ add  ==========
+		date_default_timezone_set('America/Los_Angeles');	// PDT time
+		// 
 		$data_to_update_for_buy_order = array(
 			"order_quantity_remaining"=>"`order_quantity_remaining` - ".$available_data['qty'],
 			"order_avg_cost_ea"=>$available_data['average_cost'],
@@ -664,6 +675,10 @@ class DbAdapter { /* Begin Class DB */
 
 	public function getAvailableSellOrders( $product_type ,$retail_price , $buying_price ,$user_id ){
 		
+		
+		// ================ add  ==========
+		date_default_timezone_set('America/Los_Angeles');	// PDT time
+		// 
 		$query = "
 			SELECT `order`.*, 
 			( CASE 
@@ -778,6 +793,10 @@ class DbAdapter { /* Begin Class DB */
 	
 	
 				/* Update order_serials status with completed */
+				
+				// ================ add  ==========
+				date_default_timezone_set('America/Los_Angeles');	// PDT time
+				// 
 				$is_serial_status_changed = $this->Super_Insert("order_serials",
 														array(
 															"order_serial_status"=>"completed",
@@ -832,6 +851,9 @@ class DbAdapter { /* Begin Class DB */
 								1 Update Sell Order 
 							*/
 							
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							// 
 							$data_update_to_sell_order = array(
 								'order_quantity_remaining'=>"(order_quantity_remaining - ".count($all_serials).")",
 								'order_updated'=>date('Y-m-d H:i:s')
@@ -923,6 +945,10 @@ class DbAdapter { /* Begin Class DB */
 		
 		
 		/* Update order_serials status with completed */
+		
+		// ================ add  ==========
+		date_default_timezone_set('America/Los_Angeles');	// PDT time
+		// 
 		$is_serial_status_changed = $this->Super_Insert("order_serials",array("order_serial_status"=>"completed","order_serial_updated"=>date('Y-m-d H:i:s')),"order_serial_id IN (".implode(",",$serial_ids['order_serial_id']).")");
 		
 		if($is_serial_status_changed->success){
@@ -978,6 +1004,9 @@ class DbAdapter { /* Begin Class DB */
 					
 					
 					
+					// ================ add  ==========
+					date_default_timezone_set('America/Los_Angeles');	// PDT time
+					// 
 					$data_update_to_sell_order = array(
 						'order_quantity_remaining'=>"(`order_quantity_remaining` - ".count($all_serials).")",
 						'order_updated'=>date('Y-m-d H:i:s')
@@ -1274,6 +1303,10 @@ function _updatepricechange($config_id,$price_settings = false){
 		
 		if(is_object($is_insert_log) and $is_insert_log->success){
 			/* Update Gold Price in database */
+			
+			// ================ add  ==========
+			date_default_timezone_set('America/Los_Angeles');	// PDT time
+			// 
 			$is_update_price = $db->Super_Insert( "price_config",
 				array(
 					"pc_last_update_time"=>date('Y-m-d H:i:s'),

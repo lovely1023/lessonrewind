@@ -931,9 +931,13 @@ class StudentController extends Zend_Controller_Action
 							if($v!='None')
 							{
 							/* Remove  class of student */	
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							// ================================
 							$data=array('student_class_classid'=>$v,
 										'student_class_studentid'=>$student_id,
-										'student_class_date'=>gmdate('Y-m-d H:i:s')
+										// 'student_class_date'=>gmdate('Y-m-d H:i:s')
+										'student_class_date'=>date('Y-m-d H:i:s')
 						
 							);	
 							$kk=$this->modelStatic->Super_Insert("student_class",$data);
@@ -947,9 +951,13 @@ class StudentController extends Zend_Controller_Action
 							if($v!='None')
 							{
 							/* Remove  private teacher of student */	
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							// ================================
 							$data=array('private_teacher_studentid'=>$student_id,
 										'private_teacher_teacherid'=>$v,
-										'private_teacher_date'=>gmdate('Y-m-d H:i:s')
+										// 'private_teacher_date'=>gmdate('Y-m-d H:i:s')
+										'private_teacher_date'=>date('Y-m-d H:i:s')
 						
 							);	
 							$kk=$this->modelStatic->Super_Insert("private_teacher",$data);
@@ -963,9 +971,13 @@ class StudentController extends Zend_Controller_Action
 							if($v!='None')
 							{
 							/* Remove  instruments of student */	
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							// ================================
 							$data=array('student_instrument_studentid'=>$student_id,
 										'student_instrument_insid'=>$v,
-										'student_instrument_date'=>gmdate('Y-m-d H:i:s')
+										// 'student_instrument_date'=>gmdate('Y-m-d H:i:s')
+										'student_instrument_date'=>date('Y-m-d H:i:s')
 						
 							);	
 							$kk=$this->modelStatic->Super_Insert("student_instrument",$data);
@@ -1027,9 +1039,13 @@ class StudentController extends Zend_Controller_Action
 							$isSend = $modelEmail->sendEmail('registration_teacher_email',$data_user_family);
 								}
 						/* Add Student To Family */
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
 						$data=array('s_f_sid'=>$student_id,
 										's_f_fid'=>$family_id,
-										's_f_date'=>gmdate('Y-m-d H:i:s')
+										// 's_f_date'=>gmdate('Y-m-d H:i:s')
+										's_f_date'=>date('Y-m-d H:i:s')
 						
 							);
 							$get_already_exists=array();
@@ -1042,9 +1058,13 @@ class StudentController extends Zend_Controller_Action
 					}
 					else if($family_type==0)
 					{
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
 						$data=array('s_f_sid'=>$student_id,
 										's_f_fid'=>$family_id,
-										's_f_date'=>gmdate('Y-m-d H:i:s')
+										// 's_f_date'=>gmdate('Y-m-d H:i:s')
+										's_f_date'=>date('Y-m-d H:i:s')
 						
 							);
 							$get_already_exists=array();
@@ -1061,9 +1081,13 @@ class StudentController extends Zend_Controller_Action
 							if($v!='None')
 							{
 							/* Remove  instruments of student */	
+							// ================ add  ==========
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+							// ================================
 							$data=array('s_f_sid'=>$student_id,
 										's_f_fid'=>$v,
-										's_f_date'=>gmdate('Y-m-d H:i:s')
+										// 's_f_date'=>gmdate('Y-m-d H:i:s')
+										's_f_date'=>date('Y-m-d H:i:s')
 						
 							);
 							$get_already_exists=array();

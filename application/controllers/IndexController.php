@@ -341,7 +341,12 @@ class IndexController extends Zend_Controller_Action
 					{
 						
 						$data_insert['lesson_teacherid']=$this->view->user->user_id;
-						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
+						
+						// $data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+						$data_insert['lesson_date']=date('Y-m-d H:i:s');
 						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert);
 						//prd($insert);
 						//existing folder

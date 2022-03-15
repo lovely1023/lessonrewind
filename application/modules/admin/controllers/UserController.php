@@ -123,7 +123,10 @@ class Admin_UserController extends Zend_Controller_Action
 				 {
 						unset($data['user_password']); 
 					}
-							 
+				
+				// ================ add  ==========
+				date_default_timezone_set('America/Los_Angeles');	// PDT time
+				// 			 
 				 $data['user_created']=date('Y-m-d H:i:s');
 				// $data['user_type']='school';
 				if(isset($user_id))
@@ -162,6 +165,10 @@ class Admin_UserController extends Zend_Controller_Action
 					foreach($get_all_admin_instuments as $k=>$v)
 					{
 						$instrument_arr=array();
+						// ================ add  ==========
+						date_default_timezone_set('America/Los_Angeles');	// PDT time
+						// ================================
+						
 						$instrument_arr=array('Instrument_name'=>$v['Instrument_name'],
 											'Instrument_date'=>date('Y-m-d H:i:s'),
 											'Instrument_userid'=>$user_id,

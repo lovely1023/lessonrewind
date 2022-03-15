@@ -111,8 +111,16 @@ class MessageController extends Zend_Controller_Action
 					 {
 						$lesson_id=0;	 
 					 }
+
+					 // ================ add  ==========
+					 date_default_timezone_set('America/Los_Angeles');	// PDT time
+					 // ================================
+					 
 					$msg_data = array('message_sender_id'=>$this->view->user->user_id,'message_reciver_id'=>$value,'message_subject'=>$data['message_subject'],
-					'message_content'=>$data['message_content'],'message_read_stauts'=>"0",'message_status'=>"1",'message_date'=>gmdate('Y-m-d H:i:s'),'message_lesson_id'=>$lesson_id);
+					'message_content'=>$data['message_content'],'message_read_stauts'=>"0",'message_status'=>"1",
+					// 'message_date'=>gmdate('Y-m-d H:i:s'),
+					'message_date'=>date('Y-m-d H:i:s'),
+					'message_lesson_id'=>$lesson_id);
 					$object=$this->modelSuper->Super_Insert('messages',$msg_data);
 					
 					if($replyId)

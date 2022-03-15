@@ -30,28 +30,32 @@ body
             <div class="row">
             
             <div class="row">
-                    <div class="pull-left col-md-6">
-            <div class="pull-left">
-            <b>Sort By: </b> &nbsp;
-              </div>
-                <select name="lesson_sort_by" id="lesson_sort_by" class="form-control widthauto" >
-                    <option value="0" <?php if(isset($this->status) && $this->status=='0') { ?> selected="selected" <?php } ?> >Date</option>
-                    <option value="1" <?php if(isset($this->status) && $this->status=='1') { ?> selected="selected" <?php } ?>>Teacher</option>
-                   <option value="1" <?php if(isset($this->status) && $this->status=='2') { ?> selected="selected" <?php } ?>>
-                   		<?php 
-							if($this->param==0)
-							{
-								echo "Student";	
-							}
-							else
-							{
-									echo "Class";
-							}
-						?>
-                   </option>
-                </select>
-              
-            </div>
+				<div class="pull-left col-md-6">
+					<div class="pull-left">
+						<b>Sort By: </b> &nbsp;
+					</div>
+					<select name="lesson_sort_by" id="lesson_sort_by" class="form-control widthauto" >
+						<option value="0" <?php if(isset($this->status) && $this->status=='0') { ?> selected="selected" <?php } ?> >Date</option>
+						<option value="1" <?php if(isset($this->status) && $this->status=='1') { ?> selected="selected" <?php } ?>>Teacher</option>
+						<option value="1" <?php if(isset($this->status) && $this->status=='2') { ?> selected="selected" <?php } ?>>
+								<?php 
+									if($this->param==0)
+									{
+										echo "Student";	
+									}
+									else
+									{
+											echo "Class";
+									}
+								?>
+						</option>
+					</select> 
+					
+					<button class="btn btn-primary">Date</button>
+					<button class="btn btn-primary">Teacher</button>
+					<button class="btn btn-primary">student</button>
+            	</div>
+
             </div>
                 <div class="row">
                 	<div class="portlet-body">

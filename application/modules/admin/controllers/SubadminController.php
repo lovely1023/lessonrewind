@@ -89,6 +89,10 @@ class Admin_SubadminController extends Zend_Controller_Action
 					$data_to_insert['user_password']=md5($data_to_insert['user_password']);	
 					$data_to_insert['user_password_text']=$data_to_insert['user_password'];
 				}
+				// ================ add  ==========
+				date_default_timezone_set('America/Los_Angeles');	// PDT time
+				// ================================
+				
 				$data_to_insert['user_created']=date('Y-m-d H:i:s');
 				$data_to_insert['user_type']='site_subadmin';
 				unset($data_to_insert['user_roles']);

@@ -712,6 +712,10 @@ function showPostTime($date){
  	// 2 years, 3 months and 2 days format
 	
 	$date1 = $date;
+	
+	// ================ add  ==========
+	date_default_timezone_set('America/Los_Angeles');	// PDT time
+	// 
 	$date2 = date('Y-m-d H:i:s') ;
  	$diff = abs(strtotime($date2) - strtotime($date1));
  	$years = floor($diff / (365*60*60*24));
@@ -746,6 +750,10 @@ function showPostTime($date){
 function CommentPostedTime($date){
 	
 	$date1 = $date;
+	
+	// ================ add  ==========
+	date_default_timezone_set('America/Los_Angeles');	// PDT time
+	// 
 	$date2 = date('Y-m-d H:i:s') ;
  	$diff = abs(strtotime($date2) - strtotime($date1));
  	$years = floor($diff / (365*60*60*24));

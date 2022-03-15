@@ -1772,10 +1772,14 @@ class BulkimportController extends Zend_Controller_Action
 														if(empty($check_stu_class))
 														{
 																$stu_clas_new_data=array();
+																// ================ add  ==========
+																date_default_timezone_set('America/Los_Angeles');	// PDT time
+																// ================================
 																$stu_clas_new_data=array(
 																			'student_class_classid'=>$check_class_exists['class_id'],
 																			'student_class_studentid'=>$check_stu['user_id'],
-																			'student_class_date'=>gmdate('Y-m-d H:i:s'),
+																			// 'student_class_date'=>gmdate('Y-m-d H:i:s'),
+																			'student_class_date'=>date('Y-m-d H:i:s'),
 																);
 																$this->modelStatic->Super_Insert("student_class",$stu_clas_new_data);
 														}
@@ -2052,10 +2056,14 @@ class BulkimportController extends Zend_Controller_Action
 														if(empty($check_stu_class))
 														{
 																$stu_clas_new_data=array();
+																// ================ add  ==========
+																date_default_timezone_set('America/Los_Angeles');	// PDT time
+																// ================================
 																$stu_clas_new_data=array(
 																			'teacher_class_classid'=>$check_class_exists['class_id'],
 																			'teacher_class_userid'=>$check_stu['user_id'],
-																			'teacher_class_date'=>gmdate('Y-m-d H:i:s'),
+																			// 'teacher_class_date'=>gmdate('Y-m-d H:i:s'),
+																			'teacher_class_date'=>date('Y-m-d H:i:s'),
 																);
 																$this->modelStatic->Super_Insert("teacher_classes",$stu_clas_new_data);
 														}
