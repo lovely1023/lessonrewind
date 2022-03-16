@@ -450,7 +450,8 @@ class Application_Form_SchoolForm extends Twitter_Bootstrap_Form_Vertical
 			"Multioptions"=>array(
 				"0"=>"Create New",
 				"1"=>"Select From Saved Template",
-				"2"=>"Create New Lesson from Old Lesson (or Previously Started “Save Without Sending” Lesson.)",
+				"2"=>"Create New Lesson from Old Lesson (or Previously Started 'Save Without Sending' Lesson.)",
+				"3"=>"Student Absent",
 			),
 			"filters"    => array("StringTrim","StripTags","HtmlEntities"),
 			"validators" =>  array(
@@ -472,7 +473,7 @@ class Application_Form_SchoolForm extends Twitter_Bootstrap_Form_Vertical
 		}
 		 else
 		 {
-	$temp_array=$model->PrepareSelectOptions_withdefault("lesson" ,"lesson_id","lesson_title","lesson_template='1'  and (lesson_teacherid='".$user->user_id."') ","lesson_id","Select from saved template");	 
+			$temp_array=$model->PrepareSelectOptions_withdefault("lesson" ,"lesson_id","lesson_title","lesson_template='1'  and (lesson_teacherid='".$user->user_id."') ","lesson_id","Select from saved template");	 
 		}
 		
 		
@@ -585,7 +586,23 @@ class Application_Form_SchoolForm extends Twitter_Bootstrap_Form_Vertical
 					"filters"    => array("StringTrim","StripTags","HtmlEntities"),
   			));
 		}
- 		$this->addElement('text', 'lesson_title', array (
+
+		//=========== add ================
+ 		$this->addElement('text', 'lesson_date', array (
+			'class' => 'form-control col-md-4 required',
+			"type" => 'date',
+			"pattern" => "\d{4}-\d{2}-\d{2}",
+			"placeholder" => "Lesson Date",
+			"required"=>true,
+			"label" => "Lesson Date",
+			"filters"    => array("StringTrim","StripTags","HtmlEntities"),
+			"validators" =>  array(
+								array("NotEmpty",true,array("messages"=>"Lesson Date is Required ")),
+ 							),
+  		));
+ 		//==================================
+		 
+		 $this->addElement('text', 'lesson_title', array (
 			'class' => 'form-control required',
 			"placeholder" => "Lesson Title",
 			"required"=>true,
@@ -699,7 +716,6 @@ class Application_Form_SchoolForm extends Twitter_Bootstrap_Form_Vertical
 								array("NotEmpty",true,array("messages"=>"First Name is Required ")),
  							),
   		));
-		
 
 		
 		/*	Form Element  - MaketPlace

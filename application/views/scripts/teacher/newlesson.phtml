@@ -219,9 +219,15 @@ $model = new Application_Model_SuperModel();
                     <?php	
 				}
 				?>
-              
-               <?php echo $this->form->lesson_title; ?>
-               <?php
+				<!-- ============== add ============= -->
+               	<div class="row" style="width:30%; margin-bottom: 1rem;">
+				   <?php echo $this->form->lesson_date; ?>
+				</div>
+			   	<!-- =========================== -->
+			   	<div class="row">
+               		<?php echo $this->form->lesson_title; ?>
+				</div>
+               	<?php
                		if(isset($this->class_id))
 					{
 						?>
