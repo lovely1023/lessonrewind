@@ -511,52 +511,34 @@ Submit</button>
             </div>
             <br />
             <div class="widthdiv">
-            	 <div class="row">
-               
-                    <label class="col-md-12"><b class="labeddiv">Video and Audio recordings can be renamed from the "View Lesson" or “Update Lesson” page after saving or sending this lesson.</b></label>
-                   
-              
-                            </div>
+            	<div class="row">               
+                    <label class="col-md-12">
+						<b class="labeddiv">Video recordings can be renamed from the "View Lesson" or "Update Lesson" page after saving or sending this lesson.</b>
+					</label>
+				</div>
             </div>
             <br />
-               <div class="row recoding_div">
-               <?php 
-			   if($this->is_mobile==0)
-			   {
-			   ?>
-               		<div class="col-md-6">
-                    	<div class="row radio_parent">
-                    	<div id="recorderDIV"></div>
-                        <div class="row voice_recording_audio">
-                        	<div id="voice_text">
-                            	Start Voice Recording
-                            </div>	
-                        </div>
-                        </div>
-                    </div>
-                 <?php } ?>
-                    <div class="col-md-6">
-                    	<div id="message"></div>
-      					  <div class="videodiv">
-        	<div class="video_inner">
-            	<div class="text-center" id="videostart">Start Video Recording</div>
-            </div>
-		<div id="recordermain">
-			<div id="webcam">
-            <ziggeorecorder ziggeo-expiration-days='180' ziggeo-theme="modern" ziggeo-countdown="0"    ziggeo-width="100%" ziggeo-height="240" ziggeo-stretch="true"  ziggeo-rerecordable="false" ziggeo-skipinitial="true" ziggeo-allowupload ="false"  ziggeo-responsive ="true" ziggeo-timelimit="<?php echo $this->site_configs['ziggeo_max'] ?>" ziggeo-recordings="2" ziggeo-timeminlimit="<?php echo $this->site_configs['ziggeo_min'] ?>"  id="my_recorder"></ziggeorecorder>
-         <!--   
-           <ziggeo  ziggeo-width=320 ziggeo-height=240 ziggeo-limit=<?php echo $this->site_configs['ziggeo_max'] ?> ziggeo-minlimit=<?php echo $this->site_configs['ziggeo_min'] ?>></ziggeo>-->
-			</div>
-			<!--<div id="volumePanel" style="float:left;position:relative;top:10px;">
-			</div>-->
-			</div>
-			<br clear="both"/>
-			
-			<br/>
-		
-		</div>
-         
-        </div>
+			<div class="row recoding_div">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="col-md-12">
+						<div id="message"></div>
+						<div class="videodiv">
+							<div class="video_inner">
+								<div class="text-center" id="videostart">Start Video Recording</div>
+							</div>
+							<div id="recordermain">
+								<div id="webcam">
+									<ziggeorecorder ziggeo-expiration-days='180' ziggeo-theme="modern" ziggeo-countdown="0"    ziggeo-width="100%" ziggeo-height="240" ziggeo-stretch="true"  ziggeo-rerecordable="false" ziggeo-skipinitial="true" ziggeo-allowupload ="false"  ziggeo-responsive ="true" ziggeo-timelimit="<?php echo $this->site_configs['ziggeo_max'] ?>" ziggeo-recordings="2" ziggeo-timeminlimit="<?php echo $this->site_configs['ziggeo_min'] ?>"  id="my_recorder"></ziggeorecorder>
+									<!--   
+									<ziggeo  ziggeo-width=320 ziggeo-height=240 ziggeo-limit=<?php echo $this->site_configs['ziggeo_max'] ?> ziggeo-minlimit=<?php echo $this->site_configs['ziggeo_min'] ?>></ziggeo>-->
+								</div>
+								<!--<div id="volumePanel" style="float:left;position:relative;top:10px;">
+								</div>-->
+							</div>
+						</div>
+					</div>
+				</div>
+        	</div>
 		<div id="mediaplayer" style="display:none;"></div>
          </div>
 		</div>

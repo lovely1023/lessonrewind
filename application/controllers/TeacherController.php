@@ -5348,7 +5348,8 @@ fclose ($fd);
 					//prd($path);
 					if(!is_dir($path))
 					{
-						mkdir($path,0777);
+						mkdir($path, 0777, true);
+//						mkdir($path,0777);
 					}
 					$options['upload_dir'] = $path;
 					$options['max_file_size'] = 150*1024*1024;
