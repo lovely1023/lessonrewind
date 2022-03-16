@@ -200,8 +200,8 @@ $model = new Application_Model_SuperModel();
 				{
 					?>
                         <div class="row">
-                        <?php echo $this->form->lesson_type   ?>
-                        <br />
+							<?php echo $this->form->lesson_type   ?>
+							<br/>
                         </div>
                         <div class="row" id="template">
                         <?php echo $this->form->lesson_template_name   ?>
@@ -221,7 +221,20 @@ $model = new Application_Model_SuperModel();
 				?>
 				<!-- ============== add ============= -->
                	<div class="row" style="width:30%; margin-bottom: 1rem;">
-				   <?php echo $this->form->lesson_date; ?>
+	     			<?php
+	     				date_default_timezone_set('America/Los_Angeles');	// PDT time
+					//		$curData=date('Y-m-d H:i:s');
+					?>
+
+				   <!--<?php echo $this->form->lesson_date; ?>		-->
+				   <div class=" form-group ">
+				   		<label for="lesson_date" class="required" aria-required="true">
+				   			Lesson Date
+				   		</label>
+						<input type="text"  value="<?php echo date('m/d/Y') ?>" class="form-control col-md-4 required" disabled aria-required="true">
+						<input type="hidden" name="lesson_date" id="lesson_date" value="<?php echo date('Y-m-d H:i:s') ?>" class="form-control col-md-4 required" placeholder="02/11/2022" aria-required="true">
+					</div>
+				</div>		   
 				</div>
 			   	<!-- =========================== -->
 			   	<div class="row">

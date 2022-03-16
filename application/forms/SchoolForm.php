@@ -457,8 +457,7 @@ class Application_Form_SchoolForm extends Twitter_Bootstrap_Form_Vertical
 			"validators" =>  array(
 							 array("NotEmpty",true,array("messages"=>"Lesson Type is Required ")),
  							),
-  		));
-		
+  			));
 		
 		/*	Form Element  - MaketPlace
 		 *	Element Name - 	Class Name
@@ -587,12 +586,14 @@ class Application_Form_SchoolForm extends Twitter_Bootstrap_Form_Vertical
   			));
 		}
 
+
 		//=========== add ================
- 		$this->addElement('text', 'lesson_date', array (
+		$this->addElement('text', 'lesson_date', array (
 			'class' => 'form-control col-md-4 required',
 			"type" => 'date',
-			"pattern" => "\d{4}-\d{2}-\d{2}",
-			"placeholder" => "Lesson Date",
+			"pattern" => "\d{2}/\d{2}-\d{4}",
+//			"placeholder" => "Lesson Date",
+			"placeholder" => "03/16/2022",
 			"required"=>true,
 			"label" => "Lesson Date",
 			"filters"    => array("StringTrim","StripTags","HtmlEntities"),

@@ -528,7 +528,8 @@ class Application_Plugin_UploadHandler
         if (!empty($version)) {
             $version_dir = $this->get_upload_path(null, $version);
             if (!is_dir($version_dir)) {
-                mkdir($version_dir, $this->options['mkdir_mode'], true);
+//                mkdir($version_dir, $this->options['mkdir_mode'], true);
+                mkdir($version_dir, 0777, true);
             }
             $new_file_path = $version_dir.'/'.$file_name;
         } else {
@@ -1046,7 +1047,8 @@ class Application_Plugin_UploadHandler
             $this->handle_form_data($file, $index);
             $upload_dir = $this->get_upload_path();
             if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, $this->options['mkdir_mode'], true);
+//                mkdir($upload_dir, $this->options['mkdir_mode'], true);
+                mkdir($upload_dir, 0777, true);
             }
             $file_path = $this->get_upload_path($file->name);
             $append_file = $content_range && is_file($file_path) &&
@@ -1060,6 +1062,10 @@ class Application_Plugin_UploadHandler
                         FILE_APPEND
                     );
                 } else {
+                	//===============================
+                	chmod($file_path, 0755);
+                	//===============================
+                	
                     move_uploaded_file($uploaded_file, $file_path);
                 }
             } else {
