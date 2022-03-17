@@ -425,17 +425,17 @@ fclose ($fd);
 						
 						if(isset($posted_data['delete_attach']) && !empty($posted_data['delete_attach']))
 						{
-						foreach($posted_data['delete_attach'] as $dal=>$val)
-					{
-					
-						if($val!='')
-						{
-							$lession_arr=$this->modelStatic->Super_Get("lession_attach",'la_id="'.$val.'"','fetch');
-							$fdg=$this->modelStatic->Super_Delete("lession_attach",'la_id="'.$val.'"');
-							unlink(TEMP_PATH.'/'.$lession_arr['la_name']);
-						}
-						
-					}
+							foreach($posted_data['delete_attach'] as $dal=>$val)
+							{
+							
+								if($val!='')
+								{
+									$lession_arr=$this->modelStatic->Super_Get("lession_attach",'la_id="'.$val.'"','fetch');
+									$fdg=$this->modelStatic->Super_Delete("lession_attach",'la_id="'.$val.'"');
+									unlink(TEMP_PATH.'/'.$lession_arr['la_name']);
+								}
+								
+							}
 						}
 						
 						$data_insert['lesson_status']=$savesend;
