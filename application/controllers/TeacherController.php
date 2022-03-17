@@ -904,7 +904,7 @@ fclose ($fd);
 		
 		$user_agent = new Zend_Http_UserAgent();
 	 	$agent = $user_agent->getDevice();
-	if("Zend_Http_UserAgent_Desktop"==get_class($agent)){
+		if("Zend_Http_UserAgent_Desktop"==get_class($agent)){
 			
 			
 			if(isset($lesson_id))
@@ -2371,6 +2371,7 @@ fclose ($fd);
 		$student_id=$this->getRequest()->getParam('student_id');
 		$class_id=$this->getRequest()->getParam('class_id');
 		$teacher_id=$this->getRequest()->getParam('teacher_id');
+		$lesson_student_absent = $this->getRequest()->getParam('lesson_student_absent');
 		$class_data=array();
 		$lesson_class=array();
 		$class_data_arr=array();
@@ -2489,8 +2490,8 @@ fclose ($fd);
 			}
 			else if(isset($class_id))
 			{
-					$form->newlesson(false,$lesson_id,false,$class_id);	
-					$this->view->class_id=$class_id;
+				$form->newlesson(false,$lesson_id,false,$class_id);	
+				$this->view->class_id=$class_id;
 			}
 			else
 			{
@@ -2512,7 +2513,6 @@ fclose ($fd);
 			{
 				$form->newlesson();			
 			}
-			
 		}
 		
 		if(isset($lesson_id) && !empty($lesson_id))
@@ -2576,28 +2576,23 @@ fclose ($fd);
 						if(isset($posted_data['delete_attach']) && !empty($posted_data['delete_attach']))
 						{
 							foreach($posted_data['delete_attach'] as $dal=>$val)
-							{
-					
-						if($val!='')
-						{
-							$lession_arr=$this->modelStatic->Super_Get("lession_attach",'la_id="'.$val.'"','fetch');
-							//prd($lession_arr);
-							$fdg=$this->modelStatic->Super_Delete("lession_attach",'la_id="'.$val.'"');
-							if($lession_arr['la_type']==1)
-							{
-								unlink(TEMP_PATH.'/'.$lession_arr['la_name']);	
+							{					
+								if($val!='')
+								{
+									$lession_arr=$this->modelStatic->Super_Get("lession_attach",'la_id="'.$val.'"','fetch');
+									//prd($lession_arr);
+									$fdg=$this->modelStatic->Super_Delete("lession_attach",'la_id="'.$val.'"');
+									if($lession_arr['la_type']==1)
+									{
+										unlink(TEMP_PATH.'/'.$lession_arr['la_name']);	
+									}
+									else
+									{	
+										//$ziggeo->videos()->delete($lession_arr['la_token']);	
+										//prd("jklj");
+									}
+								}						
 							}
-							else
-							{	
-								//$ziggeo->videos()->delete($lession_arr['la_token']);	
-								//prd("jklj");
-							}
-							
-							
-							
-						}
-						
-					}
 						}
 						
 						$data_insert['lesson_status']=$savesend;
@@ -2605,6 +2600,7 @@ fclose ($fd);
 						// ================ add  ==========
 						date_default_timezone_set('America/Los_Angeles');	// PDT time
 						$data_insert['lesson_date']=date('Y-m-d H:i:s');
+						$data_insert['lesson_student_absent'] = $lesson_student_absent;
 						// ================================
 						// =================	Modify	======
 						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');
@@ -2765,6 +2761,7 @@ fclose ($fd);
 						unset($data_insert['lesson_type']);
 					//	unset($data_insert['lesson_notsaved_name']);
 						unset($data_insert['lesson_old_name']);
+						
 						$student_class='';
 						if(isset($data_insert['student_class']))
 						{
@@ -2778,6 +2775,7 @@ fclose ($fd);
 							// ================ add  ==========
 							date_default_timezone_set('America/Los_Angeles');	// PDT time
 							$data_insert['lesson_date']=date('Y-m-d H:i:s');
+							$data_insert['lesson_student_absent'] = $lesson_student_absent;
 							// ================================
 						
 							$bb=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');	
@@ -2810,6 +2808,8 @@ fclose ($fd);
 						}
 						
 					//	$data_insert['lesson_student_id']=$student_id;
+						$data_insert['lesson_student_absent'] = $lesson_student_absent;
+
 						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert);
 						$lesson_id=$insert->inserted_id;
 						}
@@ -3037,17 +3037,14 @@ fclose ($fd);
 											
 									}
 									array_push($array,$newname);
-								}
-								
+								}							
 								
 								}
 								}
 						foreach($array as $k=>$v)
-						{
-						
+						{						
 							$data=array('la_lesson_id'=>$lesson_id,
-										'la_name' => $v,
-									
+										'la_name' => $v,									
 							);	
 							$this->modelStatic->Super_Insert("lession_attach",$data);
 						}
@@ -3167,8 +3164,6 @@ fclose ($fd);
 					{
 							$this->redirect("teacher/alllessons");
 					}
-					
-					
 				}
 			}
 			else
@@ -3184,6 +3179,7 @@ fclose ($fd);
 			}
 			
 	}
+	
 	public function pagination($searchDataQuery,$page,$record_per_page)
 	{
 		$adapter = new Zend_Paginator_Adapter_DbSelect($searchDataQuery);
@@ -4026,7 +4022,8 @@ fclose ($fd);
 			'lesson_class_id',
 			'lesson_user_type',
 			'lesson_student.l_s_stuid',
-			'lesson_school_id'
+			'lesson_school_id',
+			'lesson_student_absent'
 		);
 		$sIndexColumn = 'lesson_id';
 		$sTable = 'lesson';
@@ -4189,6 +4186,15 @@ fclose ($fd);
 				$sentorunsent='<span class="badge badge-danger badge-roundless">Unsent</span>';	
 			}
 			$row[]=$sentorunsent;
+
+			// $row[] = $row1['lesson_student_absent'];
+			if($row1['lesson_student_absent'] == 1)
+			{
+				$missed= '<i class="fa fa-times" style="color: #069cdb"></i>';	
+			}else{
+				$missed = '';	
+			}
+			$row[] = $missed;
 			
 			if($this->view->user->user_id==$row1['lesson_teacherid'] || $this->view->user->user_type=='school')
 			{

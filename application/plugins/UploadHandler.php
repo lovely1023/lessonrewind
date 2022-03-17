@@ -1062,11 +1062,7 @@ class Application_Plugin_UploadHandler
                         FILE_APPEND
                     );
                 } else {
-                	//===============================
-                	chmod($file_path, 0755);
-                	//===============================
-                	
-                    move_uploaded_file($uploaded_file, $file_path);
+                	move_uploaded_file($uploaded_file, $file_path);                	
                 }
             } else {
                 // Non-multipart uploads (PUT method support)

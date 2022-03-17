@@ -203,6 +203,7 @@ $model = new Application_Model_SuperModel();
 							<?php echo $this->form->lesson_type   ?>
 							<br/>
                         </div>
+					    
                         <div class="row" id="template">
                         <?php echo $this->form->lesson_template_name   ?>
                         <br />
@@ -220,6 +221,12 @@ $model = new Application_Model_SuperModel();
 				}
 				?>
 				<!-- ============== add ============= -->
+				<div class="row" style="margin-bottom: 2rem;">
+					<label for="lesson_student_absent">
+						<input type="checkbox" name="lesson_student_absent" id="lesson_student_absent" value="0" onchange="changeStudentAbsent()" style="margin-left:0px !important;" />
+						Student Absent
+					</label>
+				</div>
                	<div class="row" style="width:30%; margin-bottom: 1rem;">
 	     			<?php
 	     				date_default_timezone_set('America/Los_Angeles');	// PDT time
@@ -937,15 +944,25 @@ var APPLICATION_PATH_USER='<?=SITE_HTTP_URL?>/teacher/uploadpathlession';
 </script>
 <script type="text/javascript" src="<?=$this->baseUrl()?>/public/plugins/mediaplayer/jwplayer.js"></script>
 
- <script>
+ <script type="text/javascript" >
+	$(document).ready(function() {
+		// $('#lesson_student_absent').change(function() {
+		// 	if(this.checked) {
+		// 		var returnVal = confirm("Are you sure?");
+		// 		$(this).prop("checked", returnVal);
+		// 	}
+		// 	$('#lesson_student_absent').val(this.checked);        
+		// });
+
+	});
+
  	function openboxvideo(filename)
 	{
 		$('#myModal').modal('show');
 		$('#mediaplayerfile').html("<ziggeo  ziggeo-video='"+filename+"'   ziggeo-width=320 ziggeo-id='ziggeo-video'     ziggeo-height=240></ziggeo>");
 		setTimeout(function(){ embedding = ZiggeoApi.Embed.get("ziggeo-video");
 		  //alert(embedding);
-		  }, 100);
-			
+		  }, 100);			
 	}
  	function openbox(filename,fileExt)
 	{
@@ -961,18 +978,15 @@ var APPLICATION_PATH_USER='<?=SITE_HTTP_URL?>/teacher/uploadpathlession';
 						/*'plugins': { 'viral-2': {'oncomplete':'False','onpause':'False','functions':'All'} }*/
 			});
 			//alert("in");
-		$('#myModal').on('hidden.bs.modal', function () {
-    // do something…
-	if(embedding!='' && typeof(embedding)!='undefined'){
-	  	embedding.stop(); 
-	}
-   else{
-	  jwplayer('mediaplayerfile').play(false); 
-    }
-		
-		 //jwplayer("mediaplayerfile").stop();
-	});
-				
+			$('#myModal').on('hidden.bs.modal', function () {
+				// do something…
+				if(embedding!='' && typeof(embedding)!='undefined'){
+					embedding.stop(); 
+				}else{
+					jwplayer('mediaplayerfile').play(false); 
+				}				
+				//jwplayer("mediaplayerfile").stop();
+			});				
 		}
 		else
 		{
@@ -990,13 +1004,13 @@ var APPLICATION_PATH_USER='<?=SITE_HTTP_URL?>/teacher/uploadpathlession';
 			  $('#less_form').submit();
 		  }
 	}
+	
 	function lessonsend()
 	{
-			 if ($('#less_form').valid()) {
-				$('#param').val('2');
-					document.getElementById ('less_form').submit ();	  
-			  $('#less_form').submit();
-		  }
+		if ($('#less_form').valid()) {
+			$('#param').val('2');
+			$('#less_form').submit();
+		}
 	}
 	function lessontemplatenotsend()
 	{
@@ -1018,28 +1032,37 @@ var APPLICATION_PATH_USER='<?=SITE_HTTP_URL?>/teacher/uploadpathlession';
 			$('#wrap').show();
 			var filename=$('#video_name_'+idval).val();
 			$.ajax({
-			url: baseUrl+"/teacher/checkfile/lesson_id/<?php echo $this->lesson_id ?>/la_id/"+idval+"/filename/"+filename,
-			data:"",
-			success: function(data){
-				if(data==1)
-				{
-						$.ajax({
-						url: baseUrl+"/teacher/reamefile/lesson_id/<?php echo $this->lesson_id ?>/la_id/"+idval+"/filename/"+filename,
-						data:"",
-						success: function(data){
-							$('#wrap').hide();
-							$('#attach_'+idval).addClass('hide');
-							$('#la_name_'+idval).html(data);
-							}
-						});
+				url: baseUrl+"/teacher/checkfile/lesson_id/<?php echo $this->lesson_id ?>/la_id/"+idval+"/filename/"+filename,
+				data:"",
+				success: function(data){
+					if(data==1)
+					{
+							$.ajax({
+							url: baseUrl+"/teacher/reamefile/lesson_id/<?php echo $this->lesson_id ?>/la_id/"+idval+"/filename/"+filename,
+							data:"",
+							success: function(data){
+								$('#wrap').hide();
+								$('#attach_'+idval).addClass('hide');
+								$('#la_name_'+idval).html(data);
+								}
+							});
+					}else{
+						$('#wrap').hide();
+						alert("Please use unique name");	
+					}
 				}
-				else
-				{
-					$('#wrap').hide();
-					alert("Please use unique name");	
-				}
-			}
 			});
+		}
+	}
+
+	
+	function changeStudentAbsent(){
+		if ($('#lesson_student_absent').is(":checked"))
+		{
+			$('#lesson_student_absent').val(1);
+			// alert("checked");
+		}else{
+			$('#lesson_student_absent').val(0);			
 		}
 	}
  </script>

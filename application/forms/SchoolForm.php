@@ -451,7 +451,7 @@ class Application_Form_SchoolForm extends Twitter_Bootstrap_Form_Vertical
 				"0"=>"Create New",
 				"1"=>"Select From Saved Template",
 				"2"=>"Create New Lesson from Old Lesson (or Previously Started 'Save Without Sending' Lesson.)",
-				"3"=>"Student Absent",
+				// "3"=>"Student Absent",
 			),
 			"filters"    => array("StringTrim","StripTags","HtmlEntities"),
 			"validators" =>  array(
@@ -649,13 +649,21 @@ class Application_Form_SchoolForm extends Twitter_Bootstrap_Form_Vertical
 			
   		));
 		
-			$this->addElement('button', 'bttnsubmit', array (
-				'class' => 'btn blue btn-primary ',
-				'ignore'=>true,
-				'type'=>'button',
- 				'label'=>'Send',
-				'escape'=>false
+		$this->addElement('button', 'bttnsubmit', array (
+			'class' => 'btn blue btn-primary ',
+			'ignore'=>true,
+			'type'=>'button',
+			'label'=>'Send',
+			'escape'=>false
 		));
+		// $this->addElement('button', 'bttnsubmit', array (
+		// 	'class' => 'btn blue btn-primary ',
+		// 	'ignore'=>true,
+		// 	'type'=>'button',
+		// 	'label'=>'Send',
+		// 	"onclick"=>"lessonsend()",
+		// 	'escape'=>false
+		// ));
 		$this->bttnsubmit->setDecorators(array('ViewHelper',array(array('controls' => 'HtmlTag'), array('tag' => 'div', 'class' =>'inline-block text-right'))	)); 
 		if(!$lesson_id)
 		{
