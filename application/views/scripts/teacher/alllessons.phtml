@@ -65,12 +65,12 @@ body
 							<div class="col-md-3">
 								<label class="control-label col-md-3" style="padding-top: 0.5rem; float:right;">Date</label>
 							</div>
+							<?php date_default_timezone_set('America/Los_Angeles');	// PDT time ?>
 							<div class="col-md-4" style="margin-right:0.5rem;">
-								<div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-									<input type="text" class="form-control" name="from" id="from">
-									<span class="input-group-addon">
-									to </span>
-									<input type="text" class="form-control" name="to" id="to">
+								<div class="input-group input-large date-picker input-daterange" id="date_range" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+									<input type="text" class="form-control" name="from" id="from" value="01/01/2015">
+									<span class="input-group-addon">to </span>
+									<input type="text" class="form-control" name="to" id="to" value="<?php echo date('m/d/Y');?>">
 								</div>								
 							</div>
 						</div>
@@ -179,10 +179,12 @@ function sortLessonType(lesson_sort_by){	// 0, 1, 2
 var handleDatePickers = function () {
 
 	if (jQuery().datepicker) {
-		$('.date-picker').datepicker({
+		$('#date_range').datepicker({
 			rtl: Metronic.isRTL(),
 			orientation: "left",
-			autoclose: true
+			autoclose: true,
+			"startDate": "01/01/2015",
+			"endDate": "<?php echo date('m/d/Y');?>"
 		});	
 	}
 }
