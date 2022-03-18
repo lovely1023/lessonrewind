@@ -38,13 +38,11 @@ class TeacherController extends Zend_Controller_Action
 				while(!feof($fd)) {
 					$buffer = fread($fd, 2048);
 					echo $buffer;
-    }
-}
-fclose ($fd);
-			
+				}
+			}
+			fclose ($fd);			
 		}
 		die;
-		
 	}
 	
  	public function indexAction(){	
@@ -138,37 +136,51 @@ fclose ($fd);
  		global $objSession ; 
 		$this->view->pageHeading = "All Lessons";
 		$this->view->pageHeadingshow = '<i class="fa fa-list"></i>  All Lessons';
-		$param=$this->getRequest()->getParam('param');
-		$status=$this->getRequest()->getParam('status');
-		if(isset($param))
-		{
-		$this->view->param=$param;
-		}
-		else
-		{
+		$param		=	$this->getRequest()->getParam('param');
+		$status		=	$this->getRequest()->getParam('status');
+		$startDate 	=	$this->getRequest()->getParam('startDate');
+		$endDate	=	$this->getRequest()->getParam('endDate');
+	
+		if(isset($param)){
+			$this->view->param=$param;
+		}else{
 			$this->view->param=0;
 		}
-		if(isset($status))
-		{
+
+		if(isset($status)){
 			$this->view->status=$status;	
-		}
-		else
-		{
+		}else{
 			$this->view->status=0;
 		}
+		
+		date_default_timezone_set('America/Los_Angeles');	// PDT time 
+			
+		if(isset($startDate)){
+			$date=date_create($startDate);
+			$this->view->startDate = date_format($date,"m/d/Y");	
+		}else{
+			// $this->view->startDate = "12/01/2017";
+			$this->view->startDate = date('m/d/Y');
+		}
+		
+		if(isset($endDate)){
+//			$this->view->endDate = date('m/d/Y', $endDate);	
+			$date=date_create($endDate);
+			$this->view->endDate = date_format($date,"m/d/Y");	
+		}else{
+			$this->view->endDate = date('m/d/Y');
+		}
+
 		$teacher_data=array();
 		$teacher_data=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='teacher'","fetchAll");
 		$this->view->teacher_data=$teacher_data;
 		
 		/* Check if user type is not school */
 		if($this->view->user->user_type!='school')
-		{
-			
+		{			
 				/* If user is not admin or subadmin */
 				$this->redirect('index');	
-			
-		}	
-		
+		}
 	}
 	
 	public function alltemplatesAction()
@@ -4424,8 +4436,11 @@ fclose ($fd);
 	/* Get All Lessons */
 	public function getalllessonsAction()
 	{
-		$param=$this->getRequest()->getParam('param');
-		$status=$this->getRequest()->getParam('status');
+		$param		=	$this->getRequest()->getParam('param');
+		$status		=	$this->getRequest()->getParam('status');
+		$startDate 	=	$this->getRequest()->getParam('startDate');
+		$endDate	=	$this->getRequest()->getParam('endDate');
+		
 		$this->dbObj = Zend_Registry::get('db');
  		$aColumns = array(
 			'lesson_id',
@@ -4482,6 +4497,7 @@ fclose ($fd);
 		 * on very large tables, and MySQL's regex functionality is very limited
 		 */
 		$sWhere = "";
+		
 		if ( isset($_GET['sSearch']) and $_GET['sSearch'] != "" )
 		{
 			$sWhere = "WHERE (";
@@ -4494,6 +4510,7 @@ fclose ($fd);
 			$sWhere = substr_replace( $sWhere, "", -3 );
 			$sWhere .= ')';
 		}
+
 		
 		/* Individual column filtering */
 		for ( $i=0 ; $i<count($aColumns) ; $i++ )
@@ -4513,26 +4530,32 @@ fclose ($fd);
 			}
 		}
 		
-		if ( $sWhere == "" )
-			{
-					$sWhere = "WHERE (lesson_school_id='".$this->view->user->user_id."') and lesson_template='0'";
-			}
-			else
-				{
-					$sWhere .= " AND lesson_school_id='".$this->view->user->user_id."' and lesson_template='0'";
-				}
+		if ( $sWhere == "" ){
+				$sWhere = "WHERE (lesson_school_id='".$this->view->user->user_id."') and lesson_template='0'";
+		}else{
+			$sWhere .= " AND lesson_school_id='".$this->view->user->user_id."' and lesson_template='0'";
+		}
+
 		if($param==0)
 		{
 			$sWhere.="  and lesson_class_id='0'";
 			if($status==0)
 			{
 				/* Date */	
-			$sOrder="order by lesson_date DESC";	
+				//	Date: from, to
+				if ( $sWhere == "" ){
+					$sWhere = "WHERE DATE(lesson_date) >= '$startDate' AND DATE(lesson_date) <= '$endDate' ";
+				}else{
+					$sWhere .= " AND DATE(lesson_date) >= '$startDate' AND DATE(lesson_date) <= '$endDate' ";
+				}
+				$sOrder="order by lesson_date DESC";	
 			}
 			else if($status==1)
 			{
 				/* Teacher */	
-			$sOrder="order by u1.user_first_name DESC";
+				// $sOrder="order by u1.user_first_name DESC";
+				//$sOrder="order by u1.user_first_name";
+				$sOrder="order by lesson_date DESC, u1.user_first_name";
 			}
 			else
 			{
@@ -4549,12 +4572,20 @@ fclose ($fd);
 			if($status==0)
 			{
 				/* Date */	
-			$sOrder="order by lesson_date DESC";	
+					//	Date: from, to
+				if ( $sWhere == "" ){
+					$sWhere = "WHERE DATE(lesson_date) >= '$startDate' AND DATE(lesson_date) <= '$endDate' ";
+				}else{
+					$sWhere .= " AND DATE(lesson_date) >= '$startDate' AND DATE(lesson_date) <= '$endDate' ";
+				}
+		
+				$sOrder="order by lesson_date DESC";	
 			}
 			else if($status==1)
 			{
 				/* Teacher */	
-			$sOrder="order by u1.user_first_name DESC";
+				// $sOrder="order by u1.user_first_name DESC";
+				$sOrder="order by lesson_date DESC, u1.user_first_name";
 			}
 			else
 			{
@@ -4562,7 +4593,7 @@ fclose ($fd);
 				$sOrder="order by class_name DESC";
 			}
 			/* Class */	
-		$sQuery = "SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns)  ) ." ,  u1.user_first_name as u1firstname , u1.user_last_name as u1lastname , class_name FROM $sTable left join users as u1 on u1 .user_id=lesson.lesson_teacherid left join Classes on Classes.class_id=lesson.lesson_class_id  $sWhere group by lesson_id $sOrder $sLimit";
+			$sQuery = "SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns)  ) ." ,  u1.user_first_name as u1firstname , u1.user_last_name as u1lastname , class_name FROM $sTable left join users as u1 on u1 .user_id=lesson.lesson_teacherid left join Classes on Classes.class_id=lesson.lesson_class_id  $sWhere group by lesson_id $sOrder $sLimit";
 
 		}
 		
@@ -5071,10 +5102,6 @@ fclose ($fd);
 								);	
 								$kk=$this->modelStatic->Super_Insert("teacher_insruments",$data);
 							}
-							
-							
-						
-					
 						}
 				$teache_stu_id=implode(",",$teacher_students);		
 				/* Add New Students of Teacher */
@@ -5093,29 +5120,22 @@ fclose ($fd);
 								$data=array('private_teacher_teacherid'=>$user_id,
 										'private_teacher_studentid'=>$v['user_id'],
 //										'private_teacher_date'=>gmdate('Y-m-d H:i:s')
-										'private_teacher_date'=>date('Y-m-d H:i:s')
-						
+										'private_teacher_date'=>date('Y-m-d H:i:s')						
 								);	
-								$kk=$this->modelStatic->Super_Insert("private_teacher",$data);
-							
+								$kk=$this->modelStatic->Super_Insert("private_teacher",$data);							
 							/*}*/
-						
-					
 						}
 				} 
 				if(isset($status) && $status==1)
 				{
-					$this->_redirect('teacher/index');
-				
+					$this->_redirect('teacher/index');				
 				}
 				else
 				{
 					$this->_redirect('dashboard');	
 				}
-			 }
-					
-			}
-			
+			 }					
+			}			
 	}
 	
 
