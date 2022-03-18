@@ -277,6 +277,8 @@ global $_site_assets_front_admin , $_site_assets_path_front_admin;
 								"admin_css/plugins.css",
 								"front_css/components.css",	
 								"plugins/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css",	
+								"plugins/bootstrap-datepicker/css/datepicker3.css",
+								"plugins/bootstrap-daterangepicker/daterangepicker-bs3.css",
 								),
 						"alltemplates"=>array(
 								"plugins/uniform/css/uniform.default.css",
@@ -660,6 +662,9 @@ global $_site_assets_front_admin , $_site_assets_path_front_admin;
 								"plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js",		
 								"plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js",											
 								"plugins/bootstrap-toggle-buttons/static/js/jquery.toggle.buttons.js",
+								"plugins/bootstrap-datepicker/js/bootstrap-datepicker.js",
+								"plugins/bootstrap-daterangepicker/daterangepicker.js",
+								"admin_js/metronic.js",
 								),
 						"alltemplates"=>array(
 								"plugins/jquery-migrate-1.2.1.min.js",	
