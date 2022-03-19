@@ -2384,6 +2384,10 @@ class TeacherController extends Zend_Controller_Action
 		$class_id=$this->getRequest()->getParam('class_id');
 		$teacher_id=$this->getRequest()->getParam('teacher_id');
 		$lesson_student_absent = $this->getRequest()->getParam('lesson_student_absent');
+		if(!isset($lesson_student_absent))
+		{
+			$lesson_student_absent = 0;	
+		}
 		$class_data=array();
 		$lesson_class=array();
 		$class_data_arr=array();
@@ -2433,12 +2437,12 @@ class TeacherController extends Zend_Controller_Action
 			
 			if(!empty($students_array['students']))
 			{
-			$student_name_arr=$this->modelStatic->Super_Get("users","user_id IN (".$students_array["students"].")","fetch",array("fields"=>array("GROUP_CONCAT(user_first_name) as name")));
-			if(!empty($student_name_arr['name']))
-			{
-				$student_name_str=	$student_name_arr['name'];
-			}
-		}	
+				$student_name_arr=$this->modelStatic->Super_Get("users","user_id IN (".$students_array["students"].")","fetch",array("fields"=>array("GROUP_CONCAT(user_first_name) as name")));
+				if(!empty($student_name_arr['name']))
+				{
+					$student_name_str=	$student_name_arr['name'];
+				}
+			}	
 		}
 		else
 		{
@@ -2460,24 +2464,22 @@ class TeacherController extends Zend_Controller_Action
 			$this->view->lesson_id=$lesson_id;	
 			$lesson_show_arr=$this->modelStatic->Super_Get("lesson",'lesson_id="'.$lesson_id.'"',"fetch",array("order"=>array("lesson_date DESC")));
 		//	$student_arr=$this->modelStatic->Super_Get("users","user_id='".$lesson_show_arr['lesson_student_id']."'","fetch");
-			
 		}
 		else
 		{
 			if(isset($student_id))
-			{
-			
-		$student_arr=$this->modelStatic->Super_Get("users","user_id='".$student_id."'","fetch");
-			/* All Lesson data with  Pagination */
-		$this->view->student_arr=$student_arr;	
-		$get_all_lessons=$modelSchool->userlessonpagination($student_arr['user_id'],$user_param_id);
-		$page=1;
-		$page=$this->_getParam('page');
-		if(!isset($_REQUEST['record_per_page']))
-		$_REQUEST['record_per_page']=10;
-		$paginator=$this->pagination($get_all_lessons,$page,$_REQUEST['record_per_page']);
-		$this->view->paginator=$paginator;
-		/* End All Lesson data with  Pagination */
+			{			
+				$student_arr=$this->modelStatic->Super_Get("users","user_id='".$student_id."'","fetch");
+					/* All Lesson data with  Pagination */
+				$this->view->student_arr=$student_arr;	
+				$get_all_lessons=$modelSchool->userlessonpagination($student_arr['user_id'],$user_param_id);
+				$page=1;
+				$page=$this->_getParam('page');
+				if(!isset($_REQUEST['record_per_page']))
+				$_REQUEST['record_per_page']=10;
+				$paginator=$this->pagination($get_all_lessons,$page,$_REQUEST['record_per_page']);
+				$this->view->paginator=$paginator;
+				/* End All Lesson data with  Pagination */
 			}
 		}
 		
@@ -2547,182 +2549,180 @@ class TeacherController extends Zend_Controller_Action
 		require_once ROOT_PATH.'/private/ZiggeoPhpSdk-master/Ziggeo.php';
 		$ziggeo = new Ziggeo($this->view->config_data['ziggeo_token'],$this->view->config_data['ziggeo_private_key'],$this->view->config_data['ziggeo_encryption_key']);	
 		
-			if ($this->getRequest()->isPost())
-			{ // Post Form Data
+		if ($this->getRequest()->isPost())
+		{ // Post Form Data
 			//prd($_SESSION['voice_recording_'.$this->view->user->user_id]);
-				$posted_data  = $this->getRequest()->getPost();
-				if ($form->isValid($posted_data))
-				{ // If form is valids
-					$data_insert=$form->getValues();
-				
-					$save_template=0;
-					if(isset($posted_data['video_token']))
+			$posted_data  = $this->getRequest()->getPost();
+			if ($form->isValid($posted_data))
+			{ // If form is valids
+				$data_insert=$form->getValues();
+			
+				$save_template=0;
+				if(isset($posted_data['video_token']))
+				{
+					$videotokenarr=$posted_data['video_token'];
+				}
+				$ffmpegPath = ROOT_PATH."/ffmpeg";
+				$savesend=1;
+				if(!empty($data_insert['param']) && $data_insert['param']==1)
+				{
+					/* Save Data as template */
+					$save_template=1;
+				}
+				else if(!empty($data_insert['param']) && $data_insert['param']==2)
+				{
+					/* Save Data without submision */	
+					$savesend=0;
+				}
+				else if(!empty($data_insert['param']) && $data_insert['param']==3)
+				{
+					/* Save Data as template */
+					$save_template=1;
+					/* Save Data without submision */	
+					$savesend=0;
+				}
+				unset($data_insert['param']);
+				unset($data_insert['existing_fold']);
+			
+				if(isset($lesson_data) && !empty($lesson_data))
+				{
+					//prd('fgvbn');
+					if(isset($posted_data['delete_attach']) && !empty($posted_data['delete_attach']))
 					{
-						$videotokenarr=$posted_data['video_token'];
-					}
-					$ffmpegPath = ROOT_PATH."/ffmpeg";
-					$savesend=1;
-					if(!empty($data_insert['param']) && $data_insert['param']==1)
-					{
-							/* Save Data as template */
-							$save_template=1;
-					}
-					else if(!empty($data_insert['param']) && $data_insert['param']==2)
-					{
-						/* Save Data without submision */	
-							$savesend=0;
-					}
-					else if(!empty($data_insert['param']) && $data_insert['param']==3)
-					{
-							/* Save Data as template */
-							$save_template=1;
-							/* Save Data without submision */	
-							$savesend=0;
-					}
-					unset($data_insert['param']);
-					unset($data_insert['existing_fold']);
-				
-					if(isset($lesson_data) && !empty($lesson_data))
-					{
-						//prd('fgvbn');
-						if(isset($posted_data['delete_attach']) && !empty($posted_data['delete_attach']))
-						{
-							foreach($posted_data['delete_attach'] as $dal=>$val)
-							{					
-								if($val!='')
-								{
-									$lession_arr=$this->modelStatic->Super_Get("lession_attach",'la_id="'.$val.'"','fetch');
-									//prd($lession_arr);
-									$fdg=$this->modelStatic->Super_Delete("lession_attach",'la_id="'.$val.'"');
-									if($lession_arr['la_type']==1)
-									{
-										unlink(TEMP_PATH.'/'.$lession_arr['la_name']);	
-									}
-									else
-									{	
-										//$ziggeo->videos()->delete($lession_arr['la_token']);	
-										//prd("jklj");
-									}
-								}						
-							}
-						}
-						
-						$data_insert['lesson_status']=$savesend;
-						
-						// ================ add  ==========
-						date_default_timezone_set('America/Los_Angeles');	// PDT time
-						$data_insert['lesson_date']=date('Y-m-d H:i:s');
-						$data_insert['lesson_student_absent'] = $lesson_student_absent;
-						// ================================
-						// =================	Modify	======
-						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');
-						$insert->inserted_id=$lesson_id;
-							
-						if(isset($posted_data['existing_fold']) && (!empty($posted_data['existing_fold'])))
-						{
-							//prd('gfvbnvb');
-							foreach($posted_data['existing_fold'] as $key=>$v)
+						foreach($posted_data['delete_attach'] as $dal=>$val)
+						{					
+							if($val!='')
 							{
-								$leson_attache_file_arr=array();
-								$leson_attache_file_arr=$this->modelStatic->Super_Get("teacher_attachments",'teacher_attach_id="'.$v.'"',"fetch");
-								//prd($leson_attache_file_arr);
-								copy(TEACHER_FILES_PATH.'/'.$leson_attache_file_arr['teacher_attach_name'],TEMP_PATH.'/'.$leson_attache_file_arr['teacher_attach_name']);
-								//prd('fgvbnvn');
-								$data=array();
-								$data=array('la_lesson_id'=>$insert->inserted_id,
-										'la_name' => $leson_attache_file_arr['teacher_attach_name'],
-									
-							);	
-								$n=$this->modelStatic->Super_Insert("lession_attach",$data);
-								//prd($n);
-							}
-						}
-						
-						//existing folder
-						
-						//audio and video
-						
-						$path =TEMP_PATH.'/voice_'.$lesson_data['lesson_teacherid'].'/';	
-						$files = scandir($path);
-						$array=array();
-						foreach ($files as $file) 
-						{
-								if($file!='.' && $file!='..' && ((strpos($file,"."))))
-								{ 
-								$newname=$file;
-								array_push($array,$newname);
-								
-								if(file_exists($path."/".$file))
+								$lession_arr=$this->modelStatic->Super_Get("lession_attach",'la_id="'.$val.'"','fetch');
+								//prd($lession_arr);
+								$fdg=$this->modelStatic->Super_Delete("lession_attach",'la_id="'.$val.'"');
+								if($lession_arr['la_type']==1)
 								{
-									
-									rename($path."/".$file,TEMP_PATH."/".$file);
-									echo "Here";
+									unlink(TEMP_PATH.'/'.$lession_arr['la_name']);	
 								}
+								else
+								{	
+									//$ziggeo->videos()->delete($lession_arr['la_token']);	
+									//prd("jklj");
 								}
+							}						
 						}
+					}
 						
-						foreach($array as $k=>$v)
+					$data_insert['lesson_status']=$savesend;
+					
+					// ================ add  ==========
+					date_default_timezone_set('America/Los_Angeles');	// PDT time
+					$data_insert['lesson_date']=date('Y-m-d H:i:s');
+					$data_insert['lesson_student_absent'] = $lesson_student_absent;
+					// ================================
+					// =================	Modify	======
+					$insert=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');
+					$insert->inserted_id=$lesson_id;
+						
+					if(isset($posted_data['existing_fold']) && (!empty($posted_data['existing_fold'])))
+					{
+						//prd('gfvbnvb');
+						foreach($posted_data['existing_fold'] as $key=>$v)
 						{
-						
+							$leson_attache_file_arr=array();
+							$leson_attache_file_arr=$this->modelStatic->Super_Get("teacher_attachments",'teacher_attach_id="'.$v.'"',"fetch");
+							//prd($leson_attache_file_arr);
+							copy(TEACHER_FILES_PATH.'/'.$leson_attache_file_arr['teacher_attach_name'],TEMP_PATH.'/'.$leson_attache_file_arr['teacher_attach_name']);
+							//prd('fgvbnvn');
+							$data=array();
 							$data=array('la_lesson_id'=>$insert->inserted_id,
-										'la_name' => $v,
+									'la_name' => $leson_attache_file_arr['teacher_attach_name'],
 									
 							);	
 							$n=$this->modelStatic->Super_Insert("lession_attach",$data);
-							//prn($n);
-							
+							//prd($n);
 						}
-						//prd($array);
-						//audio and video
-						//images
-						$path =TEMP_PATH.'/upimage_'.$lesson_data['lesson_teacherid'].'/';	
-						$files = scandir($path);
-						$array=array();
-						foreach ($files as $file) 
-						{
-								if($file!='.' && $file!='..' && ((strpos($file,"."))))
-								{ 
-								$newname=time().".".$file;
-								$newname = str_replace(' ', '_', $newname);
-								
-								$ext = pathinfo($path.$newname, PATHINFO_EXTENSION);
-								$filexp=explode(".".$ext,$file);
-								$newname=$filexp[0].time().".".$ext;
+					}
+						
+					//existing folder
+					
+					//audio and video
+					
+					$path =TEMP_PATH.'/voice_'.$lesson_data['lesson_teacherid'].'/';	
+					$files = scandir($path);
+					$array=array();
+					foreach ($files as $file) 
+					{
+							if($file!='.' && $file!='..' && ((strpos($file,"."))))
+							{ 
+							$newname=$file;
+							array_push($array,$newname);
 							
-								if(file_exists($path."/".$file))
-								{
-									rename($path."/".$file,TEMP_PATH."/".$newname);
-									$ext = pathinfo($path.$newname, PATHINFO_EXTENSION);
-									global $videoext;
+							if(file_exists($path."/".$file))
+							{
 								
-									if(in_array($ext,$videoext) )
+								rename($path."/".$file,TEMP_PATH."/".$file);
+								echo "Here";
+							}
+							}
+					}
+						
+					foreach($array as $k=>$v)
+					{
+					
+						$data=array('la_lesson_id'=>$insert->inserted_id,
+									'la_name' => $v,
+								
+						);	
+						$n=$this->modelStatic->Super_Insert("lession_attach",$data);
+						//prn($n);
+						
+					}
+					//prd($array);
+					//audio and video
+					//images
+					$path =TEMP_PATH.'/upimage_'.$lesson_data['lesson_teacherid'].'/';	
+					$files = scandir($path);
+					$array=array();
+					foreach ($files as $file) 
+					{
+						if($file!='.' && $file!='..' && ((strpos($file,"."))))
+						{ 
+							$newname=time().".".$file;
+							$newname = str_replace(' ', '_', $newname);
+							
+							$ext = pathinfo($path.$newname, PATHINFO_EXTENSION);
+							$filexp=explode(".".$ext,$file);
+							$newname=$filexp[0].time().".".$ext;
+						
+							if(file_exists($path."/".$file))
+							{
+								rename($path."/".$file,TEMP_PATH."/".$newname);
+								$ext = pathinfo($path.$newname, PATHINFO_EXTENSION);
+								global $videoext;
+							
+								if(in_array($ext,$videoext) )
+								{
+										///prd("if in yes");
+									$outputfile=$newname;
+									/* Convert Video usinf FFmpeg */
+									$filename=time();
+									$uploadFileName=TEMP_PATH."/".$newname;
+									$of=TEMP_PATH."/".'VID_'.$filename.'.mp4';
+									$outputfile='VID_'.$filename.'.mp4';
+									
+									if($ext!='mp4')
 									{
-											///prd("if in yes");
-											$outputfile=$newname;
-											/* Convert Video usinf FFmpeg */
-											$filename=time();
-											$uploadFileName=TEMP_PATH."/".$newname;
-											$of=TEMP_PATH."/".'VID_'.$filename.'.mp4';
-											$outputfile='VID_'.$filename.'.mp4';
-											
-											if($ext!='mp4')
-											{
-											//ultrafast
-											$cmd=$ffmpegPath." -i ".$uploadFileName."  -c:v libx264 -preset ultrafast -crf 22 -pix_fmt yuv420p -c:a libvo_aacenc -b:a 119k  ".$of." 2>&1";										$out=exec($cmd,$output,$ret);
-												
-											}
-											else
-											{ 
-											//$cmd=$ffmpegPath." -i ".$uploadFileName."  -b:a 119k  ".$of." 2>&1";
-											$cmd=$ffmpegPath." -i ".$uploadFileName." -ar 22050 -ab 32 -f mp4 -s 640x480 -vcodec libx264 -preset ultrafast  ".$of." 2>&1";
-											//$cmd=$ffmpegPath." -i ".$uploadFileName." -ar 22050 -ab 32 -f mp4 -s 640x480 -c:v libx264 -preset ultrafast   ".$of." 2>&1";
-											$outputfile=$newname;
-											$out=exec($cmd,$output,$ret);
-												
-											}
+										//ultrafast
+										$cmd=$ffmpegPath." -i ".$uploadFileName."  -c:v libx264 -preset ultrafast -crf 22 -pix_fmt yuv420p -c:a libvo_aacenc -b:a 119k  ".$of." 2>&1";										$out=exec($cmd,$output,$ret);
+									}
+									else
+									{ 
+										//$cmd=$ffmpegPath." -i ".$uploadFileName."  -b:a 119k  ".$of." 2>&1";
+										$cmd=$ffmpegPath." -i ".$uploadFileName." -ar 22050 -ab 32 -f mp4 -s 640x480 -vcodec libx264 -preset ultrafast  ".$of." 2>&1";
+										//$cmd=$ffmpegPath." -i ".$uploadFileName." -ar 22050 -ab 32 -f mp4 -s 640x480 -c:v libx264 -preset ultrafast   ".$of." 2>&1";
+										$outputfile=$newname;
+										$out=exec($cmd,$output,$ret);
+									}
 										//	prd("in");
-											/* End Convert Video using FFmpeg */
-											$newname=$outputfile;
+										/* End Convert Video using FFmpeg */
+										$newname=$outputfile;
 									}
 									else
 									{
@@ -2730,8 +2730,8 @@ class TeacherController extends Zend_Controller_Action
 									}
 									array_push($array,$newname);
 								}
-								}
-								}
+							}
+						}
 						foreach($array as $k=>$v)
 						{
 							$data=array('la_lesson_id'=>$insert->inserted_id,
@@ -2790,44 +2790,43 @@ class TeacherController extends Zend_Controller_Action
 							$data_insert['lesson_student_absent'] = $lesson_student_absent;
 							// ================================
 						
-							$bb=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');	
-						
+							$bb=$this->modelStatic->Super_Insert("lesson",$data_insert,'lesson_id="'.$lesson_id.'"');							
 						}
 						else
 						{
 							//prd('else');
-						$data_insert['lesson_teacherid']=$user_param_id;
-						$user_type=0;
-						$school_id=$this->view->user->user_school_id;
-						if($this->view->user->user_type=='school')
-						{
-							$user_type=1;
-							$school_id=$this->view->user->user_id;
-							/* This Lesson is added By School User */	
-						}
-						$data_insert['lesson_user_type']=$user_type;
-						$data_insert['lesson_school_id']=$school_id;
+							$data_insert['lesson_teacherid']=$user_param_id;
+							$user_type=0;
+							$school_id=$this->view->user->user_school_id;
+							if($this->view->user->user_type=='school')
+							{
+								$user_type=1;
+								$school_id=$this->view->user->user_id;
+								/* This Lesson is added By School User */	
+							}
+							$data_insert['lesson_user_type']=$user_type;
+							$data_insert['lesson_school_id']=$school_id;
+							
+							date_default_timezone_set('America/Los_Angeles');	// PDT time
+	//						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
+							$data_insert['lesson_date']=date('Y-m-d H:i:s');
+							$data_insert['lesson_template']=$save_template;
+							$data_insert['lesson_status']=$savesend;
 						
-						date_default_timezone_set('America/Los_Angeles');	// PDT time
-//						$data_insert['lesson_date']=gmdate('Y-m-d H:i:s');
-						$data_insert['lesson_date']=date('Y-m-d H:i:s');
-						$data_insert['lesson_template']=$save_template;
-						$data_insert['lesson_status']=$savesend;
-						
-						if(isset($class_id))
-						{
-							$data_insert['lesson_class_id']	=$class_id;
-						}
-						
-					//	$data_insert['lesson_student_id']=$student_id;
-						$data_insert['lesson_student_absent'] = $lesson_student_absent;
+							if(isset($class_id))
+							{
+								$data_insert['lesson_class_id']	=$class_id;
+							}
+							
+						//	$data_insert['lesson_student_id']=$student_id;
+							$data_insert['lesson_student_absent'] = $lesson_student_absent;
 
-						$insert=$this->modelStatic->Super_Insert("lesson",$data_insert);
-						$lesson_id=$insert->inserted_id;
-						}
-						$lesson_updated_data=array();
-						$lesson_updated_data=$this->modelStatic->Super_Get("lesson","lesson_id='".$lesson_id."'","fetch");
-						/* Here we add lesson's student here */
+							$insert=$this->modelStatic->Super_Insert("lesson",$data_insert);
+							$lesson_id=$insert->inserted_id;
+							}
+							$lesson_updated_data=array();
+							$lesson_updated_data=$this->modelStatic->Super_Get("lesson","lesson_id='".$lesson_id."'","fetch");
+							/* Here we add lesson's student here */
 							if(isset($student_id))
 							{
 								/* Student id */
@@ -2863,164 +2862,156 @@ class TeacherController extends Zend_Controller_Action
 									if(!empty($student_class))
 									{
 										foreach($student_class as $k=>$v)
-										{
-										
-										$get_lesson_student_data=array();
-										if($this->view->user->user_type=='teacher')
-										{
-											$get_lesson_student_data=$this->modelStatic->Super_Get("lesson_student","l_s_stuid='".$v."' and l_s_teaherid='".$this->view->user->user_id."' and l_s_lessid='".$lesson_id."'","fetch");	
-										}
-										else
-										{
-											$get_lesson_student_data=$this->modelStatic->Super_Get("lesson_student","l_s_stuid='".$v."' and l_s_schoolid='".$this->view->user->user_id."' and l_s_lessid='".$lesson_id."'","fetch");	
-										}
+										{										
+											$get_lesson_student_data=array();
+											if($this->view->user->user_type=='teacher')
+											{
+												$get_lesson_student_data=$this->modelStatic->Super_Get("lesson_student","l_s_stuid='".$v."' and l_s_teaherid='".$this->view->user->user_id."' and l_s_lessid='".$lesson_id."'","fetch");	
+											}
+											else
+											{
+												$get_lesson_student_data=$this->modelStatic->Super_Get("lesson_student","l_s_stuid='".$v."' and l_s_schoolid='".$this->view->user->user_id."' and l_s_lessid='".$lesson_id."'","fetch");	
+											}
 
-										if(empty($get_lesson_student_data))
-										{
-										$all_student_lesson_data=array('l_s_lessid'=>$lesson_id,
+											if(empty($get_lesson_student_data))
+											{
+												$all_student_lesson_data=array('l_s_lessid'=>$lesson_id,
 																		'l_s_stuid'=>$v,
 																		'l_s_teaherid'=>$user_param_id,
 																		'l_s_viewstatus'=>0,
 																		'l_s_addeddate'=>gmdate("Y-m-d H:i:s"),
 																			);	
-									if($this->view->user->user_type=='teacher')
-									{
-										$lesson_data_arr['l_s_usertype']=0;
-										$lesson_data_arr['l_s_schoolid']=$this->view->user->user_school_id;
-									}
-									else
-									{
-										if(isset($teacher_id))
-										{
-											
-											$lesson_data_arr['l_s_usertype']=0;	
-      										$lesson_data_arr['l_s_schoolid']=$this->view->user->user_id;		
+												if($this->view->user->user_type=='teacher')
+												{
+													$lesson_data_arr['l_s_usertype']=0;
+													$lesson_data_arr['l_s_schoolid']=$this->view->user->user_school_id;
+												}
+												else
+												{
+													if(isset($teacher_id))
+													{
+														
+														$lesson_data_arr['l_s_usertype']=0;	
+			      										$lesson_data_arr['l_s_schoolid']=$this->view->user->user_id;		
+													}
+													else
+													{
+					  									$lesson_data_arr['l_s_usertype']=1;	
+			      										$lesson_data_arr['l_s_schoolid']=$this->view->user->user_id;	
+													}
+													
+												}
+													$this->modelStatic->Super_Insert("lesson_student",$all_student_lesson_data);
+												}
+											}
 										}
-										else
-										{
-		  									$lesson_data_arr['l_s_usertype']=1;	
-      										$lesson_data_arr['l_s_schoolid']=$this->view->user->user_id;	
-										}
-										
-									}
-										$this->modelStatic->Super_Insert("lesson_student",$all_student_lesson_data);
-									}
+									}								
+								}
+						
+								/* Here we end lesson's student. */						
+							
+								//existing folder
+								
+								$this->modelStatic->Super_Delete("lession_attach",'la_lesson_id="'.$lesson_id.'"');
+								if(isset($posted_data['existing_fold']) && (!empty($posted_data['existing_fold'])))
+								{
+									//prd('gfvbnvb');
+									//prd($posted_data['existing_fold']);
 									
-									}
+									foreach($posted_data['existing_fold'] as $key=>$v)
+									{
+										$leson_attache_file_arr=array();
+										$leson_attache_file_arr=$this->modelStatic->Super_Get("teacher_attachments",'teacher_attach_id="'.$v.'"',"fetch");
+										//prd($leson_attache_file_arr);
+										copy(TEACHER_FILES_PATH.'/'.$leson_attache_file_arr['teacher_attach_name'],TEMP_PATH.'/'.$leson_attache_file_arr['teacher_attach_name']);
+										//prd('fgvbnvn');
+										$data=array('la_lesson_id'=>$lesson_id,
+												'la_name' => $leson_attache_file_arr['teacher_attach_name'],
+											
+									);	
+										$n=$this->modelStatic->Super_Insert("lession_attach",$data);
+										//prd($n);
 									}
 								}
-								
-							}
-						
-						/* Here we end lesson's student. */
-						
 					
-						//existing folder
+								if(isset($posted_data['upload_attach']) && !empty($posted_data['upload_attach']))
+								{
+									foreach($posted_data['upload_attach'] as $k=>$v)
+									{
+										$get_attach_arr=array();
+										$get_attach_arr=$this->modelStatic->Super_Get("lession_attach",'la_id="'.$v.'"',"fetch");
+										$ext='';
+										$ext = pathinfo($get_attach_arr['la_name'], PATHINFO_EXTENSION);
+										$new_nme=time().$get_attach_arr['la_name'];
+										
+										$filexp=explode(".".$ext,$get_attach_arr['la_name']);
+										$new_nme=$filexp[0].time().".".$ext;										
+										
+										copy(TEMP_PATH.'/'.$get_attach_arr['la_name'],TEMP_PATH.'/'.$new_nme);
+										//prd('fgvbnvn');
+										$data=array('la_lesson_id'=>$lesson_id,
+												'la_name' => $new_nme,
+											
+										);	
+										$n=$this->modelStatic->Super_Insert("lession_attach",$data);
+									}	
+								}
+								//existing folder
 						
-						$this->modelStatic->Super_Delete("lession_attach",'la_lesson_id="'.$lesson_id.'"');
-						if(isset($posted_data['existing_fold']) && (!empty($posted_data['existing_fold'])))
-						{
-							//prd('gfvbnvb');
-							//prd($posted_data['existing_fold']);
-							
-							foreach($posted_data['existing_fold'] as $key=>$v)
-							{
-								$leson_attache_file_arr=array();
-								$leson_attache_file_arr=$this->modelStatic->Super_Get("teacher_attachments",'teacher_attach_id="'.$v.'"',"fetch");
-								//prd($leson_attache_file_arr);
-								copy(TEACHER_FILES_PATH.'/'.$leson_attache_file_arr['teacher_attach_name'],TEMP_PATH.'/'.$leson_attache_file_arr['teacher_attach_name']);
-								//prd('fgvbnvn');
-								$data=array('la_lesson_id'=>$lesson_id,
-										'la_name' => $leson_attache_file_arr['teacher_attach_name'],
-									
-							);	
-								$n=$this->modelStatic->Super_Insert("lession_attach",$data);
-								//prd($n);
-							}
-						}
-					
-						if(isset($posted_data['upload_attach']) && !empty($posted_data['upload_attach']))
-						{
-							foreach($posted_data['upload_attach'] as $k=>$v)
-							{
-								$get_attach_arr=array();
-								$get_attach_arr=$this->modelStatic->Super_Get("lession_attach",'la_id="'.$v.'"',"fetch");
-								$ext='';
-								$ext = pathinfo($get_attach_arr['la_name'], PATHINFO_EXTENSION);
-								$new_nme=time().$get_attach_arr['la_name'];
+								//audio and video
+								$path =TEMP_PATH.'/voice_'.$lesson_updated_data['lesson_teacherid'].'/';	
+								$files = scandir($path);
+								//prd($files);
+								$array=array();
+								foreach ($files as $file) 
+								{
+										if($file!='.' && $file!='..' && ((strpos($file,"."))))
+										{ 
+											$newname=$file;
+											array_push($array,$newname);
+											if(file_exists($path."/".$file))
+											{
+												rename($path."/".$file,TEMP_PATH."/".$file);
+											}
+										}
+								}
+								//prd($array);		
+								foreach($array as $k=>$v)
+								{
 								
-								
-								$filexp=explode(".".$ext,$get_attach_arr['la_name']);
-								$new_nme=$filexp[0].time().".".$ext;
-								
-								
-								copy(TEMP_PATH.'/'.$get_attach_arr['la_name'],TEMP_PATH.'/'.$new_nme);
-								//prd('fgvbnvn');
-								$data=array('la_lesson_id'=>$lesson_id,
-										'la_name' => $new_nme,
-									
-							);	
-								$n=$this->modelStatic->Super_Insert("lession_attach",$data);
-							}	
-						}
-						//existing folder
+									$data=array('la_lesson_id'=>$lesson_id,
+												'la_name' => $v,
+											
+									);	
+									$n=$this->modelStatic->Super_Insert("lession_attach",$data);
+									//prd($n);
+								}
+								//audio and video								
+						
+								//images
+								$path =TEMP_PATH.'/upimage_'.$lesson_updated_data['lesson_teacherid'].'/';	
+								$files = scandir($path);
+								$array=array();
 				
-						//audio and video
-						$path =TEMP_PATH.'/voice_'.$lesson_updated_data['lesson_teacherid'].'/';	
-						$files = scandir($path);
-						//prd($files);
-						$array=array();
-						foreach ($files as $file) 
-						{
-								if($file!='.' && $file!='..' && ((strpos($file,"."))))
-								{ 
-									$newname=$file;
-									array_push($array,$newname);
+								foreach ($files as $file) 
+								{
+									if($file!='.' && $file!='..' && ((strpos($file,"."))))
+									{ 
+									$newname=time().".".$file;
+									$newname = str_replace(' ', '_', $newname);
+									
+									$ext = pathinfo($path.$file, PATHINFO_EXTENSION);
+									$filexp=explode(".".$ext,$file);
+									$newname=$filexp[0].time().".".$ext;
+									
 									if(file_exists($path."/".$file))
 									{
-										rename($path."/".$file,TEMP_PATH."/".$file);
-									}
-								}
-						}
-						//prd($array);		
-						foreach($array as $k=>$v)
-						{
-						
-							$data=array('la_lesson_id'=>$lesson_id,
-										'la_name' => $v,
-									
-							);	
-							$n=$this->modelStatic->Super_Insert("lession_attach",$data);
-							//prd($n);
-						}
-						//audio and video
-						
-						
-						//images
-						$path =TEMP_PATH.'/upimage_'.$lesson_updated_data['lesson_teacherid'].'/';	
-						$files = scandir($path);
-						$array=array();
-				
-						foreach ($files as $file) 
-						{
-								if($file!='.' && $file!='..' && ((strpos($file,"."))))
-								{ 
-								$newname=time().".".$file;
-								$newname = str_replace(' ', '_', $newname);
-								
-								$ext = pathinfo($path.$file, PATHINFO_EXTENSION);
-								$filexp=explode(".".$ext,$file);
-								$newname=$filexp[0].time().".".$ext;
-								
-								if(file_exists($path."/".$file))
-								{
-									rename($path."/".$file,TEMP_PATH."/".$newname);
-									$ext = pathinfo($path.$newname, PATHINFO_EXTENSION);
-									global $videoext;
-									
-									if(in_array($ext,$videoext))
-									{
-									
+										rename($path."/".$file,TEMP_PATH."/".$newname);
+										$ext = pathinfo($path.$newname, PATHINFO_EXTENSION);
+										global $videoext;
+										
+										if(in_array($ext,$videoext))
+										{										
 											$outputfile=$newname;
 											/* Convert Video usinf FFmpeg */
 											$filename=time();
@@ -3032,35 +3023,30 @@ class TeacherController extends Zend_Controller_Action
 											//ultrafast
 											$cmd=$ffmpegPath." -i ".$uploadFileName."  -c:v libx264 -preset ultrafast -crf 22 -pix_fmt yuv420p -c:a libvo_aacenc -b:a 119k  ".$of." 2>&1";
 											$out=exec($cmd,$output,$ret);
-											
-											}
-											else
-											{ 
+										}
+										else
+										{ 
 											//$cmd=$ffmpegPath." -i ".$uploadFileName."  -b:a 119k  ".$of." 2>&1";
 											$cmd=$ffmpegPath." -i ".$uploadFileName." -ar 22050 -ab 32 -f mp4 -s 640x480 -vcodec libx264 -preset ultrafast  ".$of." 2>&1";
 											//$cmd=$ffmpegPath." -i ".$uploadFileName." -ar 22050 -ab 32 -f mp4 -s 640x480 -c:v libx264 -preset ultrafast   ".$of." 2>&1";
 											$outputfile=$newname;
 											$out=exec($cmd,$output,$ret);
-											
-											}
-											
-											/* End Convert Video usinf FFmpeg */
-											$newname=$outputfile;
-											
+										}
+										/* End Convert Video usinf FFmpeg */
+										$newname=$outputfile;
 									}
-									array_push($array,$newname);
-								}							
-								
+										array_push($array,$newname);
+									}							
 								}
-								}
-						foreach($array as $k=>$v)
-						{						
-							$data=array('la_lesson_id'=>$lesson_id,
-										'la_name' => $v,									
-							);	
-							$this->modelStatic->Super_Insert("lession_attach",$data);
-						}
-						//images
+							}
+							foreach($array as $k=>$v)
+							{						
+								$data=array('la_lesson_id'=>$lesson_id,
+											'la_name' => $v,									
+								);	
+								$this->modelStatic->Super_Insert("lession_attach",$data);
+							}
+							//images
 					
 						foreach($videotokenarr as $k=>$v)
 						{
@@ -3074,22 +3060,22 @@ class TeacherController extends Zend_Controller_Action
 							);	
 							$this->modelStatic->Super_Insert("lession_attach",$data_add);	
 						}
-						$objSession->successMsg="Lesson has been added Successfully";
+						$objSession->successMsg="Lesson has been added Successfully";	
 					}
 					if($savesend==1)
 					{
-							/* here mail will send to students */
-							$get_student_arr_lesson=array();
-							if($this->view->user->user_type=='teacher')
-							{
-								$get_student_arr_lesson=$this->modelStatic->Super_Get("lesson_student","l_s_teaherid='".$user_param_id."' and l_s_lessid='".$lesson_id."'","fetchAll");
-							}
-							else
-							{
-								$get_student_arr_lesson=$this->modelStatic->Super_Get("lesson_student","l_s_schoolid='".$user_param_id."' and l_s_lessid='".$lesson_id."'","fetchAll");
-							}
-							foreach($get_student_arr_lesson as $k=>$v)
-							{
+						/* here mail will send to students */
+						$get_student_arr_lesson=array();
+						if($this->view->user->user_type=='teacher')
+						{
+							$get_student_arr_lesson=$this->modelStatic->Super_Get("lesson_student","l_s_teaherid='".$user_param_id."' and l_s_lessid='".$lesson_id."'","fetchAll");
+						}
+						else
+						{
+							$get_student_arr_lesson=$this->modelStatic->Super_Get("lesson_student","l_s_schoolid='".$user_param_id."' and l_s_lessid='".$lesson_id."'","fetchAll");
+						}
+						foreach($get_student_arr_lesson as $k=>$v)
+						{
 							$student_data=array();
 							$student_data=$this->modelStatic->Super_Get("users","user_id='".$v['l_s_stuid']."'",'fetch');
 							if($v['l_s_mail']==0)
@@ -3104,92 +3090,84 @@ class TeacherController extends Zend_Controller_Action
 									if($student_data['user_email_option']==1)
 									{
 										/* Send notifications to Family Contacts email only */	
-											$get_family_arr=array();
-											$get_family_arr=$this->modelStatic->Super_Get("student_family",'s_f_sid="'.$v['l_s_stuid'].'"',"fetch");		
-											if(!empty($get_family_arr))
-											{
-												$family_mail=array();
-												$family_data_mail=array();
-												$family_data=$this->modelStatic->Super_Get("users","user_id='".$get_family_arr['s_f_fid']."'","fetch");
-												$family_data_mail['user_name']=$family_data['user_first_name'].''.$family_data['user_last_name'];	
-												$family_data_mail['Lesson_name']=$data_insert['lesson_title'];
-												$family_data_mail['Student_name']=$student_data['user_first_name'].' '.$student_data['user_last_name'];
-												$family_data_mail['Teacher_name']=$this->view->user->user_first_name.' '.$this->view->user->user_last_name;
-												$family_data_mail['user_email']=$family_data['user_email'];
-												$EmailModel->sendEmail("lesson_email_family",$family_data_mail);
-				
-												
-											}
+										$get_family_arr=array();
+										$get_family_arr=$this->modelStatic->Super_Get("student_family",'s_f_sid="'.$v['l_s_stuid'].'"',"fetch");		
+										if(!empty($get_family_arr))
+										{
+											$family_mail=array();
+											$family_data_mail=array();
+											$family_data=$this->modelStatic->Super_Get("users","user_id='".$get_family_arr['s_f_fid']."'","fetch");
+											$family_data_mail['user_name']=$family_data['user_first_name'].''.$family_data['user_last_name'];	
+											$family_data_mail['Lesson_name']=$data_insert['lesson_title'];
+											$family_data_mail['Student_name']=$student_data['user_first_name'].' '.$student_data['user_last_name'];
+											$family_data_mail['Teacher_name']=$this->view->user->user_first_name.' '.$this->view->user->user_last_name;
+											$family_data_mail['user_email']=$family_data['user_email'];
+											$EmailModel->sendEmail("lesson_email_family",$family_data_mail);
+			
+											
+										}
 									}
 									else if($student_data['user_email_option']==2)
 									{
 										/* Send notifications to Student only */
-									
-											if(!empty($data_mail['user_email']))
-											{
-											
-												$kk=$EmailModel->sendEmail("lesson_email",$data_mail);
-												
-											}
+										if(!empty($data_mail['user_email']))
+										{										
+											$kk=$EmailModel->sendEmail("lesson_email",$data_mail);
+										}
 									}
 									else if($student_data['user_email_option']==3)
 									{
 										/* Send notifications to both Student and Family Contact */	
-											if(!empty($data_mail['user_email']))
-											{
-												$EmailModel->sendEmail("lesson_email",$data_mail);
-											}
-											$get_family_arr=array();
-											$get_family_arr=$this->modelStatic->Super_Get("student_family",'s_f_sid="'.$v['l_s_stuid'].'"',"fetch");		
-											if(!empty($get_family_arr))
-											{
-												$family_mail=array();
-												$family_data_mail=array();
-												$family_data=$this->modelStatic->Super_Get("users","user_id='".$get_family_arr['s_f_fid']."'","fetch");
-												$family_data_mail['user_name']=$family_data['user_first_name'].''.$family_data['user_last_name'];	
-												$family_data_mail['Lesson_name']=$data_insert['lesson_title'];
-												$family_data_mail['Student_name']=$student_data['user_first_name'].' '.$student_data['user_last_name'];
-												$family_data_mail['Teacher_name']=$this->view->user->user_first_name.' '.$this->view->user->user_last_name;
-												$family_data_mail['user_email']=$family_data['user_email'];
-												$EmailModel->sendEmail("lesson_email_family",$family_data_mail);
-				
-												
-											}
+										if(!empty($data_mail['user_email']))
+										{
+											$EmailModel->sendEmail("lesson_email",$data_mail);
+										}
+										$get_family_arr=array();
+										$get_family_arr=$this->modelStatic->Super_Get("student_family",'s_f_sid="'.$v['l_s_stuid'].'"',"fetch");		
+										if(!empty($get_family_arr))
+										{
+											$family_mail=array();
+											$family_data_mail=array();
+											$family_data=$this->modelStatic->Super_Get("users","user_id='".$get_family_arr['s_f_fid']."'","fetch");
+											$family_data_mail['user_name']=$family_data['user_first_name'].''.$family_data['user_last_name'];	
+											$family_data_mail['Lesson_name']=$data_insert['lesson_title'];
+											$family_data_mail['Student_name']=$student_data['user_first_name'].' '.$student_data['user_last_name'];
+											$family_data_mail['Teacher_name']=$this->view->user->user_first_name.' '.$this->view->user->user_last_name;
+											$family_data_mail['user_email']=$family_data['user_email'];
+											$EmailModel->sendEmail("lesson_email_family",$family_data_mail);
+										}
 									}
 									else
 									{
 										/* No Email */	
 									}
-									
-										$this->modelStatic->Super_Insert("lesson_student",array("l_s_mail"=>1),"l_s_stuid='".$v['l_s_stuid']."'");
+									$this->modelStatic->Super_Insert("lesson_student",array("l_s_mail"=>1),"l_s_stuid='".$v['l_s_stuid']."'");
 								}
-									}
 							}
-																
 						}
+					}
 						
 					if($this->view->user->user_type=='teacher')
 					{
-							$this->redirect("teacher/viewlessons");
+						$this->redirect("teacher/viewlessons");
 					}
 					else
 					{
-							$this->redirect("teacher/alllessons");
+						$this->redirect("teacher/alllessons");
 					}
 				}
 			}
 			else
 			{
-					if(is_dir(TEMP_PATH.'/voice_'.$user_param_id))
-					{
-						DeleteDirfileupload(TEMP_PATH.'/voice_'.$this->view->user->user_id);
-					}
-					if(is_dir(TEMP_PATH.'/upimage_'.$user_param_id))
-					{
-						DeleteDirfileupload(TEMP_PATH.'/upimage_'.$user_param_id);
-			  		}
+				if(is_dir(TEMP_PATH.'/voice_'.$user_param_id))
+				{
+					DeleteDirfileupload(TEMP_PATH.'/voice_'.$this->view->user->user_id);
+				}
+				if(is_dir(TEMP_PATH.'/upimage_'.$user_param_id))
+				{
+					DeleteDirfileupload(TEMP_PATH.'/upimage_'.$user_param_id);
+		  		}
 			}
-			
 	}
 	
 	public function pagination($searchDataQuery,$page,$record_per_page)
@@ -3359,16 +3337,14 @@ class TeacherController extends Zend_Controller_Action
 		$student_name='';
 		
 		if(isset($student_id) && !empty($student_id) && (isset($teacher_id) && !empty($teacher_id)))
-		{
-			
-			  $lesson_data=$modelSchool->getstudentlesson($student_id,$teacher_id);
-				/*$lesson_data=$this->modelStatic->Super_Get("lesson",'lesson_student_id="'.$student_id.'" and lesson_teacherid="'.$teacher_id.'" and lesson_status="1"',"fetchAll",array("order"=>"lesson_id DESC",'pagination'=>'1'));	*/
-				$student_data=$this->modelStatic->Super_Get("users",'user_id="'.$student_id.'"',"fetch");
-				$student_name=$student_data['user_first_name'].' '.$student_data['user_last_name'];
+		{			
+	    	$lesson_data=$modelSchool->getstudentlesson($student_id,$teacher_id);
+			/*$lesson_data=$this->modelStatic->Super_Get("lesson",'lesson_student_id="'.$student_id.'" and lesson_teacherid="'.$teacher_id.'" and lesson_status="1"',"fetchAll",array("order"=>"lesson_id DESC",'pagination'=>'1'));	*/
+			$student_data=$this->modelStatic->Super_Get("users",'user_id="'.$student_id.'"',"fetch");
+			$student_name=$student_data['user_first_name'].' '.$student_data['user_last_name'];
 		}
 		else if(isset($student_id) && !empty($student_id))
-		{
-		
+		{		
 			$private_teacher_arr=$this->modelStatic->Super_Get("private_teacher","private_teacher_studentid='".$student_id."'","fetch",array("fields"=>array('GROUP_CONCAT(private_teacher_teacherid) as private_teachers'),"order"=>"lesson_date DESC",'pagination'=>'1'));
 			
 			$lesson_data=$modelSchool->getstudentlesson($student_id);
@@ -3383,12 +3359,11 @@ class TeacherController extends Zend_Controller_Action
 			}
 			else
 			{
-			$lesson_data=$this->modelStatic->Super_Get("lesson",'lesson_teacherid="'.$teacher_id.'" and lesson_status="1"',"fetchAll",array("order"=>"lesson_date DESC",'pagination'=>'1'));
+				$lesson_data=$this->modelStatic->Super_Get("lesson",'lesson_teacherid="'.$teacher_id.'" and lesson_status="1"',"fetchAll",array("order"=>"lesson_date DESC",'pagination'=>'1'));
 			}
 		}
 		else
-		{
-			
+		{			
 			$lesson_data=$this->modelStatic->Super_Get("lesson",'lesson_teacherid="'.$this->view->user->user_id.'" ',"fetchAll",array("order"=>"lesson_date DESC",'pagination'=>'1'));	
 		}
 		$this->view->student_name=$student_name;
@@ -3396,12 +3371,9 @@ class TeacherController extends Zend_Controller_Action
 		$page=1;
 		$page=$this->_getParam('page');
 		if(!isset($_REQUEST['record_per_page']))
-		$_REQUEST['record_per_page']=50;
+			$_REQUEST['record_per_page']=50;
 		$paginator=$this->pagination($lesson_data,$page,$_REQUEST['record_per_page']);
 		$this->view->paginator=$paginator;
-		
-	
-			
 	}
 	/* View Lesson Detail */
 	
