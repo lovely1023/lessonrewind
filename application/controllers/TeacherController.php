@@ -131,8 +131,8 @@ class TeacherController extends Zend_Controller_Action
 	}
 
 	public function alllessonsAction()
-	{
-			
+	{			
+		$this->dbObj = Zend_Registry::get('db');
  		global $objSession ; 
 		$this->view->pageHeading = "All Lessons";
 		$this->view->pageHeadingshow = '<i class="fa fa-list"></i>  All Lessons';
@@ -185,9 +185,15 @@ class TeacherController extends Zend_Controller_Action
 		$student_list=array();
 		$student_list=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='student'","fetchAll", array("order"=>array("user_first_name ASC")));
 		$this->view->student_list=$student_list;
-		// $teacher_data=array();
-		// $teacher_data=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='teacher'","fetchAll");
-		// $this->view->teacher_data=$teacher_data;
+		
+		$class_list=array();
+		//$class_list=$this->modelStatic->Super_Get("classes","","fetchAll", array("order"=>array("class_name ASC")));
+
+		$sQuery = "  SELECT * FROM classes ORDER BY class_name ASC;";
+		/*echo $sQuery;die;*/
+ 		$class_list = $this->dbObj->query($sQuery)->fetchAll();
+ 
+		$this->view->class_list=$class_list;
 		
 		/* Check if user type is not school */
 		if($this->view->user->user_type!='school')
@@ -4489,7 +4495,7 @@ class TeacherController extends Zend_Controller_Action
 		{
 			if($status == 1){	// Sort by teacher id
 				$sWhere .= " WHERE lesson_teacherid = $select_id ";				
-			}elseif($status == 2){
+			}elseif($param == 0 && $status == 2){
 				// Get lesson list include student
 				$sql_lessonList  = "SELECT GROUP_CONCAT(a.lesson_id) AS lesson_list FROM ";
 				$sql_lessonList  .= " lesson AS a ";
@@ -4505,11 +4511,18 @@ class TeacherController extends Zend_Controller_Action
 				if(isset($lessonList)){
 					$sWhere .= " WHERE lesson_id in (".$lessonList.") ";	
 				}
-			}		
+			}elseif($param == 1 && $status == 2){	
+				$sql_lessonList = "SELECT COALESCE(GROUP_CONCAT(a.lesson_id), 0) AS lesson_list FROM  lesson AS a ";
+				$sql_lessonList.= " LEFT JOIN classes AS b  ON a.`lesson_class_id`=b.`class_id` ";
+				$sql_lessonList.= " WHERE b.`class_id`=$select_id;";
 
-
+				$sqlResult = $this->dbObj->fetchRow($sql_lessonList);
+				$lessonList = $sqlResult['lesson_list'];
+				if(isset($lessonList)){
+					$sWhere .= " WHERE lesson_id in (".$lessonList.") ";	
+				}
+			}	
 		}
-
 
 
 		if ( isset($_GET['sSearch']) and $_GET['sSearch'] != "" )

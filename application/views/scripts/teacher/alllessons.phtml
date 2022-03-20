@@ -82,7 +82,7 @@ body
 				<div class="form-horizontal" role="form" id="select_ctrl">
 					<div class="form-body">
 						<div class="form-group">
-								<label class="col-md-10 control-label" id="select_label" style="margin-top:4px;">Select:</label>
+							<label class="col-md-10 control-label" id="select_label" style="margin-top:4px;">Select:</label>
 							<div class="col-md-2">
 								<select class="form-control" id="select_id">
 									<option value="-1"></option>
@@ -107,18 +107,16 @@ body
 												}	
 											}
 										}elseif($this->param == 1 && $this->status == 2){
-											// echo '"sSearch": "Search Class:"';
+											foreach($this->class_list as $k=>$v)
+											{								
+												if($v['class_id'] == $this->select_id){
+													echo '<option value="'.$v['class_id'].'" selected="selected">'.$v['class_name'].'</option>';
+												}else{
+													echo '<option value="'.$v['class_id'].'">'.$v['class_name'].'</option>';
+												}	
+											}
 										}
 
-
-										// foreach($this->teacher_data as $k=>$v)
-										// {								
-										// 	if($v['user_id'] == $this->select_id){
-										// 		echo '<option value="'.$v['user_id'].'" selected="selected">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
-										// 	}else{
-										// 		echo '<option value="'.$v['user_id'].'">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
-										// 	}	
-										// }
 									?>
 								</select>
 							</div>
