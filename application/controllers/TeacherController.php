@@ -178,8 +178,8 @@ class TeacherController extends Zend_Controller_Action
 		/* Check if user type is not school */
 		if($this->view->user->user_type!='school')
 		{			
-				/* If user is not admin or subadmin */
-				$this->redirect('index');	
+			/* If user is not admin or subadmin */
+			$this->redirect('index');	
 		}
 	}
 	
@@ -4470,17 +4470,48 @@ class TeacherController extends Zend_Controller_Action
 		 */
 		$sWhere = "";
 		
+
 		if ( isset($_GET['sSearch']) and $_GET['sSearch'] != "" )
 		{
-			$sWhere = "WHERE (";
-			for ( $i=0 ; $i<count($aColumns) ; $i++ )
-			{
-				//$sWhere .= "".$aColumns[$i]." LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ";
-				$sWhere .= "".$aColumns[$i]." LIKE '%".$_GET["sSearch"]."%' OR "; // NEW CODE
-				//$sWhere .= "".$aColumns[$i]." LIKE '%".addslashes(trim($_GET["sSearch"]))."%' OR CONCAT(user_first_name,' ',user_last_name) LIKE '%".addslashes(trim($_GET["sSearch"]))."%' OR "; // NEW CODE
-			}
-			$sWhere = substr_replace( $sWhere, "", -3 );
-			$sWhere .= ')';
+			// $sWhere = "WHERE (";
+			// for ( $i=0 ; $i<count($aColumns) ; $i++ )
+			// {
+			// 	//$sWhere .= "".$aColumns[$i]." LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ";
+				
+			// 	//$sWhere .= "".$aColumns[$i]." LIKE '%".$_GET["sSearch"]."%' OR "; // NEW CODE
+			// 	//$sWhere .= "".$aColumns[$i]." LIKE '%".addslashes(trim($_GET["sSearch"]))."%' OR CONCAT(user_first_name,' ',user_last_name) LIKE '%".addslashes(trim($_GET["sSearch"]))."%' OR "; // NEW CODE
+			// }
+			// $sWhere = substr_replace( $sWhere, "", -3 );
+			// $sWhere .= ')';
+
+			//$teacher_arr=$this->modelStatic->Super_Get("users","user_type=4  AND (user_first_name LIKE '%".$_GET['sSearch']."%' OR user_last_name LIKE '%".$_GET['sSearch']."%')","fetch");
+			
+
+			if($status == 1){	// Sort by teacher
+				$sql_teacherList  = "SELECT GROUP_CONCAT(user_id) as teacher_list FROM users ";
+				$sql_teacherList .= " WHERE user_type=3 AND (user_first_name LIKE '%".$_GET['sSearch']."%' OR user_last_name LIKE '%".$_GET['sSearch']."%');";
+				//$teacherList = $this->dbObj->query($sql_teacherList)->fetchAll();
+				$sqlResult = $this->dbObj->fetchRow($sql_teacherList);
+				$teacherList = $sqlResult['teacher_list'];
+				if(isset($teacherList)){
+					$sWhere .= " WHERE lesson_teacherid in (".$teacherList.") ";	
+				}
+			}elseif($status == 2){
+				// Get lesson list include student
+				$sql_lessonList  = "SELECT GROUP_CONCAT(a.lesson_id) AS lesson_list FROM ";
+				$sql_lessonList  .= " lesson AS a ";
+				$sql_lessonList  .= " LEFT JOIN lesson_student AS b ";
+				$sql_lessonList  .= " ON a.`lesson_id` = b.l_s_lessid ";
+				$sql_lessonList  .= " LEFT JOIN users AS c ";
+				$sql_lessonList  .= " ON b.`l_s_stuid`=c.user_id ";
+				$sql_lessonList  .= " WHERE  c.user_type=4 AND  (user_first_name LIKE '%".$_GET['sSearch']."%' OR user_last_name LIKE '%".$_GET['sSearch']."%');";
+
+				$sqlResult = $this->dbObj->fetchRow($sql_lessonList);
+				$lessonList = $sqlResult['lesson_list'];
+				if(isset($lessonList)){
+					$sWhere .= " WHERE lesson_id in (".$lessonList.") ";	
+				}
+			}		
 		}
 
 		
@@ -4643,7 +4674,8 @@ class TeacherController extends Zend_Controller_Action
 		
 		echo json_encode( $output );
 		exit();
-  	}
+  	}// end getalllessonsAction
+
 	public function getalltemplatesAction()
 	{
 		$this->dbObj = Zend_Registry::get('db');
@@ -4734,6 +4766,44 @@ class TeacherController extends Zend_Controller_Action
 				$sWhere .= "".$aColumns[$i]." LIKE '%".$_GET['sSearch_'.$i]."%' ";
 			}
 		}
+
+
+
+		
+		// if ( $_GET['sSearch_1'] != '' )
+		// {
+		// 	if ( $sWhere == "" )
+		// 	{
+		// 		$sWhere = "WHERE ";
+		// 	}
+		// 	else
+		// 	{
+		// 		$sWhere .= " AND ";
+		// 	}
+		// 	// $sWhere .= "".$aColumns[$i]." LIKE '%".$_GET['sSearch_'.$i]."%' ";
+		// 	if($status == 1){
+		// 		$sWhere .= "".$aColumns[1]." LIKE '%".$_GET['sSearch_1']."%' ";
+		// 	}elseif($status == 2){
+		// 		$sWhere .= "".$aColumns[7]." LIKE '%".$_GET['sSearch_7']."%' ";
+		// 	}
+		// }
+
+		// if ( $_GET['sSearch_7'] != '' )
+		// {
+		// 	if ( $sWhere == "" )
+		// 	{
+		// 		$sWhere = "WHERE ";
+		// 	}
+		// 	else
+		// 	{
+		// 		$sWhere .= " AND ";
+		// 	}
+		// 	if($status == 1){
+		// 		$sWhere .= "".$aColumns[1]." LIKE '%".$_GET['sSearch_1']."%' ";
+		// 	}elseif($status == 2){
+		// 		$sWhere .= "".$aColumns[7]." LIKE '%".$_GET['sSearch_7']."%' ";
+		// 	}
+		// }
 		
 		if ( $sWhere == "" )
 			{

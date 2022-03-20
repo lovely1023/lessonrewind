@@ -147,7 +147,14 @@ $(document)	 .ready(function(e) {
  		"sAjaxSource": "<?php echo $this->baseUrl()?>/teacher/getalllessons/param/<?php echo $this->param ?>/status/<?php echo $this->status ?>" + "/startDate/" + startDate + "/endDate/" + endDate,
  		"aaSorting": [[ 0, "desc" ]],
 		"oLanguage": {
-        "sEmptyTable":     "No matching records found"
+        			"sEmptyTable":     "No matching records found",
+					<?php 
+						if($this->status == 1){
+							echo '"sSearch": "Search Teacher:"';
+						}elseif($this->status == 2){
+							echo '"sSearch": "Search Student:"';
+						}
+					?>
     				},
 		"aoColumnDefs": 
 		 [
