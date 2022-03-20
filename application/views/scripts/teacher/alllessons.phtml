@@ -85,16 +85,40 @@ body
 								<label class="col-md-10 control-label" id="select_label" style="margin-top:4px;">Select:</label>
 							<div class="col-md-2">
 								<select class="form-control" id="select_id">
-									<option value="-1">Please select</option>
+									<option value="-1"></option>
 									<?php 
-										foreach($this->teacher_data as $k=>$v)
-										{								
-											if($v['user_id'] == $this->select_id){
-												echo '<option value="'.$v['user_id'].'" selected="selected">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
-											}else{
-												echo '<option value="'.$v['user_id'].'">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
-											}	
+
+										if($this->status == 1){
+											foreach($this->teacher_data as $k=>$v)
+											{								
+												if($v['user_id'] == $this->select_id){
+													echo '<option value="'.$v['user_id'].'" selected="selected">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
+												}else{
+													echo '<option value="'.$v['user_id'].'">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
+												}	
+											}
+										}elseif($this->param == 0 && $this->status == 2){
+											foreach($this->student_list as $k=>$v)
+											{								
+												if($v['user_id'] == $this->select_id){
+													echo '<option value="'.$v['user_id'].'" selected="selected">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
+												}else{
+													echo '<option value="'.$v['user_id'].'">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
+												}	
+											}
+										}elseif($this->param == 1 && $this->status == 2){
+											// echo '"sSearch": "Search Class:"';
 										}
+
+
+										// foreach($this->teacher_data as $k=>$v)
+										// {								
+										// 	if($v['user_id'] == $this->select_id){
+										// 		echo '<option value="'.$v['user_id'].'" selected="selected">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
+										// 	}else{
+										// 		echo '<option value="'.$v['user_id'].'">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
+										// 	}	
+										// }
 									?>
 								</select>
 							</div>
@@ -247,7 +271,7 @@ function sortLessonDate(){
 
 $('#select_id').change(function(e) {
     var select_id=$(this).val();
-	window.location.href="<?php echo SITE_HTTP_URL ?>/teacher/alllessons/param/<?php echo $this->status ?>/status/<?php echo $this->status ?>/select_id/" + select_id;
+	window.location.href="<?php echo SITE_HTTP_URL ?>/teacher/alllessons/param/<?php echo $this->param ?>/status/<?php echo $this->status ?>/select_id/" + select_id;
 });
 
 var handleDatePickers = function () {

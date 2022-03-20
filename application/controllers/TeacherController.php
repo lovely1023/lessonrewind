@@ -179,11 +179,11 @@ class TeacherController extends Zend_Controller_Action
 		}
 
 		$teacher_data=array();
-		$teacher_data=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='teacher'","fetchAll");
+		$teacher_data=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='teacher'","fetchAll", array("order"=>array("user_first_name ASC")));
 		$this->view->teacher_data=$teacher_data;
 		
 		$student_list=array();
-		$student_list=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='student'","fetchAll");
+		$student_list=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='student'","fetchAll", array("order"=>array("user_first_name ASC")));
 		$this->view->student_list=$student_list;
 		// $teacher_data=array();
 		// $teacher_data=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='teacher'","fetchAll");
@@ -4487,29 +4487,24 @@ class TeacherController extends Zend_Controller_Action
 		
 		if ( isset($select_id) and $select_id != -1 )
 		{
-			if($status == 1){	// Sort by teacher
-				// $sql_teacherList  = "SELECT GROUP_CONCAT(user_id) as teacher_list FROM users ";
-				// $sql_teacherList .= " WHERE user_type=3 AND user_id=".$select_id.";";
-				// //$teacherList = $this->dbObj->query($sql_teacherList)->fetchAll();
-				// $sqlResult = $this->dbObj->fetchRow($sql_teacherList);
-				// $teacherList = $sqlResult['teacher_list'];
-				$sWhere .= " WHERE lesson_teacherid = $select_id ";	
-			
+			if($status == 1){	// Sort by teacher id
+				$sWhere .= " WHERE lesson_teacherid = $select_id ";				
 			}elseif($status == 2){
 				// Get lesson list include student
-				// $sql_lessonList  = "SELECT GROUP_CONCAT(a.lesson_id) AS lesson_list FROM ";
-				// $sql_lessonList  .= " lesson AS a ";
-				// $sql_lessonList  .= " LEFT JOIN lesson_student AS b ";
-				// $sql_lessonList  .= " ON a.`lesson_id` = b.l_s_lessid ";
-				// $sql_lessonList  .= " LEFT JOIN users AS c ";
-				// $sql_lessonList  .= " ON b.`l_s_stuid`=c.user_id ";
+				$sql_lessonList  = "SELECT GROUP_CONCAT(a.lesson_id) AS lesson_list FROM ";
+				$sql_lessonList  .= " lesson AS a ";
+				$sql_lessonList  .= " LEFT JOIN lesson_student AS b ";
+				$sql_lessonList  .= " ON a.`lesson_id` = b.l_s_lessid ";
+				$sql_lessonList  .= " LEFT JOIN users AS c ";
+				$sql_lessonList  .= " ON b.`l_s_stuid`=c.user_id ";
 				// $sql_lessonList  .= " WHERE  c.user_type=4 AND  (user_first_name LIKE '%".$_GET['sSearch']."%' OR user_last_name LIKE '%".$_GET['sSearch']."%');";
+				$sql_lessonList  .= " WHERE  c.user_type=4 AND  c.user_id=$select_id;";
 
-				// $sqlResult = $this->dbObj->fetchRow($sql_lessonList);
-				// $lessonList = $sqlResult['lesson_list'];
-				// if(isset($lessonList)){
-				// 	$sWhere .= " WHERE lesson_id in (".$lessonList.") ";	
-				// }
+				$sqlResult = $this->dbObj->fetchRow($sql_lessonList);
+				$lessonList = $sqlResult['lesson_list'];
+				if(isset($lessonList)){
+					$sWhere .= " WHERE lesson_id in (".$lessonList.") ";	
+				}
 			}		
 
 
