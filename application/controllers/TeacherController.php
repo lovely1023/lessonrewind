@@ -140,6 +140,7 @@ class TeacherController extends Zend_Controller_Action
 		$status		=	$this->getRequest()->getParam('status');
 		$startDate 	=	$this->getRequest()->getParam('startDate');
 		$endDate	=	$this->getRequest()->getParam('endDate');
+		$select_id	=	$this->getRequest()->getParam('select_id');
 	
 		if(isset($param)){
 			$this->view->param=$param;
@@ -170,10 +171,23 @@ class TeacherController extends Zend_Controller_Action
 		}else{
 			$this->view->endDate = date('m/d/Y');
 		}
+		
+		if(isset($select_id) && $select_id != -1){
+			$this->view->select_id = $select_id;
+		}else{
+			$this->view->select_id=-1;
+		}
 
 		$teacher_data=array();
 		$teacher_data=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='teacher'","fetchAll");
 		$this->view->teacher_data=$teacher_data;
+		
+		$student_list=array();
+		$student_list=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='student'","fetchAll");
+		$this->view->student_list=$student_list;
+		// $teacher_data=array();
+		// $teacher_data=$this->modelStatic->Super_Get("users","user_insertby='".$this->view->user->user_id."' and user_type='teacher'","fetchAll");
+		// $this->view->teacher_data=$teacher_data;
 		
 		/* Check if user type is not school */
 		if($this->view->user->user_type!='school')
@@ -4412,6 +4426,7 @@ class TeacherController extends Zend_Controller_Action
 		$status		=	$this->getRequest()->getParam('status');
 		$startDate 	=	$this->getRequest()->getParam('startDate');
 		$endDate	=	$this->getRequest()->getParam('endDate');
+		$select_id	=	$this->getRequest()->getParam('select_id');
 		
 		$this->dbObj = Zend_Registry::get('db');
  		$aColumns = array(
@@ -4470,6 +4485,37 @@ class TeacherController extends Zend_Controller_Action
 		 */
 		$sWhere = "";
 		
+		if ( isset($select_id) and $select_id != -1 )
+		{
+			if($status == 1){	// Sort by teacher
+				// $sql_teacherList  = "SELECT GROUP_CONCAT(user_id) as teacher_list FROM users ";
+				// $sql_teacherList .= " WHERE user_type=3 AND user_id=".$select_id.";";
+				// //$teacherList = $this->dbObj->query($sql_teacherList)->fetchAll();
+				// $sqlResult = $this->dbObj->fetchRow($sql_teacherList);
+				// $teacherList = $sqlResult['teacher_list'];
+				$sWhere .= " WHERE lesson_teacherid = $select_id ";	
+			
+			}elseif($status == 2){
+				// Get lesson list include student
+				// $sql_lessonList  = "SELECT GROUP_CONCAT(a.lesson_id) AS lesson_list FROM ";
+				// $sql_lessonList  .= " lesson AS a ";
+				// $sql_lessonList  .= " LEFT JOIN lesson_student AS b ";
+				// $sql_lessonList  .= " ON a.`lesson_id` = b.l_s_lessid ";
+				// $sql_lessonList  .= " LEFT JOIN users AS c ";
+				// $sql_lessonList  .= " ON b.`l_s_stuid`=c.user_id ";
+				// $sql_lessonList  .= " WHERE  c.user_type=4 AND  (user_first_name LIKE '%".$_GET['sSearch']."%' OR user_last_name LIKE '%".$_GET['sSearch']."%');";
+
+				// $sqlResult = $this->dbObj->fetchRow($sql_lessonList);
+				// $lessonList = $sqlResult['lesson_list'];
+				// if(isset($lessonList)){
+				// 	$sWhere .= " WHERE lesson_id in (".$lessonList.") ";	
+				// }
+			}		
+
+
+		}
+
+
 
 		if ( isset($_GET['sSearch']) and $_GET['sSearch'] != "" )
 		{
@@ -4563,7 +4609,7 @@ class TeacherController extends Zend_Controller_Action
 			else
 			{
 				/* Student */	
-				$sOrder="order by u2.user_first_name DESC";
+				$sOrder="order by lesson_date DESC, u2.user_first_name DESC";
 			}
 			/* Private students only */	
 			$sQuery = "SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns)  ) ." , u2.user_first_name as u2firsname , u2.user_last_name as u2lastname , u1.user_first_name as u1firstname , u1.user_last_name as u1lastname FROM $sTable left join users as u1 on u1 .user_id=lesson.lesson_teacherid left join lesson_student on lesson_student.l_s_lessid=lesson.lesson_id left join users as u2 on  u2.user_id=lesson_student.l_s_stuid  $sWhere group by lesson_id $sOrder  $sLimit ";
@@ -4593,7 +4639,7 @@ class TeacherController extends Zend_Controller_Action
 			else
 			{
 				/* Class */	
-				$sOrder="order by class_name DESC";
+				$sOrder="order by lesson_date DESC, class_name DESC";
 			}
 			/* Class */	
 			$sQuery = "SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns)  ) ." ,  u1.user_first_name as u1firstname , u1.user_last_name as u1lastname , class_name FROM $sTable left join users as u1 on u1 .user_id=lesson.lesson_teacherid left join Classes on Classes.class_id=lesson.lesson_class_id  $sWhere group by lesson_id $sOrder $sLimit";

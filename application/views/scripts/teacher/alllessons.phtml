@@ -77,44 +77,68 @@ body
 					</div>
 				</div>
             </div>
-                <div class="row">
-                	<div class="portlet-body">
-						<form action="<?php echo $this->baseUrl() ?>/admin/user/remove" method="post" onsubmit="return checkSelects();" >
 			
-				<div class="table-toolbar">
- 				<!--	<div class="btn-group"><button id="sample_editable_1_new" class="btn red"> <i class="fa fa-trash-o"></i> Delete Selected </button></div>	-->
-                    <!--  <a  class="btn red" href="<?php  echo $this->url(array('controller'=>'subscription','action'=>'addplan','module'=>'admin'),'default',true) ?>"> <i class="fa fa-plus"></i> ADD NEW </a>-->
-				</div>
- 					<table class="table table-striped table-bordered table-hover dataTable" id="sample_1">
-						<thead>
-							<tr>
-							<!--	<th width="6%">S.NO</th>-->								
-								<th>Date</th>
-								<th>Teacher</th>
-								<th>
+			<div class="row" style="margin-top:24px;margin-right:14px;"> 
+				<div class="form-horizontal" role="form" id="select_ctrl">
+					<div class="form-body">
+						<div class="form-group">
+								<label class="col-md-10 control-label" id="select_label" style="margin-top:4px;">Select:</label>
+							<div class="col-md-2">
+								<select class="form-control" id="select_id">
+									<option value="-1">Please select</option>
 									<?php 
-									if($this->param==1)
-									{
-										echo "Class";		
-									}else{
-										echo "  Student Name";
-									}
-									?>                              
-                                </th>
-                                <th>Lesson Title</th>
-                                <th>Sent / Unsent</th>
-                               <th>Edit</th>
-                               <th>Delete</th> 								
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-			</form>
+										foreach($this->teacher_data as $k=>$v)
+										{								
+											if($v['user_id'] == $this->select_id){
+												echo '<option value="'.$v['user_id'].'" selected="selected">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
+											}else{
+												echo '<option value="'.$v['user_id'].'">'.$v['user_first_name'].' '.$v['user_last_name'].'</option>';
+											}	
+										}
+									?>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> 
+			<div class="row">
+				<div class="portlet-body">
+					<form action="<?php echo $this->baseUrl() ?>/admin/user/remove" method="post" onsubmit="return checkSelects();" >
+						<div class="table-toolbar">
+						<!--	<div class="btn-group"><button id="sample_editable_1_new" class="btn red"> <i class="fa fa-trash-o"></i> Delete Selected </button></div>	-->
+							<!--  <a  class="btn red" href="<?php  echo $this->url(array('controller'=>'subscription','action'=>'addplan','module'=>'admin'),'default',true) ?>"> <i class="fa fa-plus"></i> ADD NEW </a>-->
+						</div>
+						<table class="table table-striped table-bordered table-hover dataTable" id="sample_1">
+							<thead>
+								<tr>
+								<!--	<th width="6%">S.NO</th>-->								
+									<th>Date</th>
+									<th>Teacher</th>
+									<th>
+										<?php 
+										if($this->param==1)
+										{
+											echo "Class";		
+										}else{
+											echo "  Student Name";
+										}
+										?>                              
+									</th>
+									<th>Lesson Title</th>
+									<th>Sent / Unsent</th>
+								<th>Edit</th>
+								<th>Delete</th> 								
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</form>
+				</div>
 			</div>
-                </div>
-            </div>
 		</div>
+	</div>
 	<!--/span-->
 </div>
 <br />
@@ -125,11 +149,15 @@ body
 <!-- END EXAMPLE TABLE PORTLET-->
 <script type="text/javascript" charset="utf-8">
 $(document)	 .ready(function(e) {
-	// var startDate 	= $("#from").val();
-	// var endDate 	= $("#to").val();
-	// $("#from").val("<?php echo $this->startDate; ?>");
-	// $("#to").val("<?php echo $this->endDate; ?>");
-
+	var status = <?php echo $this->status;?>;
+	var param  = <?php echo $this->param;?>;
+	if(status == 1){
+		$("#select_label").html("Search Teacher:");
+	}else if(param == 0 && status == 2){
+		$("#select_label").html("Search Student:");
+	}else if(param == 1 && status == 2){
+		$("#select_label").html("Search Class:");
+	}
 	var startDate = "<?php echo $this->startDate; ?>";
 	var startDateArr = startDate.split('/');
 	startDate = startDateArr[2] + '-' + startDateArr[0] + '-' + startDateArr[1];
@@ -139,20 +167,26 @@ $(document)	 .ready(function(e) {
 	var endDateArr = endDate.trim().split('/');
 	endDate = endDateArr[2] + '-' + endDateArr[0] + '-' + endDateArr[1];
 
+	var select_id = "<?php echo $this->select_id; ?>";
 	$('#sample_1').dataTable( {
 		"bProcessing": true,
 		"bServerSide": true,
 		"responsive": true,
+		"searching": false,
+		// dom: 'lfrtip',
  		// "sAjaxSource": "<?php echo $this->baseUrl()?>/teacher/getalllessons/param/<?php echo $this->param ?>/status/<?php echo $this->status ?>" ,
- 		"sAjaxSource": "<?php echo $this->baseUrl()?>/teacher/getalllessons/param/<?php echo $this->param ?>/status/<?php echo $this->status ?>" + "/startDate/" + startDate + "/endDate/" + endDate,
+ 		// "sAjaxSource": "<?php echo $this->baseUrl()?>/teacher/getalllessons/param/<?php echo $this->param ?>/status/<?php echo $this->status ?>" + "/startDate/" + startDate + "/endDate/" + endDate,
+ 		"sAjaxSource": "<?php echo $this->baseUrl()?>/teacher/getalllessons/param/<?php echo $this->param ?>/status/<?php echo $this->status ?>" + "/startDate/" + startDate + "/endDate/" + endDate + '/select_id/' + select_id,
  		"aaSorting": [[ 0, "desc" ]],
 		"oLanguage": {
         			"sEmptyTable":     "No matching records found",
 					<?php 
 						if($this->status == 1){
 							echo '"sSearch": "Search Teacher:"';
-						}elseif($this->status == 2){
+						}elseif($this->param == 0 && $this->status == 2){
 							echo '"sSearch": "Search Student:"';
+						}elseif($this->param == 1 && $this->status == 2){
+							echo '"sSearch": "Search Class:"';
 						}
 					?>
     				},
@@ -170,9 +204,10 @@ $(document)	 .ready(function(e) {
 		}
 	} );
 
+	$("#sample_1_length").css("margin-top", "-42px");
+	$("#sample_1_wrapper").css("margin-top", "-55px");
 
 	handleDatePickers();
-
 });
 
 function removeadminlesson(idval)
@@ -209,6 +244,11 @@ function sortLessonDate(){
 	endDate = endDateArr[2] + '-' + endDateArr[0] + '-' + endDateArr[1];
 	window.location.href="<?php echo SITE_HTTP_URL ?>/teacher/alllessons/param/<?php echo $this->param ?>/status/"+lesson_sort_by + "/startDate/" + startDate + "/endDate/" + endDate;
 }
+
+$('#select_id').change(function(e) {
+    var select_id=$(this).val();
+	window.location.href="<?php echo SITE_HTTP_URL ?>/teacher/alllessons/param/<?php echo $this->status ?>/status/<?php echo $this->status ?>/select_id/" + select_id;
+});
 
 var handleDatePickers = function () {
 
