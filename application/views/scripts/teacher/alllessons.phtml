@@ -11,25 +11,20 @@ body
 		<div class="clearfix"></div>
 		<div class="custom-form-wrapper addnew">
         <div class="row">
-			<div class="pull-left col-md-6" style="padding-bottom:16px;">
-				<div class="pull-left"  style="margin-top:12px;">
-					<b>Choose Private or Group</b> &nbsp;
-				</div>
-					<select name="lesson_class_type" id="lesson_class_type" class="form-control widthauto" >
-						<option value="0" <?php if(isset($this->param) && $this->param=='0') { ?> selected="selected" <?php } ?> >Private</option>
-						<option value="1" <?php if(isset($this->param) && $this->param=='1') { ?> selected="selected" <?php } ?>>Class</option>
-					</select>			
-				</div>        
-       			<!--    <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>-->
-           </div>
-        	<h1><?php echo $this->pageHeadingshow ?><?php /*?>  <span class="instrument_add"><a href="<?php   echo $this->url(array('controller'=>'teacher','action'=>'newlesson'),'default',true) ?>"><b>(+ Lesson)</b></a></span><?php */?></h1>
+			<h1><?php echo $this->pageHeadingshow ?><?php /*?>  <span class="instrument_add"><a href="<?php   echo $this->url(array('controller'=>'teacher','action'=>'newlesson'),'default',true) ?>"><b>(+ Lesson)</b></a></span><?php */?></h1>
             <hr />
             <div class="row">
-            
-            <div class="row">
-				<!-- <div class="pull-left col-md-6"> -->
-				<div class="col-md-6">
-					<div class="pull-left">
+            	<div class="col-md-4">
+					<label class="col-md-7" style="font-weight: bold;padding-top: 1rem;padding-left:0;">Choose Private or Group </label> 	
+					<div class="col-md-4">
+						<select name="lesson_class_type" id="lesson_class_type" class="form-control widthauto" >
+							<option value="0" <?php if(isset($this->param) && $this->param=='0') { ?> selected="selected" <?php } ?> >Private</option>
+							<option value="1" <?php if(isset($this->param) && $this->param=='1') { ?> selected="selected" <?php } ?>>Class</option>
+						</select>	
+					</div>		
+				</div>   
+				<div class="col-md-4">
+					<div class="pull-left" style="padding-top: 0.5rem;">
 						<label style="font-weight: bold; margin-right:1rem;">Sort By: </label> 						
 						<!-- <button class="btn btn-primary"  onclick="sortLessonType(0)">Date</button> -->
 						<button class="btn btn-primary"  onclick="sortLessonType(1)">Teacher</button>
@@ -58,14 +53,14 @@ body
 					</select>  -->
 
             	</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="pull-right">
 						<div class="form-group">
-							<div class="col-md-3">
+							<div class="col-md-2">
 								<label class="control-label col-md-3" style="padding-top: 1rem; float:right;">Date</label>
 							</div>
-							<div class="col-md-4" style="margin-right:0.5rem;">
-								<div class="input-group input-large date-picker input-daterange" id="date_range" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+							<div class="col-md-8" style="margin-right:0.5rem;">
+								<div class="input-group input-medium date-picker input-daterange" id="date_range" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
 									<input type="text" class="form-control" name="from" id="from" value="<?php echo $this->startDate;?>" onchange="sortLessonDate()">
 									<span class="input-group-addon">to </span>
 									<input type="text" class="form-control" name="to" id="to" value="<?php echo $this->endDate;?>" onchange="sortLessonDate()">
@@ -76,7 +71,7 @@ body
 				</div>
             </div>
 			
-			<div class="row" style="margin-top:24px;margin-right:14px;"> 
+			<div class="row" style="margin-top:24px;margin-right:0.5rem;"> 
 				<div class="form-horizontal" role="form" id="select_ctrl">
 					<div class="form-body">
 						<div class="form-group">
@@ -114,7 +109,6 @@ body
 												}	
 											}
 										}
-
 									?>
 								</select>
 							</div>
