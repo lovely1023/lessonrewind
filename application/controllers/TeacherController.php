@@ -187,9 +187,7 @@ class TeacherController extends Zend_Controller_Action
 		$this->view->student_list=$student_list;
 		
 		$class_list=array();
-		//$class_list=$this->modelStatic->Super_Get("classes","","fetchAll", array("order"=>array("class_name ASC")));
-
-		$sQuery = "  SELECT * FROM classes ORDER BY class_name ASC;";
+		$sQuery = "  SELECT * FROM Classes ORDER BY class_name ASC;";
 		/*echo $sQuery;die;*/
  		$class_list = $this->dbObj->query($sQuery)->fetchAll();
  
@@ -4503,7 +4501,6 @@ class TeacherController extends Zend_Controller_Action
 				$sql_lessonList  .= " ON a.`lesson_id` = b.l_s_lessid ";
 				$sql_lessonList  .= " LEFT JOIN users AS c ";
 				$sql_lessonList  .= " ON b.`l_s_stuid`=c.user_id ";
-				// $sql_lessonList  .= " WHERE  c.user_type=4 AND  (user_first_name LIKE '%".$_GET['sSearch']."%' OR user_last_name LIKE '%".$_GET['sSearch']."%');";
 				$sql_lessonList  .= " WHERE  c.user_type=4 AND  c.user_id=$select_id;";
 
 				$sqlResult = $this->dbObj->fetchRow($sql_lessonList);
@@ -4513,7 +4510,7 @@ class TeacherController extends Zend_Controller_Action
 				}
 			}elseif($param == 1 && $status == 2){	
 				$sql_lessonList = "SELECT COALESCE(GROUP_CONCAT(a.lesson_id), 0) AS lesson_list FROM  lesson AS a ";
-				$sql_lessonList.= " LEFT JOIN classes AS b  ON a.`lesson_class_id`=b.`class_id` ";
+				$sql_lessonList.= " LEFT JOIN Classes AS b  ON a.`lesson_class_id`=b.`class_id` ";
 				$sql_lessonList.= " WHERE b.`class_id`=$select_id;";
 
 				$sqlResult = $this->dbObj->fetchRow($sql_lessonList);

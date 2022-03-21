@@ -11,18 +11,16 @@ body
 		<div class="clearfix"></div>
 		<div class="custom-form-wrapper addnew">
         <div class="row">
-        <div class="pull-left col-md-6">
-        <div class="pull-left">
-        <b>Choose Private or Group</b> &nbsp;
-          </div>
-        	<select name="lesson_class_type" id="lesson_class_type" class="form-control widthauto" >
-            	<option value="0" <?php if(isset($this->param) && $this->param=='0') { ?> selected="selected" <?php } ?> >Private</option>
-                <option value="1" <?php if(isset($this->param) && $this->param=='1') { ?> selected="selected" <?php } ?>>Class</option>
-            </select>
-          
-        </div>
-        
-       <!--    <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>-->
+			<div class="pull-left col-md-6" style="padding-bottom:16px;">
+				<div class="pull-left"  style="margin-top:12px;">
+					<b>Choose Private or Group</b> &nbsp;
+				</div>
+					<select name="lesson_class_type" id="lesson_class_type" class="form-control widthauto" >
+						<option value="0" <?php if(isset($this->param) && $this->param=='0') { ?> selected="selected" <?php } ?> >Private</option>
+						<option value="1" <?php if(isset($this->param) && $this->param=='1') { ?> selected="selected" <?php } ?>>Class</option>
+					</select>			
+				</div>        
+       			<!--    <a class="pull-right subscribed_plan" href="<?php echo $this->baseUrl('profile/dashboard') ?>">Go to Dashboard <i class="fa fa-arrow-right"></i></a>-->
            </div>
         	<h1><?php echo $this->pageHeadingshow ?><?php /*?>  <span class="instrument_add"><a href="<?php   echo $this->url(array('controller'=>'teacher','action'=>'newlesson'),'default',true) ?>"><b>(+ Lesson)</b></a></span><?php */?></h1>
             <hr />
