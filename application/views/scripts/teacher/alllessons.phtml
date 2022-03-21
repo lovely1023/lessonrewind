@@ -75,7 +75,7 @@ body
 				<div class="form-horizontal" role="form" id="select_ctrl">
 					<div class="form-body">
 						<div class="form-group">
-							<label class="col-md-10 control-label" id="select_label" style="margin-top:4px;">Select:</label>
+							<label class="col-md-10 control-label" id="select_label" style="margin-top:4px;">Select</label>
 							<div class="col-md-2">
 								<select class="form-control" id="select_id">
 									<option value="-1"></option>
@@ -166,11 +166,11 @@ $(document)	 .ready(function(e) {
 	var status = <?php echo $this->status;?>;
 	var param  = <?php echo $this->param;?>;
 	if(status == 1){
-		$("#select_label").html("Search Teacher:");
+		$("#select_label").html("Search Teacher");
 	}else if(param == 0 && status == 2){
-		$("#select_label").html("Search Student:");
+		$("#select_label").html("Search Student");
 	}else if(param == 1 && status == 2){
-		$("#select_label").html("Search Class:");
+		$("#select_label").html("Search Class");
 	}
 	var startDate = "<?php echo $this->startDate; ?>";
 	var startDateArr = startDate.split('/');
