@@ -152,6 +152,7 @@ class ProfileController extends Zend_Controller_Action
 			'lesson.lesson_status',
 			'users.user_first_name',
 			'users.user_last_name',
+			'lesson.lesson_student_absent',
 			
 		);
 		$sIndexColumn = 'l_s_id';
@@ -306,6 +307,16 @@ class ProfileController extends Zend_Controller_Action
 			}
 			
 			//$row[]=$sentorunsent;
+			
+			// $row[]=$row1['lesson_student_absent'];
+			if($row1['lesson_student_absent'] == 1)
+			{
+				$missed= '<i class="fa fa-times" style="color: #069cdb"></i>';	
+			}else{
+				$missed = '';	
+			}			
+			$row[] = $missed;
+			
 			$row[]="<a href='".SITE_HTTP_URL."/teacher/viewdetail/lesson_id/".$row1['lesson_id']."/student_id/".$student_id."'><i class='fa fa-search'></i></a>";
  			$output['aaData'][] = $row;
 			$j++;

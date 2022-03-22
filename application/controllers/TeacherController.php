@@ -4445,7 +4445,8 @@ class TeacherController extends Zend_Controller_Action
 			'lesson_view_status',
 			'lesson_class_id',
 			'lesson_user_type',
-			'lesson_school_id'
+			'lesson_school_id',
+			'lesson_student_absent'
 		);
 		$sIndexColumn = 'lesson_id';
 		$sTable = 'lesson';
@@ -4716,6 +4717,14 @@ class TeacherController extends Zend_Controller_Action
 				$sentorunsent='<span class="badge badge-danger badge-roundless">Unsent</span>';	
 			}
 			$row[]=$sentorunsent;
+			// $row[]=$row1['lesson_student_absent'];
+			if($row1['lesson_student_absent'] == 1)
+			{
+				$missed= '<i class="fa fa-times" style="color: #069cdb"></i>';	
+			}else{
+				$missed = '';	
+			}
+			$row[] = $missed;
 			$row[]='<a href="'.APPLICATION_URL.'/teacher/newlesson/lesson_id/'.$row1[$sIndexColumn].'"><i class="fa fa-edit"></i></a>';
 			$row[]='<a onclick="removeadminlesson('.$row1['lesson_id'].')" ><i class="fa fa-trash-o"></i></a>';
  			$output['aaData'][] = $row;
